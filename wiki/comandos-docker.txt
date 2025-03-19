@@ -1,0 +1,24 @@
+cd ../../mnt/c/Users/diego.xavier/Documents/1\ -\ Dev/zPessoal/praja/auth-api/Auth_Api/src/Auth_Api.WebApi
+
+-----
+
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+docker rmi -f $(docker images -aq)
+docker system prune -a
+docker volume prune -a
+
+----- 
+
+docker login 
+docker logout  
+
+----- LOCAL
+
+docker build -t auth-api-image -f Dockerfile .
+docker run -p 5000:8080 auth-api-image
+
+----- IMAGEM DOCKERHUB
+
+docker pull diegoferreirax/praja:25
+docker run -p 5000:8080 diegoferreirax/praja:25
