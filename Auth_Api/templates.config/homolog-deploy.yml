@@ -1,7 +1,0 @@
-steps:
-- task: Docker@2
-  inputs:
-    containerRegistry: 'praja-connection'
-    repository: 'diegoferreirax/auth-api'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
