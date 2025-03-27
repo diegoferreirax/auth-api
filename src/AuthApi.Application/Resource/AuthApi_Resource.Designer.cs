@@ -86,5 +86,32 @@ namespace AuthApi.Application.Resource {
                 return ResourceManager.GetString("PASSWORD_REQUIRED", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role is required..
+        /// </summary>
+        public static string ROLE_REQUIRED {
+            get {
+                return ResourceManager.GetString("ROLE_REQUIRED", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Username or password invalid..
+        /// </summary>
+        public static string INVALID_DATA {
+            get {
+                return ResourceManager.GetString("INVALID_DATA", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid username. Please try again with another one...
+        /// </summary>
+        public static string USER_EXISTS {
+            get {
+                return ResourceManager.GetString("USER_EXISTS", resourceCulture);
+            }
+        }
     }
 }

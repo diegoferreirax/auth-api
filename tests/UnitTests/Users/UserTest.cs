@@ -9,17 +9,17 @@ public class UserTest
     public void Create_ValidConstructorInputs_ResultSuccess()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        var id = Guid.Empty;
         var name = "Alberto Junior";
         var email = "alberto@gmail.com";
         var password = "123";
         var role = "manager";
 
         // Act
-        var user = User.Create(id, name, email, password, role);
+        var user = User.Create(name, email, password, role);
 
         // Assert
-        Assert.AreEqual(id, user.Value.Id);
+        Assert.AreNotEqual(id, user.Value.Id);
         Assert.AreEqual(name, user.Value.Name);
         Assert.AreEqual(email, user.Value.Email);
         Assert.AreEqual(password, user.Value.Password);
@@ -36,7 +36,7 @@ public class UserTest
         // Arrange
 
         // Act
-        var user = User.Create(Guid.NewGuid(), name, email, password, role);
+        var user = User.Create(name, email, password, role);
 
         // Assert
         Assert.AreEqual(true, user.IsFailure);

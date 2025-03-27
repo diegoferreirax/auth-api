@@ -1,5 +1,7 @@
-﻿using AuthApi.Infrastructure.Security.JWT;
+﻿using AuthApi.Application.Features.Users.RegisterUser.v1;
+using AuthApi.Infrastructure.Security.JWT;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata;
 
 namespace AuthApi.Application.Features.Users.AuthenticateUser.v1;
 
@@ -10,41 +12,24 @@ public class AuthenticateUserEndpoint : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> AuthenticateUser(
-        [FromBody] AuthenticateUserRequest authUser,
-        [FromServices] UserRepository userRepository,
-        [FromServices] TokenService tokenService,
+        [FromBody] AuthenticateUserRequest authenticateUser,
+        [FromServices] AuthenticateUserHandler _handler,
         CancellationToken cancellationToken)
     {
-        var user = userRepository.Get(authUser.name, authUser.password);
-        if (!user.HasValue)
+        var command = AuthenticateUserCommand.Create(authenticateUser.name, authenticateUser.password);
+        if (command.IsFailure)
         {
-            return NotFound("Usuário ou senha inválidos.");
+            return BadRequest(command.Error);
         }
 
-        var token = tokenService.GenerateToken(user.Value.Name, user.Value.Role);
+        var result = await _handler.Execute(command.Value, cancellationToken);
+        if (!result.IsSuccess)
+        {
+            return BadRequest(result.Error);
+        }
 
-        return Ok(new AuthenticateUserResponse(authUser.name, token));
+        return Ok(result.Value);
     }
-
-    /*[HttpGet]
-    [Route("anonymous")]
-    [AllowAnonymous]
-    public string Anonymous() => "Anônimo";
-
-    [HttpGet]
-    [Route("authenticated")]
-    [Authorize]
-    public string Authenticated() => String.Format("Autenticado - {0}", User.Identity.Name);
-
-    [HttpGet]
-    [Route("employee")]
-    [Authorize(Roles = "employee,manager")]
-    public string Employee() => "Funcionário";
-
-    [HttpGet]
-    [Route("manager")]
-    [Authorize(Roles = "manager")]
-    public string Manager() => "Gerente";*/
 }
 
 public record AuthenticateUserRequest(string name, string password);
