@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AuthApi.Shared.Resource {
+namespace AuthApi.Application.Resource {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AuthApi.Shared.Resource {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AuthApi.Shared.Resource.AuthApi_Resource", typeof(AuthApi_Resource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AuthApi.Application.Resource.AuthApi_Resource", typeof(AuthApi_Resource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

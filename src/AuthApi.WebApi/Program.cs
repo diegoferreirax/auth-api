@@ -1,10 +1,10 @@
-using AuthApi.Shared.Security.JWT;
-using AuthApi.WebApi.Configurations;
+using AuthApi.Infrastructure.Security.JWT;
+using AuthApi.WebApi.IoC;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCustomConfigurations();
+builder.Services.AddConfigurations();
 builder.Services.AddJwtConfigurations(builder.Configuration["JwtPrivateKey"]);
 
 builder.Services.AddEndpointsApiExplorer();

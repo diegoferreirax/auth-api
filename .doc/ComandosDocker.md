@@ -2,6 +2,8 @@ cd ../../mnt/c/Users/diego.xavier/Documents/1\ -\ Dev/zPessoal/auth-api/AuthApi/
 
 -----
 
+docker compose -f docker-compose.yml up -d --force-recreate
+
 docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 docker rmi -f $(docker images -aq)
@@ -16,7 +18,7 @@ docker logout
 ----- LOCAL
 
 docker build -t auth-api-image -f Dockerfile .
-docker run -p 5000:8080 auth-api-image
+docker run -p 5300:8080 auth-api-image
 
 ----- IMAGEM DOCKERHUB
 

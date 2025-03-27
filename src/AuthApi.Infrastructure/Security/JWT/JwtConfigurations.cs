@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace AuthApi.Shared.Security.JWT;
+namespace AuthApi.Infrastructure.Security.JWT;
 
 public static class JwtConfigurations
 {

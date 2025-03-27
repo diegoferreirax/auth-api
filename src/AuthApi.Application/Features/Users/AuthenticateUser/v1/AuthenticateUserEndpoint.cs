@@ -1,4 +1,4 @@
-﻿using AuthApi.Shared.Security.JWT;
+﻿using AuthApi.Infrastructure.Security.JWT;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthApi.Application.Features.Users.AuthenticateUser.v1;

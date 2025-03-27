@@ -1,0 +1,30 @@
+services:
+  auth_api:
+    container_name: auth_api
+    image: dotnet/aspnet:8.0
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      # TODO: ajustar private key
+      - JwtPrivateKey=fedaf7d8863b48e197b9287d492b708e
+      # - ConnectionStrings__DefaultConnection=Server=ambev_developer_evaluation_database;Database=developer_evaluation;User Id=developer;Password=ev@luAt10n;TrustServerCertificate=True;
+      # - Redis__ConnectionString=ambev_developer_evaluation_cache,password=ev@luAt10n,abortConnect=false,connectTimeout=30000,responseTimeout=30000;
+      # - ASPNETCORE_HTTPS_PORTS=8081
+    ports:
+      - "5300:8080"
+      # - "8081:8081"
+    # volumes:
+      # - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      # - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+  mongodb:
+    container_name: mongodb 
+    image: mongo:8.0    
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: 12345
+    ports:
+      - "27017:27017"
