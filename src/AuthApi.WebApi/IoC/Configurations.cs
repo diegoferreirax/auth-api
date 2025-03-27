@@ -1,4 +1,5 @@
 ﻿using AuthApi.Application.Features.Users;
+using AuthApi.Application.Features.Users.AuthenticateUser.v1;
 using AuthApi.Application.Features.Users.RegisterUser.v1;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,7 @@ public static class Configurations
     {
         services.AddScoped<UserRepository>();
         services.AddScoped<RegisterUserHandler>();
+        services.AddScoped<AuthenticateUserHandler>();
         services.AddControllers().AddControllersAsServices();
 
         services.AddApiVersioning(config =>

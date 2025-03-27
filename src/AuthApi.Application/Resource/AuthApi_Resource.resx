@@ -126,7 +126,13 @@
   <data name="PASSWORD_REQUIRED" xml:space="preserve">
     <value>Password is required.</value>
   </data>
-  <data name="Teste" xml:space="preserve">
-    <value />
+  <data name="ROLE_REQUIRED" xml:space="preserve">
+    <value>Role is required.</value>
+  </data>
+  <data name="USER_EXISTS" xml:space="preserve">
+    <value>Invalid username. Please try again with another one.</value>
+  </data>
+  <data name="INVALID_DATA" xml:space="preserve">
+    <value>Username or password invalid.</value>
   </data>
 </root>
