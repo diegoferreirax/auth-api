@@ -1,6 +1,3 @@
-cd ../../mnt/c/Users/diego.xavier/Documents/1\ -\ Dev/zPessoal/auth-api/AuthApi/src/AuthApi.WebApi
-
------
 
 docker compose -f docker-compose.yml up -d --force-recreate
 
