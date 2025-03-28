@@ -30,8 +30,9 @@ Para configurar o ambiente de desenvolvimento, siga os passos abaixo:
      ```sh
      cd auth-api\src\AuthApi.WebApi
      ```
-   - Execute os 4 seguintes comandos para criar as secret necessárias:
+   - Execute os seguintes comandos para configurar as secrets necessárias:
       ```sh
+      dotnet user-secrets init
       dotnet user-secrets set "JwtPrivateKey" "fedaf7d8863b48e197b9287d492b708e"
       dotnet user-secrets set "AuthDatabase:ConnectionString" "mongodb://root:12345@auth_mongodb:27017"
       dotnet user-secrets set "AuthDatabase:DatabaseName" "auth_db"
@@ -52,7 +53,7 @@ Para configurar o ambiente de desenvolvimento, siga os passos abaixo:
      docker ps
      ```
 
-5. **Criar base de dados (pode ser melhorado)**
+5. **Criar base de dados (processo pode ser melhorado)**
    - Acesse a conexão do MongoDB e crie uma base de dados chamada `auth_db`.
 
 ---
