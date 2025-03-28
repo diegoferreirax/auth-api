@@ -1,20 +1,69 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Auth API
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+Projeto de autenticação e registro de usuários para fins de testes e treinamento.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## ⚙️ Configuração
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+Para configurar o ambiente de desenvolvimento, siga os passos abaixo:
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+1. **Baixar e instalar o Docker Desktop**
+   - O projeto utiliza Docker para gerenciar os serviços necessários. Certifique-se de baixar e instalar o [Docker Desktop](https://www.docker.com/products/docker-desktop/) conforme o sistema operacional utilizado.
+
+2. **Configurar o .NET 8**
+   - Certifique-se de ter o [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) instalado.
+   - Para verificar a instalação, execute:
+     ```sh
+     dotnet --version
+     ```
+
+## 🛠️ Baixar e iniciar o projeto
+
+1. **Baixar o projeto**
+   - Clone o repositório utilizando o comando:
+     ```sh
+     git clone https://github.com/diegoferreirax/auth-api.git
+     ```
+   - Alternativamente, faça o download do código-fonte manualmente e extraia os arquivos.
+
+2. **Configurar variáveis no secrets**
+   - Entre no projeto de WebApi:
+     ```sh
+     cd auth-api\src\AuthApi.WebApi
+     ```
+   - Execute os seguintes comandos para configurar as secrets necessárias:
+      ```sh
+      dotnet user-secrets init
+      dotnet user-secrets set "JwtPrivateKey" "fedaf7d8863b48e197b9287d492b708e"
+      dotnet user-secrets set "AuthDatabase:ConnectionString" "mongodb://root:12345@auth_mongodb:27017"
+      dotnet user-secrets set "AuthDatabase:DatabaseName" "auth_db"
+      dotnet user-secrets set "AuthDatabase:UsersCollectionName" "users"
+      ```
+
+4. **Iniciar os serviços Docker**
+   - Volte um diretório onde está localizado o arquivo `docker-compose.yml`:
+     ```sh
+     cd ..\
+     ```
+   - Utilize o seguinte comando para iniciar a API e os serviços necessários no Docker:
+     ```sh
+     docker compose -f docker-compose.yml up -d --force-recreate
+     ```
+   - Certifique-se de que todos os containers foram iniciados corretamente com:
+     ```sh
+     docker ps
+     ```
+
+5. **Criar base de dados (processo pode ser melhorado)**
+   - Acesse a conexão do MongoDB e crie uma base de dados chamada `auth_db`.
+
+---
+
+## 🚧 Testando o projeto
+
+É necessário realizar alguns passos para testar o projeto.
+
+1. **Acessar swagger da aplicação**
+   - A API estará disponível na url `http://localhost:5300/swagger` iniciada pelo docker.
+
+2. **Baixar a collection do postman**
+   - A collection do postman está localizada na pasta `.doc/postman`. Nela contém os requests e os payloads dos mesmos.
