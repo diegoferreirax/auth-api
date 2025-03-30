@@ -4,6 +4,8 @@ using AuthApi.Application.Features.Users.RegisterUser.v1;
 using AuthApi.Application.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
 
 namespace AuthApi.WebApi.IoC;
 
@@ -37,6 +39,24 @@ public static class Configurations
         services.AddSingleton<IMongoClient, MongoClient>(_ => new MongoClient(section["ConnectionString"]));
         services.AddSingleton(typeof(MongoDBDatabaseConfig<>));
         MongoDBDatabaseMapper.RegisterMappings();
+        return services;
+    }
+
+    public static IServiceCollection AddOpenTelemetryConfigurations(this IServiceCollection services)
+    {
+        services.AddOpenTelemetry()
+            .WithTracing(t =>
+            {
+                t.AddAspNetCoreInstrumentation()
+                .AddHttpClientInstrumentation()
+                .AddOtlpExporter();
+            })
+            .WithMetrics(m =>
+            {
+                m.AddAspNetCoreInstrumentation()
+                .AddHttpClientInstrumentation()
+                .AddOtlpExporter();
+            });
         return services;
     }
 }
