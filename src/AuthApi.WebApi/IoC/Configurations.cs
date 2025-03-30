@@ -1,7 +1,7 @@
 ﻿using AuthApi.Application.Features.Users;
 using AuthApi.Application.Features.Users.AuthenticateUser.v1;
 using AuthApi.Application.Features.Users.RegisterUser.v1;
-using AuthApi.Application.Infrastructure;
+using AuthApi.Application.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using OpenTelemetry.Metrics;

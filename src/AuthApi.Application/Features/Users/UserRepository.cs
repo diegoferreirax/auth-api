@@ -1,4 +1,4 @@
-﻿using AuthApi.Application.Infrastructure;
+﻿using AuthApi.Application.Infrastructure.Persistence;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;

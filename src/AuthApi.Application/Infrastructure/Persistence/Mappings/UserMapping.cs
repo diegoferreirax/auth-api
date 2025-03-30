@@ -1,7 +1,7 @@
 ﻿using AuthApi.Application.Features.Users;
 using MongoDB.Bson.Serialization;
 
-namespace AuthApi.Application.Infrastructure.Mappings;
+namespace AuthApi.Application.Infrastructure.Persistence.Mappings;
 
 public static class UserMapping
 {

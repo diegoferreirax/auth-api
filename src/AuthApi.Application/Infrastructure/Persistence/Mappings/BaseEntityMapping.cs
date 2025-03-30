@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Serializers;
 
-namespace AuthApi.Application.Infrastructure.Mappings;
+namespace AuthApi.Application.Infrastructure.Persistence.Mappings;
 
 public static class BaseEntityMapping
 {

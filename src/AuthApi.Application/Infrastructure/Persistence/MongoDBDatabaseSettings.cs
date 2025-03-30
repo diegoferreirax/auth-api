@@ -1,4 +1,4 @@
-﻿namespace AuthApi.Application.Infrastructure;
+﻿namespace AuthApi.Application.Infrastructure.Persistence;
 
 public class MongoDBDatabaseSettings
 {

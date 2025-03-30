@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace AuthApi.Application.Infrastructure;
+namespace AuthApi.Application.Infrastructure.Persistence;
 
 public class MongoDBDatabaseConfig<T> where T : class
 {
