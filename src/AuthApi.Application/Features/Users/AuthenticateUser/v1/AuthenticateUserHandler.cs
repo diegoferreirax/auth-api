@@ -19,14 +19,14 @@ public sealed class AuthenticateUserHandler
 
     public async Task<Result<AuthenticateUserResponse>> Execute(AuthenticateUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.Get(command.Name, command.Password);
+        var user = await _userRepository.Get(command.Email, command.Password);
         if (user.HasNoValue)
         {
             return Result.Failure<AuthenticateUserResponse>(AuthApi_Resource.INVALID_DATA);
         }
 
-        var token = _tokenService.GenerateToken(user.Value.Name, user.Value.Role);
+        var token = _tokenService.GenerateToken(user.Value.Email, user.Value.Role);
 
-        return Result.Success(new AuthenticateUserResponse(user.Value.Name, token));
+        return Result.Success(new AuthenticateUserResponse(user.Value.Email, token));
     }
 }

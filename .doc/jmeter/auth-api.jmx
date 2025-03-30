@@ -29,7 +29,7 @@
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Requisição HTTP">
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">5300</stringProp>
+          <stringProp name="HTTPSampler.port">5191</stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.path">api/v1/users</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -41,10 +41,10 @@
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
-    &quot;name&quot;: &quot;${__RandomString(8,abcdefghijklmnopqrstuvwxyz)}&quot;,&#xd;
+    &quot;name&quot;: &quot;Diego F Xavier&quot;,&#xd;
     &quot;password&quot;: &quot;Diego1x!@1&quot;,&#xd;
-    &quot;email&quot;: &quot;teste2@gmail.com&quot;,&#xd;
-    &quot;role&quot;: &quot;Employee&quot;&#xd;
+    &quot;email&quot;: &quot;teste_${__RandomString(8,abcdefghijklmnopqrstuvwxyz)}@gmail.com&quot;,&#xd;
+    &quot;role&quot;: &quot;employee&quot;&#xd;
 }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>

@@ -20,7 +20,7 @@ public sealed class RegisterUserHandler
             return Result.Failure<RegisterUserResponse>(user.Error);
         }
 
-        var userExist = await _userRepository.Exists(command.Name);
+        var userExist = await _userRepository.Exists(command.Email);
         if (userExist)
         {
             return Result.Failure<RegisterUserResponse>(AuthApi_Resource.USER_EXISTS);
