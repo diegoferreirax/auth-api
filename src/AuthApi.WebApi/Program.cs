@@ -10,6 +10,7 @@ builder.Services.AddConfigurations();
 builder.Services.AddJwtConfigurations(builder.Configuration["JwtPrivateKey"]);
 
 builder.Services.Configure<AuthDatabaseSettings>(builder.Configuration.GetSection("AuthDatabase"));
+builder.Services.AddSingleton(typeof(MongoDBBaseConfig<>));
 CentralizedMapper.RegisterMappings();
 
 builder.Services.AddEndpointsApiExplorer();
