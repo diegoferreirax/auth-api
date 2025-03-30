@@ -1,5 +1,5 @@
-﻿using AuthApi.Application.Resource;
-using AuthApi.Infrastructure.Security.JWT;
+﻿using AuthApi.Application.Infrastructure.Security.JWT;
+using AuthApi.Application.Resource;
 using CSharpFunctionalExtensions;
 
 namespace AuthApi.Application.Features.Users.AuthenticateUser.v1;

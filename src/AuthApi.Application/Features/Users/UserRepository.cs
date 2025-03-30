@@ -1,4 +1,4 @@
-﻿using AuthApi.Application.DatabaseContext;
+﻿using AuthApi.Application.Infrastructure;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -10,8 +10,8 @@ public sealed class UserRepository
     private readonly IMongoCollection<User> _usersCollection;
 
     public UserRepository(
-        MongoDBBaseConfig<User> baseConfig,
-        IOptions<AuthDatabaseSettings> databaseSettings)
+        MongoDBDatabaseConfig<User> baseConfig,
+        IOptions<MongoDBDatabaseSettings> databaseSettings)
     {
         _usersCollection = baseConfig.GetCollection(databaseSettings.Value.DatabaseCollections.UsersCollection);
     }

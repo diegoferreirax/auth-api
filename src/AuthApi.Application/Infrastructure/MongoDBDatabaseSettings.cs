@@ -1,6 +1,6 @@
-﻿namespace AuthApi.Application.DatabaseContext;
+﻿namespace AuthApi.Application.Infrastructure;
 
-public class AuthDatabaseSettings
+public class MongoDBDatabaseSettings
 {
     public string ConnectionString { get; set; } = null!;
     public string DatabaseName { get; set; } = null!;

@@ -1,6 +1,8 @@
-﻿namespace AuthApi.Application.DatabaseContext.Mapping;
+﻿using AuthApi.Application.Infrastructure.Mappings;
 
-public static class CentralizedMapper
+namespace AuthApi.Application.Infrastructure;
+
+public static class MongoDBDatabaseMapper
 {
     public static void RegisterMappings()
     {
