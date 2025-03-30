@@ -1,4 +1,4 @@
-﻿using AuthApi.Application.DatabaseContext;
+﻿using AuthApi.Application.Infrastructure.Persistence;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -10,16 +10,10 @@ public sealed class UserRepository
     private readonly IMongoCollection<User> _usersCollection;
 
     public UserRepository(
-        IOptions<AuthDatabaseSettings> bookStoreDatabaseSettings)
+        MongoDBDatabaseConfig<User> baseConfig,
+        IOptions<MongoDBDatabaseSettings> databaseSettings)
     {
-        var mongoClient = new MongoClient(
-            bookStoreDatabaseSettings.Value.ConnectionString);
-
-        var mongoDatabase = mongoClient.GetDatabase(
-            bookStoreDatabaseSettings.Value.DatabaseName);
-
-        _usersCollection = mongoDatabase.GetCollection<User>(
-            bookStoreDatabaseSettings.Value.UsersCollectionName);
+        _usersCollection = baseConfig.GetCollection(databaseSettings.Value.DatabaseCollections.UsersCollection);
     }
 
     public async Task<Maybe<User>> Get(string username, string password)

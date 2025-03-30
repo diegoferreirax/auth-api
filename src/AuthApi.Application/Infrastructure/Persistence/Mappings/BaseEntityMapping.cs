@@ -1,9 +1,10 @@
-﻿using MongoDB.Bson;
+﻿using AuthApi.Application.Infrastructure.Persistence;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Serializers;
 
-namespace AuthApi.Application.DatabaseContext.Mapping;
+namespace AuthApi.Application.Infrastructure.Persistence.Mappings;
 
 public static class BaseEntityMapping
 {

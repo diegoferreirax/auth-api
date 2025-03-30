@@ -1,6 +1,6 @@
-﻿using AuthApi.Application.Resource;
+﻿using AuthApi.Application.Infrastructure.Persistence;
+using AuthApi.Application.Resource;
 using CSharpFunctionalExtensions;
-using AuthApi.Application.DatabaseContext;
 
 namespace AuthApi.Application.Features.Users;
 

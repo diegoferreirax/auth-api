@@ -1,7 +1,4 @@
-﻿using AuthApi.Application.Features.Users.RegisterUser.v1;
-using AuthApi.Infrastructure.Security.JWT;
-using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace AuthApi.Application.Features.Users.AuthenticateUser.v1;
 

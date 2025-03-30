@@ -1,16 +1,16 @@
-using AuthApi.Application.DatabaseContext.Mapping;
-using AuthApi.Application.DatabaseContext;
-using AuthApi.Infrastructure.Security.JWT;
+using AuthApi.Application.Infrastructure.Security.JWT;
 using AuthApi.WebApi.IoC;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddConfigurations();
+builder.Services.AddApplicationConfigurations();
+builder.Services.AddControllerConfigurations();
+builder.Services.AddMongoDbConfigurations(builder.Configuration);
 builder.Services.AddJwtConfigurations(builder.Configuration["JwtPrivateKey"]);
+builder.Services.AddOpenTelemetryConfigurations();
 
-builder.Services.Configure<AuthDatabaseSettings>(builder.Configuration.GetSection("AuthDatabase"));
-CentralizedMapper.RegisterMappings();
+builder.Logging.AddConsole();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

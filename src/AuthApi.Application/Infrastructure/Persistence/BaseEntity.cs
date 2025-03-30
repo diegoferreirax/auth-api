@@ -1,4 +1,4 @@
-﻿namespace AuthApi.Application.DatabaseContext;
+﻿namespace AuthApi.Application.Infrastructure.Persistence;
 
 public class BaseEntity
 {
