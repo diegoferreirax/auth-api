@@ -36,7 +36,7 @@ Para configurar o ambiente de desenvolvimento, siga os passos abaixo:
       dotnet user-secrets set "JwtPrivateKey" "fedaf7d8863b48e197b9287d492b708e"
       dotnet user-secrets set "AuthDatabase:ConnectionString" "mongodb://root:12345@auth_mongodb:27017"
       dotnet user-secrets set "AuthDatabase:DatabaseName" "auth_db"
-      dotnet user-secrets set "AuthDatabase:UsersCollectionName" "users"
+      dotnet user-secrets set "AuthDatabase:DatabaseCollections:UsersCollection" "users"
       ```
 
 4. **Iniciar os serviços Docker**
