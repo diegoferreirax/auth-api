@@ -68,9 +68,6 @@ Para configurar o ambiente de desenvolvimento, siga os passos abaixo:
      docker ps
      ```
 
-5. **Criar base de dados (processo pode ser melhorado)**
-   - Acesse a conexão do MongoDB e crie uma base de dados chamada `auth_db`.
-
 ---
 
 ## 🚧 Testando o projeto
