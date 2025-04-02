@@ -113,5 +113,15 @@ namespace AuthApi.Application.Resource {
                 return ResourceManager.GetString("USER_EXISTS", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Error to save user.
+        /// </summary>
+        public static string USER_SAVE_ERROR
+        {
+            get {
+                return ResourceManager.GetString("USER_SAVE_ERROR", resourceCulture);
+            }
+        }
     }
 }

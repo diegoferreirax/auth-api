@@ -15,7 +15,7 @@ public class TokenService
         _config = config;
     }
 
-    public string GenerateToken(string name, string role)
+    public string GenerateToken(string email, string role)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         
@@ -25,7 +25,7 @@ public class TokenService
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.Name, name),
+                new Claim(ClaimTypes.Email, email),
                 new Claim(ClaimTypes.Role, role)
             }),
             

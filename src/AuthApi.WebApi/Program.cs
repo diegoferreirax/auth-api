@@ -9,6 +9,7 @@ builder.Services.AddControllerConfigurations();
 builder.Services.AddMongoDbConfigurations(builder.Configuration);
 builder.Services.AddJwtConfigurations(builder.Configuration["JwtPrivateKey"]);
 builder.Services.AddOpenTelemetryConfigurations();
+builder.Services.AddBCryptConfigurations();
 
 builder.Logging.AddConsole();
 

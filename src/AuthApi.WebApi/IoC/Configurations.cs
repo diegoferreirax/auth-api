@@ -2,6 +2,7 @@
 using AuthApi.Application.Features.Users.AuthenticateUser.v1;
 using AuthApi.Application.Features.Users.RegisterUser.v1;
 using AuthApi.Application.Infrastructure.Persistence;
+using AuthApi.Application.Infrastructure.Security.Bcrypt;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using OpenTelemetry.Metrics;
@@ -57,6 +58,12 @@ public static class Configurations
                 .AddHttpClientInstrumentation()
                 .AddOtlpExporter();
             });
+        return services;
+    }
+
+    public static IServiceCollection AddBCryptConfigurations(this IServiceCollection services)
+    {
+        services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
         return services;
     }
 }

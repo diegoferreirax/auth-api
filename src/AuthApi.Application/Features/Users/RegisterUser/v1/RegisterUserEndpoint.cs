@@ -13,7 +13,7 @@ public class RegisterUserEndpoint : ControllerBase
         [FromServices] RegisterUserHandler _handler, 
         CancellationToken cancellationToken)
     {
-        var command = RegisterUserCommand.Create(registerUser.name, registerUser.email, registerUser.password, registerUser.role);
+        var command = RegisterUserCommand.Create(registerUser.Name, registerUser.Email, registerUser.Password, registerUser.Role);
         if (command.IsFailure)
         {
             return BadRequest(command.Error);
@@ -29,5 +29,5 @@ public class RegisterUserEndpoint : ControllerBase
     }
 }
 
-public record RegisterUserRequest(string name, string email, string password, string role);
-public record RegisterUserResponse(Guid id);
+public record RegisterUserRequest(string Name, string Email, string Password, string Role);
+public record RegisterUserResponse(Guid Id);

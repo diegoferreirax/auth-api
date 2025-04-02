@@ -19,8 +19,8 @@ public static class UserMapping
                   .SetElementName("email")
                   .SetIsRequired(true);
 
-                cm.MapMember(p => p.Password)
-                  .SetElementName("password")
+                cm.MapMember(p => p.Hash)
+                  .SetElementName("hash")
                   .SetIsRequired(true);
 
                 cm.MapMember(p => p.Role)

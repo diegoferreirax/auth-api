@@ -16,14 +16,14 @@ public sealed class UserRepository
         _usersCollection = baseConfig.GetCollection(databaseSettings.Value.DatabaseCollections.UsersCollection);
     }
 
-    public async Task<Maybe<User>> Get(string username, string password)
+    public async Task<Maybe<User>> Get(string email)
     {
-        return await _usersCollection.Find(x => x.Name.ToLower() == username.ToLower() && x.Password == password).FirstOrDefaultAsync().ConfigureAwait(false);
+        return await _usersCollection.Find(x => x.Email.Equals(email, StringComparison.OrdinalIgnoreCase)).FirstOrDefaultAsync().ConfigureAwait(false);
     }
 
-    public async Task<bool> Exists(string username)
+    public async Task<bool> Exists(string email)
     {
-        return await _usersCollection.CountDocumentsAsync(x => x.Name.Equals(username, StringComparison.OrdinalIgnoreCase)) > 0;
+        return await _usersCollection.CountDocumentsAsync(x => x.Email.Equals(email, StringComparison.OrdinalIgnoreCase)) > 0;
     }
 
     public async Task Insert(User user)

@@ -68,6 +68,9 @@ Para configurar o ambiente de desenvolvimento, siga os passos abaixo:
      docker ps
      ```
 
+5. **Base de dados**
+   - A base de dados é criada automaticamente com o nome conforme passado na secret `AuthDatabase:DatabaseName`.
+
 ---
 
 ## 🚧 Testando o projeto

@@ -13,7 +13,7 @@ public class AuthenticateUserEndpoint : ControllerBase
         [FromServices] AuthenticateUserHandler _handler,
         CancellationToken cancellationToken)
     {
-        var command = AuthenticateUserCommand.Create(authenticateUser.name, authenticateUser.password);
+        var command = AuthenticateUserCommand.Create(authenticateUser.Email, authenticateUser.Password);
         if (command.IsFailure)
         {
             return BadRequest(command.Error);
@@ -29,5 +29,5 @@ public class AuthenticateUserEndpoint : ControllerBase
     }
 }
 
-public record AuthenticateUserRequest(string name, string password);
-public record AuthenticateUserResponse(string name, string token);
+public record AuthenticateUserRequest(string Email, string Password);
+public record AuthenticateUserResponse(string Email, string Token);
