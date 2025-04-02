@@ -16,9 +16,9 @@ public sealed class UserRepository
         _usersCollection = baseConfig.GetCollection(databaseSettings.Value.DatabaseCollections.UsersCollection);
     }
 
-    public async Task<Maybe<User>> Get(string email, string password)
+    public async Task<Maybe<User>> Get(string email)
     {
-        return await _usersCollection.Find(x => x.Email.ToLower() == email.ToLower() && x.Password == password).FirstOrDefaultAsync().ConfigureAwait(false);
+        return await _usersCollection.Find(x => x.Email.Equals(email, StringComparison.OrdinalIgnoreCase)).FirstOrDefaultAsync().ConfigureAwait(false);
     }
 
     public async Task<bool> Exists(string email)

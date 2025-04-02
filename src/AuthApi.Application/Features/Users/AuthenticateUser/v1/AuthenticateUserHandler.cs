@@ -1,4 +1,5 @@
-﻿using AuthApi.Application.Infrastructure.Security.JWT;
+﻿using AuthApi.Application.Infrastructure.Security.Bcrypt;
+using AuthApi.Application.Infrastructure.Security.JWT;
 using AuthApi.Application.Resource;
 using CSharpFunctionalExtensions;
 
@@ -8,19 +9,27 @@ public sealed class AuthenticateUserHandler
 {
     public readonly UserRepository _userRepository;
     public readonly TokenService _tokenService;
+    public readonly IPasswordHasher _passwordHasher;
 
     public AuthenticateUserHandler(
         UserRepository userRepository,
-        TokenService tokenService)
+        TokenService tokenService,
+        IPasswordHasher passwordHasher)
     {
         _userRepository = userRepository;
         _tokenService = tokenService;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<Result<AuthenticateUserResponse>> Execute(AuthenticateUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.Get(command.Email, command.Password);
+        var user = await _userRepository.Get(command.Email);
         if (user.HasNoValue)
+        {
+            return Result.Failure<AuthenticateUserResponse>(AuthApi_Resource.INVALID_DATA);
+        }
+
+        if (!_passwordHasher.Verify(command.Password, user.Value.Hash))
         {
             return Result.Failure<AuthenticateUserResponse>(AuthApi_Resource.INVALID_DATA);
         }

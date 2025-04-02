@@ -135,4 +135,7 @@
   <data name="INVALID_DATA" xml:space="preserve">
     <value>Username or password invalid.</value>
   </data>
+  <data name="USER_SAVE_ERROR" xml:space="preserve">
+    <value>Error to save user.</value>
+  </data>
 </root>
