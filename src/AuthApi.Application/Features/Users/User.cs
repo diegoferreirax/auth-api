@@ -1,4 +1,4 @@
-﻿using AuthApi.Application.Infrastructure.Persistence;
+﻿using AuthApi.Application.Infrastructure.Data;
 using AuthApi.Application.Resource;
 using CSharpFunctionalExtensions;
 
@@ -8,10 +8,13 @@ public sealed class User : BaseEntity
 {
     public string Name { get; private set; }
     public string Email { get; private set; }
-    public string Role { get; private set; }
     public string Hash { get; private set; }
+    public IEnumerable<Role> Role { get; private set; }
 
-    private User(Guid id, string name, string email, string role)
+    public User()
+    { }
+
+    private User(Guid id, string name, string email, IEnumerable<Role> role)
     {
         Id = id;
         Name = name;
@@ -29,7 +32,7 @@ public sealed class User : BaseEntity
         Hash = hash;
     }
 
-    public static Result<User> Create(string name, string email, string role)
+    public static Result<User> Create(string name, string email, IEnumerable<Role> role)
     {
         if (string.IsNullOrEmpty(name))
         {
@@ -41,10 +44,10 @@ public sealed class User : BaseEntity
             return Result.Failure<User>(AuthApi_Resource.EMAIL_REQUIRED);
         }
 
-        if (string.IsNullOrEmpty(role))
-        {
-            return Result.Failure<User>(AuthApi_Resource.ROLE_REQUIRED);
-        }
+        //if (string.IsNullOrEmpty(role))
+        //{
+        //    return Result.Failure<User>(AuthApi_Resource.ROLE_REQUIRED);
+        //}
 
         return Result.Success(new User(Guid.NewGuid(), name, email, role));
     }

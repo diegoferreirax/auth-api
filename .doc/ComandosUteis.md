@@ -21,4 +21,9 @@ docker run -p 5300:8080 auth-api-image
 ```
 docker pull diegoferreirax/auth-api:xx     
 docker run -p 5000:8080 diegoferreirax/auth-api:xx 
+```  
+
+```
+dotnet ef migrations add InitialCreate        
+dotnet ef database update     
 ```

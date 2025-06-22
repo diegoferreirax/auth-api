@@ -19,7 +19,14 @@ public sealed class RegisterUserHandler
 
     public async Task<Result<RegisterUserResponse>> Execute(RegisterUserCommand command, CancellationToken cancellationToken)
     {
-        var user = User.Create(command.Name, command.Email, command.Role);
+        var roles = new List<Role>();
+
+        foreach (var item in command.Role)
+        {
+            roles.Add(new Role { Name = item.Name });  
+        }
+
+        var user = User.Create(command.Name, command.Email, roles);
         if (user.IsFailure)
         {
             return Result.Failure<RegisterUserResponse>(user.Error);

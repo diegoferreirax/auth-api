@@ -8,9 +8,9 @@ public class RegisterUserCommand
     public string Name { get; private set; }
     public string Email { get; private set; }
     public string Password { get; private set; }
-    public string Role { get; private set; }
+    public IEnumerable<RegisterRoleCommand> Role { get; private set; }
 
-    private RegisterUserCommand(string name, string email, string password, string role)
+    private RegisterUserCommand(string name, string email, string password, IEnumerable<RegisterRoleCommand> role)
     {
         Name = name;
         Email = email;
@@ -18,7 +18,7 @@ public class RegisterUserCommand
         Role = role;
     }
 
-    public static Result<RegisterUserCommand> Create(string name, string email, string password, string role)
+    public static Result<RegisterUserCommand> Create(string name, string email, string password, IEnumerable<RegisterRoleCommand> role)
     {
         if (string.IsNullOrEmpty(name))
         {
@@ -35,11 +35,16 @@ public class RegisterUserCommand
             return Result.Failure<RegisterUserCommand>(AuthApi_Resource.PASSWORD_REQUIRED);
         }
 
-        if (string.IsNullOrEmpty(role))
-        {
-            return Result.Failure<RegisterUserCommand>(AuthApi_Resource.ROLE_REQUIRED);
-        }
+        //if (string.IsNullOrEmpty(role))
+        //{
+        //    return Result.Failure<RegisterUserCommand>(AuthApi_Resource.ROLE_REQUIRED);
+        //}
 
         return Result.Success(new RegisterUserCommand(name, email, password, role));
     }
+}
+
+public class RegisterRoleCommand
+{
+    public string Name { get; set; }
 }

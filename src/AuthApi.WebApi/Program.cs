@@ -6,10 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplicationConfigurations();
 builder.Services.AddControllerConfigurations();
-builder.Services.AddMongoDbConfigurations(builder.Configuration);
 builder.Services.AddJwtConfigurations(builder.Configuration["JwtPrivateKey"]);
 builder.Services.AddOpenTelemetryConfigurations();
 builder.Services.AddBCryptConfigurations();
+builder.Services.AddDbContext(builder.Configuration);
 
 builder.Logging.AddConsole();
 

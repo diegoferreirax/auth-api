@@ -1,10 +1,10 @@
 ﻿using AuthApi.Application.Features.Users;
 using AuthApi.Application.Features.Users.AuthenticateUser.v1;
 using AuthApi.Application.Features.Users.RegisterUser.v1;
-using AuthApi.Application.Infrastructure.Persistence;
+using AuthApi.Application.Infrastructure.Data;
 using AuthApi.Application.Infrastructure.Security.Bcrypt;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
+using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 
@@ -32,17 +32,6 @@ public static class Configurations
         return services;
     }
 
-    public static IServiceCollection AddMongoDbConfigurations(this IServiceCollection services, ConfigurationManager configuration)
-    {
-        var section = configuration.GetSection("AuthDatabase");
-        services.Configure<MongoDBDatabaseSettings>(section);
-
-        services.AddSingleton<IMongoClient, MongoClient>(_ => new MongoClient(section["ConnectionString"]));
-        services.AddSingleton(typeof(MongoDBDatabaseConfig<>));
-        MongoDBDatabaseMapper.RegisterMappings();
-        return services;
-    }
-
     public static IServiceCollection AddOpenTelemetryConfigurations(this IServiceCollection services)
     {
         services.AddOpenTelemetry()
@@ -64,6 +53,22 @@ public static class Configurations
     public static IServiceCollection AddBCryptConfigurations(this IServiceCollection services)
     {
         services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
+        return services;
+    }
+
+    public static IServiceCollection AddDbContext(this IServiceCollection services, ConfigurationManager configuration)
+    {
+        var section = configuration.GetSection("ConnectionStrings");
+        var connectionString = section["DefaultConnection"];
+
+        services.AddDbContext<AuthDbContext>(options =>
+            options.UseMySql(connectionString,
+            new MySqlServerVersion(new Version(8, 0, 21)))
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableDetailedErrors()
+                .UseUpperSnakeCaseNamingConvention()
+        );
+
         return services;
     }
 }

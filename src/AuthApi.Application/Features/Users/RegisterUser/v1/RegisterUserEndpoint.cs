@@ -13,7 +13,14 @@ public class RegisterUserEndpoint : ControllerBase
         [FromServices] RegisterUserHandler _handler, 
         CancellationToken cancellationToken)
     {
-        var command = RegisterUserCommand.Create(registerUser.Name, registerUser.Email, registerUser.Password, registerUser.Role);
+        var roles = new List<RegisterRoleCommand>();
+
+        foreach (var item in registerUser.Role)
+        {
+            roles.Add(new RegisterRoleCommand { Name = item.Name });
+        }
+
+        var command = RegisterUserCommand.Create(registerUser.Name, registerUser.Email, registerUser.Password, roles);
         if (command.IsFailure)
         {
             return BadRequest(command.Error);
@@ -29,5 +36,6 @@ public class RegisterUserEndpoint : ControllerBase
     }
 }
 
-public record RegisterUserRequest(string Name, string Email, string Password, string Role);
+public record RegisterRoleRequest(string Name);
+public record RegisterUserRequest(string Name, string Email, string Password, IEnumerable<RegisterRoleRequest> Role);
 public record RegisterUserResponse(Guid Id);
