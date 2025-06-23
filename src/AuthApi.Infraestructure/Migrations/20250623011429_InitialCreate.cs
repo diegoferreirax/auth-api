@@ -59,12 +59,6 @@ namespace AuthApi.Infraestructure.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ROLE_NAME",
-                table: "ROLE",
-                column: "NAME",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ROLE_USER_ID",
                 table: "ROLE",
                 column: "USER_ID");

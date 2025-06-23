@@ -45,10 +45,6 @@ namespace AuthApi.Infraestructure.Migrations
                     b.HasKey("Id")
                         .HasName("PK_ROLE");
 
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasDatabaseName("IX_ROLE_NAME");
-
                     b.HasIndex("UserId")
                         .HasDatabaseName("IX_ROLE_USER_ID");
 

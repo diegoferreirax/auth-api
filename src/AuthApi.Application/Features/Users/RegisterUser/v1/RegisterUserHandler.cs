@@ -20,10 +20,9 @@ public sealed class RegisterUserHandler
     public async Task<Result<RegisterUserResponse>> Execute(RegisterUserCommand command, CancellationToken cancellationToken)
     {
         var roles = new List<Role>();
-
-        foreach (var item in command.Role)
+        foreach (var item in command.Roles)
         {
-            roles.Add(new Role { Name = item.Name });  
+            roles.Add(Role.Create(item.Name).Value);  
         }
 
         var user = User.Create(command.Name, command.Email, roles);

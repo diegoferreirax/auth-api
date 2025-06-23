@@ -14,10 +14,9 @@ public class RegisterUserEndpoint : ControllerBase
         CancellationToken cancellationToken)
     {
         var roles = new List<RegisterRoleCommand>();
-
-        foreach (var item in registerUser.Role)
+        foreach (var item in registerUser.Roles)
         {
-            roles.Add(new RegisterRoleCommand { Name = item.Name });
+            roles.Add(RegisterRoleCommand.Create(item.Name).Value);
         }
 
         var command = RegisterUserCommand.Create(registerUser.Name, registerUser.Email, registerUser.Password, roles);
@@ -37,5 +36,5 @@ public class RegisterUserEndpoint : ControllerBase
 }
 
 public record RegisterRoleRequest(string Name);
-public record RegisterUserRequest(string Name, string Email, string Password, IEnumerable<RegisterRoleRequest> Role);
+public record RegisterUserRequest(string Name, string Email, string Password, IEnumerable<RegisterRoleRequest> Roles);
 public record RegisterUserResponse(Guid Id);

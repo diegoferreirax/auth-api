@@ -138,4 +138,7 @@
   <data name="USER_SAVE_ERROR" xml:space="preserve">
     <value>Error to save user.</value>
   </data>
+  <data name="ROLE_NAME_REQUIRED" xml:space="preserve">
+    <value>Role name is required</value>
+  </data>
 </root>

@@ -9,17 +9,17 @@ public sealed class User : BaseEntity
     public string Name { get; private set; }
     public string Email { get; private set; }
     public string Hash { get; private set; }
-    public IEnumerable<Role> Role { get; private set; }
+    public IEnumerable<Role> Roles { get; private set; }
 
     public User()
     { }
 
-    private User(Guid id, string name, string email, IEnumerable<Role> role)
+    private User(Guid id, string name, string email, IEnumerable<Role> roles)
     {
         Id = id;
         Name = name;
         Email = email;
-        Role = role;
+        Roles = roles;
     }
 
     public void SetHash(string hash)
@@ -32,7 +32,7 @@ public sealed class User : BaseEntity
         Hash = hash;
     }
 
-    public static Result<User> Create(string name, string email, IEnumerable<Role> role)
+    public static Result<User> Create(string name, string email, IEnumerable<Role> roles)
     {
         if (string.IsNullOrEmpty(name))
         {
@@ -44,11 +44,11 @@ public sealed class User : BaseEntity
             return Result.Failure<User>(AuthApi_Resource.EMAIL_REQUIRED);
         }
 
-        //if (string.IsNullOrEmpty(role))
-        //{
-        //    return Result.Failure<User>(AuthApi_Resource.ROLE_REQUIRED);
-        //}
+        if (!roles.Any())
+        {
+            return Result.Failure<User>(AuthApi_Resource.ROLE_REQUIRED);
+        }
 
-        return Result.Success(new User(Guid.NewGuid(), name, email, role));
+        return Result.Success(new User(Guid.NewGuid(), name, email, roles));
     }
 }

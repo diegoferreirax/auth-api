@@ -123,5 +123,16 @@ namespace AuthApi.Application.Resource {
                 return ResourceManager.GetString("USER_SAVE_ERROR", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Role name is required..
+        /// </summary>
+        public static string ROLE_NAME_REQUIRED
+        {
+            get
+            {
+                return ResourceManager.GetString("ROLE_NAME_REQUIRED", resourceCulture);
+            }
+        }
     }
 }

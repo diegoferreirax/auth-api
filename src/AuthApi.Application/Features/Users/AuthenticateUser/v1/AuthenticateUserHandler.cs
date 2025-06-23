@@ -34,7 +34,7 @@ public sealed class AuthenticateUserHandler
             return Result.Failure<AuthenticateUserResponse>(AuthApi_Resource.INVALID_DATA);
         }
 
-        var token = _tokenService.GenerateToken(user.Value.Email, user.Value.Role.FirstOrDefault().Name);
+        var token = _tokenService.GenerateToken(user.Value.Email, user.Value.Roles.FirstOrDefault().Name);
 
         return Result.Success(new AuthenticateUserResponse(user.Value.Email, token));
     }

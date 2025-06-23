@@ -16,12 +16,19 @@ public sealed class UserRepository
 
     public async Task<Maybe<User>> Get(string email)
     {
-        return await _authDbContext.Users.Include("Role").FirstOrDefaultAsync(x => x.Email.Equals(email)).ConfigureAwait(false);
+        return await _authDbContext.Users
+            .Include("Roles")
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Email.Equals(email))
+            .ConfigureAwait(false);
     }
 
     public async Task<bool> Exists(string email)
     {
-        return await _authDbContext.Users.CountAsync(c => c.Email.Equals(email)).ConfigureAwait(false) > 0;
+        return await _authDbContext.Users
+            .AsNoTracking()
+            .CountAsync(c => c.Email.Equals(email))
+            .ConfigureAwait(false) > 0;
     }
 
     public async Task Insert(User user)

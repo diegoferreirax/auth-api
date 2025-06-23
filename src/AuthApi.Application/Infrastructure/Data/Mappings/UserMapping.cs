@@ -15,7 +15,7 @@ public class UserMapping : IEntityTypeConfiguration<User>
         builder.Property(u => u.Hash).IsRequired();
         builder.Property(u => u.UpdatedDate).IsRequired();
 
-        builder.HasMany(u => u.Role)
+        builder.HasMany(u => u.Roles)
             .WithOne()
             .HasForeignKey("UserId")
             .IsRequired(false);
