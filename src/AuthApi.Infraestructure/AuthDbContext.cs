@@ -46,10 +46,15 @@ public class DbContextFactory : IDesignTimeDbContextFactory<AuthDbContext>
             .Build();
 
         var builder = new DbContextOptionsBuilder<AuthDbContext>();
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        var connectionString = configuration.GetSection("AuthDbConnectionString").Value;
 
-        builder.UseMySql(connectionString, 
-            new MySqlServerVersion(new Version(8, 0, 21)))
+        builder.UseMySql(connectionString,
+            new MySqlServerVersion(new Version(8, 0, 21)),
+                mySqlOptions => mySqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 5,
+                    maxRetryDelay: TimeSpan.FromSeconds(30),
+                    errorNumbersToAdd: null
+                ))
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableDetailedErrors()
                 .UseUpperSnakeCaseNamingConvention();

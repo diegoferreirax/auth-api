@@ -58,12 +58,16 @@ public static class Configurations
 
     public static IServiceCollection AddDbContext(this IServiceCollection services, ConfigurationManager configuration)
     {
-        var section = configuration.GetSection("ConnectionStrings");
-        var connectionString = section["DefaultConnection"];
+        var connectionString = configuration.GetValue<string>("AuthDbConnectionString");
 
         services.AddDbContext<AuthDbContext>(options =>
             options.UseMySql(connectionString,
-            new MySqlServerVersion(new Version(8, 0, 21)))
+            new MySqlServerVersion(new Version(8, 0, 21)),
+                mySqlOptions => mySqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 5,
+                    maxRetryDelay: TimeSpan.FromSeconds(30),
+                    errorNumbersToAdd: null
+                ))
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableDetailedErrors()
                 .UseUpperSnakeCaseNamingConvention()
