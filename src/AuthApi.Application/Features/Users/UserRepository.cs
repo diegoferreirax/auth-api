@@ -1,33 +1,39 @@
-﻿using AuthApi.Application.Infrastructure.Persistence;
-using CSharpFunctionalExtensions;
-using Microsoft.Extensions.Options;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
+using AuthApi.Application.Infrastructure.Data;
 
 namespace AuthApi.Application.Features.Users;
 
 public sealed class UserRepository
 {
-    private readonly IMongoCollection<User> _usersCollection;
+    private readonly AuthDbContext _authDbContext;
 
-    public UserRepository(
-        MongoDBDatabaseConfig<User> baseConfig,
-        IOptions<MongoDBDatabaseSettings> databaseSettings)
+    public UserRepository(AuthDbContext authDbContext)
     {
-        _usersCollection = baseConfig.GetCollection(databaseSettings.Value.DatabaseCollections.UsersCollection);
+        _authDbContext = authDbContext;
     }
 
     public async Task<Maybe<User>> Get(string email)
     {
-        return await _usersCollection.Find(x => x.Email.Equals(email, StringComparison.OrdinalIgnoreCase)).FirstOrDefaultAsync().ConfigureAwait(false);
+        return await _authDbContext.Users
+            .Include("Roles")
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Email.Equals(email))
+            .ConfigureAwait(false);
     }
 
     public async Task<bool> Exists(string email)
     {
-        return await _usersCollection.CountDocumentsAsync(x => x.Email.Equals(email, StringComparison.OrdinalIgnoreCase)) > 0;
+        return await _authDbContext.Users
+            .AsNoTracking()
+            .CountAsync(c => c.Email.Equals(email))
+            .ConfigureAwait(false) > 0;
     }
 
     public async Task Insert(User user)
     {
-        await _usersCollection.InsertOneAsync(user).ConfigureAwait(false);
+        await _authDbContext.Users.AddAsync(user).ConfigureAwait(false);
+        await _authDbContext.SaveChangesAsync();
     }
 }

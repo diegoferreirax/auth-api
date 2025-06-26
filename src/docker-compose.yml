@@ -10,15 +10,19 @@ services:
       - ASPNETCORE_HTTP_PORTS=8080
       - DOTNET_USER_SECRETS=/root/.microsoft/usersecrets
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
     ports:
       - "5300:8080"
+    depends_on:
+      - auth_mysql
 
-  auth_mongodb:
-    container_name: auth_mongodb 
-    image: mongo:8.0    
+  auth_mysql:
+    image: mysql:8.0 
+    container_name: auth_mysql 
     environment:
-        MONGO_INITDB_ROOT_USERNAME: root
-        MONGO_INITDB_ROOT_PASSWORD: 12345
+      MYSQL_ROOT_PASSWORD: root 
+      MYSQL_DATABASE: auth_db 
+      MYSQL_USER: auth_user 
+      MYSQL_PASSWORD: root123 
     ports:
-      - "27017:27017"
+      - "3306:3306"
