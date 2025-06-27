@@ -15,22 +15,26 @@ public class TokenService
         _config = config;
     }
 
-    public string GenerateToken(string email, string role)
+    public string GenerateToken(string email, IEnumerable<string> roles)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         
         var key = Encoding.ASCII.GetBytes(_config["JwtPrivateKey"]);
 
+        var clains = new List<Claim>()
+        {
+            new Claim(ClaimTypes.Email, email)
+        };
+
+        foreach (var role in roles)
+        {
+            clains.Add(new Claim(ClaimTypes.Role, role));
+        }
+
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Email, email),
-                new Claim(ClaimTypes.Role, role)
-            }),
-            
+            Subject = new ClaimsIdentity(clains),
             Expires = DateTime.UtcNow.AddHours(2),
-
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
 
