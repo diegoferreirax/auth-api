@@ -14,7 +14,9 @@ Projeto de autenticação e registro de usuários para fins de portfólio e atua
 
 - Registros de usuário
 - Autenticação de usuário
+- Exclusão de usuário
 - Criptografia de senha com BCrypt.Net
+- Controle de acesso por função (Role-Based Access Control - RBAC) para alguns endpoints (neste primeiro momento)
 - Utilização de Resource.resx para centralizar textos e mensagens em geral
 - Uso do EF Core para facilitar e escalar a criação da estrutura da base de dados e evitar SQL Injection
 - Monitoramento de logs com OpenTelemetry e Honeycomb

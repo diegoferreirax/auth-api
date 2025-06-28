@@ -14,12 +14,20 @@ public sealed class UserRepository
         _authDbContext = authDbContext;
     }
 
-    public async Task<Maybe<User>> Get(string email)
+    public async Task<Maybe<User>> GetBy(string email)
     {
         return await _authDbContext.Users
             .Include("Roles")
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Email.Equals(email))
+            .ConfigureAwait(false);
+    }
+
+    public async Task<Maybe<User>> GetBy(Guid id)
+    {
+        return await _authDbContext.Users
+            .Include("Roles")
+            .FirstOrDefaultAsync(x => x.Id.Equals(id))
             .ConfigureAwait(false);
     }
 
@@ -34,6 +42,12 @@ public sealed class UserRepository
     public async Task Insert(User user)
     {
         await _authDbContext.Users.AddAsync(user).ConfigureAwait(false);
+        await _authDbContext.SaveChangesAsync();
+    }
+
+    public async Task Delete(User user)
+    {
+        _authDbContext.Users.Remove(user);
         await _authDbContext.SaveChangesAsync();
     }
 }

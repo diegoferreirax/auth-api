@@ -16,6 +16,9 @@ public class AuthDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthDbContext).Assembly);
 
+        foreach (var foreingKey in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            foreingKey.DeleteBehavior = DeleteBehavior.Cascade;
+
         base.OnModelCreating(modelBuilder);
     }
 }

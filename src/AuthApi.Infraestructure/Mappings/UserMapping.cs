@@ -22,6 +22,6 @@ public class UserMapping : IEntityTypeConfiguration<User>
         builder.HasMany(u => u.Roles) 
             .WithOne()
             .HasForeignKey("UserId") 
-            .IsRequired(false);
+            .IsRequired();
     }
 }

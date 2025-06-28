@@ -23,7 +23,7 @@ public sealed class AuthenticateUserHandler
 
     public async Task<Result<AuthenticateUserResponse>> Execute(AuthenticateUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.Get(command.Email);
+        var user = await _userRepository.GetBy(command.Email);
         if (user.HasNoValue)
         {
             return Result.Failure<AuthenticateUserResponse>(AuthApi_Resource.INVALID_DATA);

@@ -39,6 +39,7 @@ namespace AuthApi.Infraestructure.Migrations
                         .HasColumnName("UPDATED_DATE");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("VARCHAR(36)")
                         .HasColumnName("USER_ID");
 
@@ -92,8 +93,9 @@ namespace AuthApi.Infraestructure.Migrations
                     b.HasOne("AuthApi.Infraestructure.Domain.User", null)
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("FK_ROLE_USERS_USER_ID");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_ROLE_USER_USER_ID");
                 });
 
             modelBuilder.Entity("AuthApi.Infraestructure.Domain.User", b =>

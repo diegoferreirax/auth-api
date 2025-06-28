@@ -42,7 +42,7 @@ namespace AuthApi.Infraestructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NAME = table.Column<string>(type: "VARCHAR(150)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    USER_ID = table.Column<string>(type: "VARCHAR(36)", nullable: true)
+                    USER_ID = table.Column<string>(type: "VARCHAR(36)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UPDATED_DATE = table.Column<DateTime>(type: "DATETIME", nullable: false)
                 },
@@ -50,11 +50,11 @@ namespace AuthApi.Infraestructure.Migrations
                 {
                     table.PrimaryKey("PK_ROLE", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_ROLE_USERS_USER_ID",
+                        name: "FK_ROLE_USER_USER_ID",
                         column: x => x.USER_ID,
                         principalTable: "USER",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
