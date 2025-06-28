@@ -42,12 +42,10 @@ public sealed class UserRepository
     public async Task Insert(User user)
     {
         await _authDbContext.Users.AddAsync(user).ConfigureAwait(false);
-        await _authDbContext.SaveChangesAsync();
     }
 
-    public async Task Delete(User user)
+    public void Delete(User user)
     {
         _authDbContext.Users.Remove(user);
-        await _authDbContext.SaveChangesAsync();
     }
 }

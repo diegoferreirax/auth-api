@@ -1,4 +1,4 @@
-﻿using AuthApi.Application.Infrastructure.Security.Bcrypt;
+﻿using AuthApi.Application.Infrastructure.UnitOfWork;
 using AuthApi.Application.Resource;
 using CSharpFunctionalExtensions;
 
@@ -7,14 +7,14 @@ namespace AuthApi.Application.Features.Users.DeleteUser.v1;
 public sealed class DeleteUserHandler
 {
     public readonly UserRepository _userRepository;
-    public readonly IPasswordHasher _passwordHasher;
+    public readonly IUnitOfWork _unitOfWork;
 
     public DeleteUserHandler(
         UserRepository userRepository, 
-        IPasswordHasher passwordHasher)
+        IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
-        _passwordHasher = passwordHasher;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result> Execute(DeleteUserCommand command, CancellationToken cancellationToken)
@@ -25,7 +25,9 @@ public sealed class DeleteUserHandler
             return Result.Failure(AuthApi_Resource.USER_NOT_EXISTS);
         }
 
-        await _userRepository.Delete(user.Value);
+        _userRepository.Delete(user.Value);
+        await _unitOfWork.CommitAsync(cancellationToken);
+
         return Result.Success();
     }
 }

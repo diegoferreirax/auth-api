@@ -1,4 +1,5 @@
 ﻿using AuthApi.Application.Infrastructure.Security.Bcrypt;
+using AuthApi.Application.Infrastructure.UnitOfWork;
 using AuthApi.Application.Resource;
 using CSharpFunctionalExtensions;
 
@@ -8,13 +9,16 @@ public sealed class RegisterUserHandler
 {
     public readonly UserRepository _userRepository;
     public readonly IPasswordHasher _passwordHasher;
+    public readonly IUnitOfWork _unitOfWork;
 
     public RegisterUserHandler(
         UserRepository userRepository, 
-        IPasswordHasher passwordHasher)
+        IPasswordHasher passwordHasher,
+        IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _passwordHasher = passwordHasher;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<RegisterUserResponse>> Execute(RegisterUserCommand command, CancellationToken cancellationToken)
@@ -41,6 +45,7 @@ public sealed class RegisterUserHandler
         user.Value.SetHash(hash);
 
         await _userRepository.Insert(user.Value);
+        await _unitOfWork.CommitAsync(cancellationToken);
 
         return Result.Success(new RegisterUserResponse(user.Value.Id));
     }
