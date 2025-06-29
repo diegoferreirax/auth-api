@@ -5,10 +5,12 @@
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="Variáveis Definidas Pelo Usuário">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Grupo de Usuários">
-        <intProp name="ThreadGroup.num_threads">100</intProp>
+        <intProp name="ThreadGroup.num_threads">200</intProp>
         <intProp name="ThreadGroup.ramp_time">50</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
@@ -29,8 +31,8 @@
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Requisição HTTP">
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">5191</stringProp>
-          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.port">50259</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.path">api/v1/users</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -44,7 +46,17 @@
     &quot;name&quot;: &quot;Diego F Xavier&quot;,&#xd;
     &quot;password&quot;: &quot;Diego1x!@1&quot;,&#xd;
     &quot;email&quot;: &quot;teste_${__RandomString(8,abcdefghijklmnopqrstuvwxyz)}@gmail.com&quot;,&#xd;
-    &quot;role&quot;: &quot;employee&quot;&#xd;
+    &quot;roles&quot;: [&#xd;
+        {&#xd;
+            &quot;name&quot;: &quot;admin&quot;&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;name&quot;: &quot;manager&quot;&#xd;
+        },&#xd;
+        {&#xd;
+            &quot;name&quot;: &quot;employee&quot;&#xd;
+        }&#xd;
+    ]&#xd;
 }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>

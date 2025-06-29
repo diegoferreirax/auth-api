@@ -1,6 +1,7 @@
 ﻿using AuthApi.Application.Features.Users;
 using AuthApi.Application.Features.Users.AuthenticateUser.v1;
 using AuthApi.Application.Features.Users.DeleteUser.v1;
+using AuthApi.Application.Features.Users.ListUsers.v1;
 using AuthApi.Application.Features.Users.RegisterUser.v1;
 using AuthApi.Application.Infrastructure.Data;
 using AuthApi.Application.Infrastructure.Security.Bcrypt;
@@ -20,6 +21,7 @@ public static class Configurations
         services.AddScoped<RegisterUserHandler>();
         services.AddScoped<AuthenticateUserHandler>();
         services.AddScoped<DeleteUserHandler>();
+        services.AddScoped<ListUsersHandler>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }

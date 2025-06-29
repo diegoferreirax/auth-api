@@ -15,6 +15,7 @@ Projeto de autenticação e registro de usuários para fins de portfólio e atua
 - Registros de usuário
 - Autenticação de usuário
 - Exclusão de usuário
+- Listagem de usuários com paginação
 - Criptografia de senha com BCrypt.Net
 - Controle de acesso por função (Role-Based Access Control - RBAC) para alguns endpoints
 - Utilização de Resource.resx para centralizar textos e mensagens em geral
