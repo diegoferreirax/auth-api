@@ -1,6 +1,6 @@
 ﻿namespace AuthApi.Application.Models;
 
-public class PaginationParameters
+public record PaginationParametersRequest
 {
     private int _pageSize = 10;
     private const int MaxPageSize = 100;

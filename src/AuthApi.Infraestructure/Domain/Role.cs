@@ -2,5 +2,5 @@
 
 public sealed class Role : BaseEntity
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 }

@@ -1,28 +1,22 @@
 ﻿using AuthApi.Application.Models;
 using CSharpFunctionalExtensions;
 
-namespace AuthApi.Application.Features.Users.ListUsers.v1;
+namespace AuthApi.Application.Features.Users.Queries.ListUsers;
 
-public sealed class ListUsersHandler
+public sealed class ListUsersHandler(UserRepository userRepository)
 {
-    public readonly UserRepository _userRepository;
+    public readonly UserRepository _userRepository = userRepository;
 
-    public ListUsersHandler(UserRepository userRepository)
+    public async Task<Result<PaginatedList<ListUsersResponse>>> Execute(PaginationParametersRequest paginationParameters, CancellationToken cancellationToken = default)
     {
-        _userRepository = userRepository;
-    }
-
-    public async Task<Result<PaginatedList<ListUsersResponse>>> Execute(PaginationParameters paginationParameters, CancellationToken cancellationToken = default)
-    {
-        var (users, count) = await _userRepository.GetUsers(paginationParameters.PageNumber, paginationParameters.PageSize);
+        var (users, count) = await _userRepository.GetUsers(paginationParameters.PageNumber, paginationParameters.PageSize, cancellationToken);
 
         var userResponses = users.Select(user => new ListUsersResponse(
             user.Id,
             user.Name,
             user.Email));
 
-        var usersPaginated = new PaginatedList<ListUsersResponse>(userResponses, count, paginationParameters.PageNumber, paginationParameters.PageSize);
-        return Result.Success(usersPaginated);
+        return Result.Success(new PaginatedList<ListUsersResponse>(userResponses, count, paginationParameters.PageNumber, paginationParameters.PageSize));
     }
 }
 

@@ -6,7 +6,7 @@ namespace AuthApi.Application.Features.Users;
 
 public sealed class Role : BaseEntity
 {
-    public string Name { get; private set; }
+    public string Name { get; private set; } = null!;
 
     public Role()
     { }

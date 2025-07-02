@@ -1,6 +1,6 @@
 ﻿namespace AuthApi.Application.Models;
 
-public class PaginatedList<T> where T : class
+public record PaginatedList<T> where T : class
 {
     public int CurrentPage { get; private set; }
     public int TotalPages { get; private set; }

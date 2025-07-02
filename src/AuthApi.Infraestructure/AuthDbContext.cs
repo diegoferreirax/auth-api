@@ -8,12 +8,8 @@ using Microsoft.Extensions.Logging;
 
 namespace AuthApi.Infraestructure;
 
-public class AuthDbContext : DbContext
+public class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbContext(options)
 {
-    public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options)
-    {
-    }
-
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
 
@@ -21,7 +17,7 @@ public class AuthDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthDbContext).Assembly);
 
-        modelBuilder.MapOnDeleteRestrictRelationships();
+        modelBuilder.MapOnDeleteCascadeRelationships();
 
         base.OnModelCreating(modelBuilder);
     }

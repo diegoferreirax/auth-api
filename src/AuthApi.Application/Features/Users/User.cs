@@ -6,10 +6,10 @@ namespace AuthApi.Application.Features.Users;
 
 public sealed class User : BaseEntity
 {
-    public string Name { get; private set; }
-    public string Email { get; private set; }
-    public string Hash { get; private set; }
-    public IEnumerable<Role> Roles { get; private set; }
+    public string Name { get; private set; } = null!;
+    public string Email { get; private set; } = null!;
+    public string Hash { get; private set; } = null!;
+    public IEnumerable<Role> Roles { get; private set; } = null!;
 
     public User()
     { }

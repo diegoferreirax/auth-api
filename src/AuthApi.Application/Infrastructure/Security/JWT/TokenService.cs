@@ -6,24 +6,23 @@ using System.Text;
 
 namespace AuthApi.Application.Infrastructure.Security.JWT;
 
-public class TokenService
+public class TokenService(IConfiguration config)
 {
-    private readonly IConfiguration _config;
-
-    public TokenService(IConfiguration config)
-    {
-        _config = config;
-    }
+    private readonly IConfiguration _config = config;
 
     public string GenerateToken(string email, IEnumerable<string> roles)
     {
-        var tokenHandler = new JwtSecurityTokenHandler();
-        
-        var key = Encoding.ASCII.GetBytes(_config["JwtPrivateKey"]);
+        var jwtPrivateKey = _config["JwtPrivateKey"];
+        if (string.IsNullOrEmpty(jwtPrivateKey))
+        {
+            throw new InvalidOperationException("JwtPrivateKey configuration is missing or null.");
+        }
+
+        var key = Encoding.ASCII.GetBytes(jwtPrivateKey);
 
         var clains = new List<Claim>()
         {
-            new Claim(ClaimTypes.Email, email)
+            new(ClaimTypes.Email, email)
         };
 
         foreach (var role in roles)
@@ -38,6 +37,7 @@ public class TokenService
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
 
+        var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
     }

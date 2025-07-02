@@ -5,25 +5,18 @@ using CSharpFunctionalExtensions;
 
 namespace AuthApi.Application.Features.Users.AuthenticateUser.v1;
 
-public sealed class AuthenticateUserHandler
+public sealed class AuthenticateUserHandler(
+    UserRepository userRepository,
+    TokenService tokenService,
+    IPasswordHasher passwordHasher)
 {
-    public readonly UserRepository _userRepository;
-    public readonly TokenService _tokenService;
-    public readonly IPasswordHasher _passwordHasher;
-
-    public AuthenticateUserHandler(
-        UserRepository userRepository,
-        TokenService tokenService,
-        IPasswordHasher passwordHasher)
-    {
-        _userRepository = userRepository;
-        _tokenService = tokenService;
-        _passwordHasher = passwordHasher;
-    }
+    public readonly UserRepository _userRepository = userRepository;
+    public readonly TokenService _tokenService = tokenService;
+    public readonly IPasswordHasher _passwordHasher = passwordHasher;
 
     public async Task<Result<AuthenticateUserResponse>> Execute(AuthenticateUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetBy(command.Email);
+        var user = await _userRepository.GetBy(command.Email, cancellationToken);
         if (user.HasNoValue)
         {
             return Result.Failure<AuthenticateUserResponse>(AuthApi_Resource.INVALID_DATA);

@@ -5,14 +5,9 @@ using AuthApi.Application.Infrastructure.Data;
 
 namespace AuthApi.Application.Features.Users;
 
-public sealed class UserRepository
+public sealed class UserRepository(AuthDbContext authDbContext)
 {
-    private readonly AuthDbContext _authDbContext;
-
-    public UserRepository(AuthDbContext authDbContext)
-    {
-        _authDbContext = authDbContext;
-    }
+    private readonly AuthDbContext _authDbContext = authDbContext;
 
     public async Task<Maybe<User>> GetBy(string email, CancellationToken cancellationToken = default)
     {
@@ -41,7 +36,7 @@ public sealed class UserRepository
 
     public async Task<(IEnumerable<User>, int)> GetUsers(int pageNumber, int pageSize, CancellationToken cancellationToken = default)
     {
-        var count = await _authDbContext.Users.CountAsync();
+        var count = await _authDbContext.Users.CountAsync(cancellationToken);
         var users = await _authDbContext.Users
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
@@ -53,7 +48,7 @@ public sealed class UserRepository
 
     public async Task Insert(User user, CancellationToken cancellationToken = default)
     {
-        await _authDbContext.Users.AddAsync(user).ConfigureAwait(false);
+        await _authDbContext.Users.AddAsync(user, cancellationToken).ConfigureAwait(false);
     }
 
     public void Delete(User user)

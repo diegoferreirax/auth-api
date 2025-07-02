@@ -2,14 +2,9 @@
 
 namespace AuthApi.Application.Infrastructure.UnitOfWork;
 
-public sealed class UnitOfWork : IUnitOfWork
+public sealed class UnitOfWork(AuthDbContext context) : IUnitOfWork
 {
-    private readonly AuthDbContext _context;
-
-    public UnitOfWork(AuthDbContext context)
-    {
-        _context = context;
-    }
+    private readonly AuthDbContext _context = context;
 
     public async Task<int> CommitAsync(CancellationToken cancellationToken)
     {

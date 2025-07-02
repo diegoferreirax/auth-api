@@ -5,21 +5,14 @@ using CSharpFunctionalExtensions;
 
 namespace AuthApi.Application.Features.Users.RegisterUser.v1;
 
-public sealed class RegisterUserHandler
+public sealed class RegisterUserHandler(
+    UserRepository userRepository,
+    IPasswordHasher passwordHasher,
+    IUnitOfWork unitOfWork)
 {
-    public readonly UserRepository _userRepository;
-    public readonly IPasswordHasher _passwordHasher;
-    public readonly IUnitOfWork _unitOfWork;
-
-    public RegisterUserHandler(
-        UserRepository userRepository, 
-        IPasswordHasher passwordHasher,
-        IUnitOfWork unitOfWork)
-    {
-        _userRepository = userRepository;
-        _passwordHasher = passwordHasher;
-        _unitOfWork = unitOfWork;
-    }
+    public readonly UserRepository _userRepository = userRepository;
+    public readonly IPasswordHasher _passwordHasher = passwordHasher;
+    public readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     public async Task<Result<RegisterUserResponse>> Execute(RegisterUserCommand command, CancellationToken cancellationToken)
     {
@@ -35,7 +28,7 @@ public sealed class RegisterUserHandler
             return Result.Failure<RegisterUserResponse>(user.Error);
         }
 
-        var userExist = await _userRepository.Exists(command.Email);
+        var userExist = await _userRepository.Exists(command.Email, cancellationToken);
         if (userExist)
         {
             return Result.Failure<RegisterUserResponse>(AuthApi_Resource.USER_EXISTS);
@@ -44,7 +37,7 @@ public sealed class RegisterUserHandler
         var hash = _passwordHasher.Hash(command.Password);
         user.Value.SetHash(hash);
 
-        await _userRepository.Insert(user.Value);
+        await _userRepository.Insert(user.Value, cancellationToken);
         await _unitOfWork.CommitAsync(cancellationToken);
 
         return Result.Success(new RegisterUserResponse(user.Value.Id));

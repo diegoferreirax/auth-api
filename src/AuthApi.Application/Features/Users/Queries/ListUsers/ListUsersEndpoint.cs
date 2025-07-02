@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuthApi.Application.Features.Users.ListUsers.v1;
+namespace AuthApi.Application.Features.Users.Queries.ListUsers;
 
 [ApiController]
 [Route("api/v{version:apiVersion}/users")]
@@ -12,7 +12,7 @@ public class ListUsersEndpoint : ControllerBase
     [Authorize(Roles = "admin")]
     [HttpGet]
     public async Task<IActionResult> ListUsers(
-        [FromQuery] PaginationParameters paginationParameters, 
+        [FromQuery] PaginationParametersRequest paginationParameters, 
         [FromServices] ListUsersHandler _handler, 
         CancellationToken cancellationToken)
     {

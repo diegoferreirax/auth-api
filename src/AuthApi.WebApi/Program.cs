@@ -4,9 +4,15 @@ using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var jwtPrivateKey = builder.Configuration["JwtPrivateKey"];
+if (string.IsNullOrEmpty(jwtPrivateKey))
+{
+    throw new InvalidOperationException("JwtPrivateKey configuration is missing or null.");
+}
+
 builder.Services.AddApplicationConfigurations();
 builder.Services.AddControllerConfigurations();
-builder.Services.AddJwtConfigurations(builder.Configuration["JwtPrivateKey"]);
+builder.Services.AddJwtConfigurations(jwtPrivateKey);
 builder.Services.AddOpenTelemetryConfigurations();
 builder.Services.AddBCryptConfigurations();
 builder.Services.AddDbContext(builder.Configuration);

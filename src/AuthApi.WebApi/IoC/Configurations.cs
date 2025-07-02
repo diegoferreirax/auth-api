@@ -1,7 +1,7 @@
 ﻿using AuthApi.Application.Features.Users;
 using AuthApi.Application.Features.Users.AuthenticateUser.v1;
 using AuthApi.Application.Features.Users.DeleteUser.v1;
-using AuthApi.Application.Features.Users.ListUsers.v1;
+using AuthApi.Application.Features.Users.Queries.ListUsers;
 using AuthApi.Application.Features.Users.RegisterUser.v1;
 using AuthApi.Application.Infrastructure.Data;
 using AuthApi.Application.Infrastructure.Security.Bcrypt;
