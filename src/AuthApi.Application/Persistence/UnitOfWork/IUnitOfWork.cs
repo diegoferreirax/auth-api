@@ -1,6 +1,6 @@
 ﻿using AuthApi.Application.Features.Users;
 
-namespace AuthApi.Application.Infrastructure.UnitOfWork;
+namespace AuthApi.Application.Persistence.UnitOfWork;
 
 public interface IUnitOfWork : IDisposable
 {

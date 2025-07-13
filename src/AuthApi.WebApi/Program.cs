@@ -1,4 +1,4 @@
-using AuthApi.Application.Infrastructure.Security.JWT;
+using AuthApi.Application.Security.JWT;
 using AuthApi.WebApi.IoC;
 using Microsoft.Extensions.FileProviders;
 

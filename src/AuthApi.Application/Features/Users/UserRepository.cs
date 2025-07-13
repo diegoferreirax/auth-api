@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
-using AuthApi.Application.Infrastructure.Data;
+using AuthApi.Application.Persistence.Data;
 
 namespace AuthApi.Application.Features.Users;
 

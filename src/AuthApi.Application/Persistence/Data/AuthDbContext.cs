@@ -1,7 +1,7 @@
 ﻿using AuthApi.Application.Features.Users;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuthApi.Application.Infrastructure.Data;
+namespace AuthApi.Application.Persistence.Data;
 
 public class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbContext(options)
 {

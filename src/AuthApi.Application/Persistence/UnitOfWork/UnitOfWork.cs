@@ -1,7 +1,7 @@
 ﻿using AuthApi.Application.Features.Users;
-using AuthApi.Application.Infrastructure.Data;
+using AuthApi.Application.Persistence.Data;
 
-namespace AuthApi.Application.Infrastructure.UnitOfWork;
+namespace AuthApi.Application.Persistence.UnitOfWork;
 
 public sealed class UnitOfWork(AuthDbContext context) : IUnitOfWork
 {

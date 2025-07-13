@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AuthApi.Application.Infrastructure.Data.Mappings;
+namespace AuthApi.Application.Persistence.Data.Mappings;
 
 public class UserMapping : IEntityTypeConfiguration<User>
 {

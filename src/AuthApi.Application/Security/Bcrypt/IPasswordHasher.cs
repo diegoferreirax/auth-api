@@ -1,4 +1,4 @@
-﻿namespace AuthApi.Application.Infrastructure.Security.Bcrypt;
+﻿namespace AuthApi.Application.Security.Bcrypt;
 
 public interface IPasswordHasher
 {

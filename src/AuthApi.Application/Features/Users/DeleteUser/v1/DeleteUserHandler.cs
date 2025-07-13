@@ -1,4 +1,4 @@
-﻿using AuthApi.Application.Infrastructure.UnitOfWork;
+﻿using AuthApi.Application.Persistence.UnitOfWork;
 using AuthApi.Application.Resource;
 using CSharpFunctionalExtensions;
 

@@ -1,7 +1,7 @@
-﻿using AuthApi.Application.Infrastructure.Security.Bcrypt;
-using AuthApi.Application.Infrastructure.Security.JWT;
-using AuthApi.Application.Infrastructure.UnitOfWork;
+﻿using AuthApi.Application.Persistence.UnitOfWork;
 using AuthApi.Application.Resource;
+using AuthApi.Application.Security.Bcrypt;
+using AuthApi.Application.Security.JWT;
 using CSharpFunctionalExtensions;
 
 namespace AuthApi.Application.Features.Users.AuthenticateUser.v1;
