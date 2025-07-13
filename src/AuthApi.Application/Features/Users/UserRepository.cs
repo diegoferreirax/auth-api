@@ -12,7 +12,7 @@ public sealed class UserRepository(AuthDbContext authDbContext)
     public async Task<Maybe<User>> GetBy(string email, CancellationToken cancellationToken = default)
     {
         return await _authDbContext.Users
-            .Include("Roles")
+            .Include("UserRoles")
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Email.Equals(email), cancellationToken)
             .ConfigureAwait(false);
@@ -21,7 +21,7 @@ public sealed class UserRepository(AuthDbContext authDbContext)
     public async Task<Maybe<User>> GetBy(Guid id, CancellationToken cancellationToken = default)
     {
         return await _authDbContext.Users
-            .Include("Roles")
+            .Include("UserRoles")
             .FirstOrDefaultAsync(x => x.Id.Equals(id), cancellationToken)
             .ConfigureAwait(false);
     }
@@ -46,13 +46,29 @@ public sealed class UserRepository(AuthDbContext authDbContext)
         return (users, count);
     }
 
-    public async Task Insert(User user, CancellationToken cancellationToken = default)
+    public async Task<User> Insert(User user, CancellationToken cancellationToken = default)
     {
         await _authDbContext.Users.AddAsync(user, cancellationToken).ConfigureAwait(false);
+        return user;
     }
 
     public void Delete(User user)
     {
         _authDbContext.Users.Remove(user);
+    }
+
+    public async Task<IEnumerable<Role>> GetRolesBy(IEnumerable<string> codes, CancellationToken cancellationToken = default)
+    {
+        return await _authDbContext.Roles.AsNoTracking().Where(r => codes.Contains(r.Code)).ToListAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<IEnumerable<Role>> GetRolesBy(IEnumerable<Guid> ids, CancellationToken cancellationToken = default)
+    {
+        return await _authDbContext.Roles.AsNoTracking().Where(r => ids.Contains(r.Id)).ToListAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task InsertUserRoles(IEnumerable<UserRole> userRoles, CancellationToken cancellationToken = default)
+    {
+        await _authDbContext.UserRole.AddRangeAsync(userRoles, cancellationToken).ConfigureAwait(false);
     }
 }

@@ -7,13 +7,11 @@ public class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbContext(
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
+    public DbSet<UserRole> UserRole { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthDbContext).Assembly);
-
-        foreach (var foreingKey in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            foreingKey.DeleteBehavior = DeleteBehavior.Cascade;
 
         base.OnModelCreating(modelBuilder);
     }

@@ -19,9 +19,9 @@ public class UserMapping : IEntityTypeConfiguration<User>
         builder.Property(u => u.Hash).HasColumnType("VARCHAR(100)").IsRequired();
         builder.Property(u => u.UpdatedDate).HasColumnType("DATETIME").IsRequired();
 
-        builder.HasMany(u => u.Roles) 
+        builder.HasMany(u => u.UserRoles)
             .WithOne()
-            .HasForeignKey("UserId") 
-            .IsRequired();
+            .HasForeignKey("IdUser")
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -15,9 +15,9 @@ public class UserMapping : IEntityTypeConfiguration<User>
         builder.Property(u => u.Hash).IsRequired();
         builder.Property(u => u.UpdatedDate).IsRequired();
 
-        builder.HasMany(u => u.Roles)
+        builder.HasMany(u => u.UserRoles)
             .WithOne()
-            .HasForeignKey("UserId")
-            .IsRequired();
+            .HasForeignKey("IdUser")
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

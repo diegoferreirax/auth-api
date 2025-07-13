@@ -9,7 +9,7 @@ namespace AuthApi.Application.Features.Users.Queries.ListUsers;
 [ApiVersion("1.0")]
 public class ListUsersEndpoint : ControllerBase
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "A")]
     [HttpGet]
     public async Task<IActionResult> ListUsers(
         [FromQuery] PaginationParametersRequest paginationParameters, 

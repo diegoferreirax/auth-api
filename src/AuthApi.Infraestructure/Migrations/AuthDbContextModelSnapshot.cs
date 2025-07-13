@@ -29,6 +29,11 @@ namespace AuthApi.Infraestructure.Migrations
                         .HasColumnType("VARCHAR(36)")
                         .HasColumnName("ID");
 
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("CHAR(1)")
+                        .HasColumnName("CODE");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("VARCHAR(150)")
@@ -38,18 +43,33 @@ namespace AuthApi.Infraestructure.Migrations
                         .HasColumnType("DATETIME")
                         .HasColumnName("UPDATED_DATE");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(36)")
-                        .HasColumnName("USER_ID");
-
                     b.HasKey("Id")
                         .HasName("PK_ROLE");
 
-                    b.HasIndex("UserId")
-                        .HasDatabaseName("IX_ROLE_USER_ID");
-
                     b.ToTable("ROLE", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "6b4441ca-a23a-4ec4-b3bd-a1ca1507d9de",
+                            Code = "A",
+                            Name = "ADMIN",
+                            UpdatedDate = new DateTime(2025, 7, 13, 18, 49, 40, 298, DateTimeKind.Local).AddTicks(2366)
+                        },
+                        new
+                        {
+                            Id = "2e355313-89d3-4274-a25b-e1ffe372dfbb",
+                            Code = "U",
+                            Name = "USER",
+                            UpdatedDate = new DateTime(2025, 7, 13, 18, 49, 40, 298, DateTimeKind.Local).AddTicks(2409)
+                        },
+                        new
+                        {
+                            Id = "4535ace9-c485-4c16-b086-3f7b3f48a08b",
+                            Code = "M",
+                            Name = "MANAGER",
+                            UpdatedDate = new DateTime(2025, 7, 13, 18, 49, 40, 298, DateTimeKind.Local).AddTicks(2411)
+                        });
                 });
 
             modelBuilder.Entity("AuthApi.Infraestructure.Domain.User", b =>
@@ -88,19 +108,48 @@ namespace AuthApi.Infraestructure.Migrations
                     b.ToTable("USER", (string)null);
                 });
 
-            modelBuilder.Entity("AuthApi.Infraestructure.Domain.Role", b =>
+            modelBuilder.Entity("AuthApi.Infraestructure.Domain.UserRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasColumnName("ID");
+
+                    b.Property<string>("IdRole")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnName("ID_ROLE");
+
+                    b.Property<string>("IdUser")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(36)")
+                        .HasColumnName("ID_USER");
+
+                    b.HasKey("Id")
+                        .HasName("PK_USER_ROLE");
+
+                    b.HasIndex("IdRole")
+                        .HasDatabaseName("IX_USER_ROLE_ID_ROLE");
+
+                    b.HasIndex("IdUser")
+                        .HasDatabaseName("IX_USER_ROLE_ID_USER");
+
+                    b.ToTable("USER_ROLE", (string)null);
+                });
+
+            modelBuilder.Entity("AuthApi.Infraestructure.Domain.UserRole", b =>
                 {
                     b.HasOne("AuthApi.Infraestructure.Domain.User", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("IdUser")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("FK_ROLE_USER_USER_ID");
+                        .HasConstraintName("FK_USER_ROLE_USER_ID_USER");
                 });
 
             modelBuilder.Entity("AuthApi.Infraestructure.Domain.User", b =>
                 {
-                    b.Navigation("Roles");
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,7 +8,7 @@ namespace AuthApi.Application.Features.Users.DeleteUser.v1;
 [ApiVersion("1.0")]
 public class DeleteUserEndpoint : ControllerBase
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "A")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(
         Guid id, 

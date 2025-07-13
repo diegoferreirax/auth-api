@@ -11,6 +11,7 @@ public class RoleMapping : IEntityTypeConfiguration<Role>
         builder.ToTable("ROLE");
         builder.Property(u => u.Id).IsRequired();
         builder.Property(u => u.Name).IsRequired();
+        builder.Property(u => u.Code).IsRequired();
         builder.Property(u => u.UpdatedDate).IsRequired();
     }
 }

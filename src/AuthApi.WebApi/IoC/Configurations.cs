@@ -18,11 +18,13 @@ public static class Configurations
     public static IServiceCollection AddApplicationConfigurations(this IServiceCollection services)
     {
         services.AddScoped<UserRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         services.AddScoped<RegisterUserHandler>();
         services.AddScoped<AuthenticateUserHandler>();
         services.AddScoped<DeleteUserHandler>();
         services.AddScoped<ListUsersHandler>();
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         return services;
     }
 

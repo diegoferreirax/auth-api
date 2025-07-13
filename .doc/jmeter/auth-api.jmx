@@ -48,13 +48,13 @@
     &quot;email&quot;: &quot;teste_${__RandomString(8,abcdefghijklmnopqrstuvwxyz)}@gmail.com&quot;,&#xd;
     &quot;roles&quot;: [&#xd;
         {&#xd;
-            &quot;name&quot;: &quot;admin&quot;&#xd;
+            &quot;code&quot;: &quot;U&quot;&#xd;
         },&#xd;
         {&#xd;
-            &quot;name&quot;: &quot;manager&quot;&#xd;
+            &quot;code&quot;: &quot;M&quot;&#xd;
         },&#xd;
         {&#xd;
-            &quot;name&quot;: &quot;employee&quot;&#xd;
+            &quot;code&quot;: &quot;A&quot;&#xd;
         }&#xd;
     ]&#xd;
 }</stringProp>
@@ -101,7 +101,7 @@
           <stringProp name="filename"></stringProp>
         </ResultCollector>
         <hashTree/>
-        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Relatório de Sumário">
+        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Relatório de Sumário" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -138,7 +138,7 @@
           <stringProp name="filename"></stringProp>
         </ResultCollector>
         <hashTree/>
-        <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Gráfico de Resultados">
+        <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Gráfico de Resultados" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
