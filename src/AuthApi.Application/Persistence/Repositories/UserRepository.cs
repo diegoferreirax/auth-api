@@ -1,9 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Driver;
 using AuthApi.Application.Persistence.Data;
+using AuthApi.Application.Features.Users;
 
-namespace AuthApi.Application.Features.Users;
+namespace AuthApi.Application.Persistence.Repositories;
 
 public sealed class UserRepository(AuthDbContext authDbContext)
 {
@@ -38,9 +38,10 @@ public sealed class UserRepository(AuthDbContext authDbContext)
     {
         var count = await _authDbContext.Users.CountAsync(cancellationToken);
         var users = await _authDbContext.Users
+            .Include("UserRoles")
+            .OrderBy(u => u.Name)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .OrderBy(u => u.Name)
             .ToListAsync(cancellationToken)
             .ConfigureAwait(false);
         return (users, count);
@@ -55,20 +56,5 @@ public sealed class UserRepository(AuthDbContext authDbContext)
     public void Delete(User user)
     {
         _authDbContext.Users.Remove(user);
-    }
-
-    public async Task<IEnumerable<Role>> GetRolesBy(IEnumerable<string> codes, CancellationToken cancellationToken = default)
-    {
-        return await _authDbContext.Roles.AsNoTracking().Where(r => codes.Contains(r.Code)).ToListAsync(cancellationToken).ConfigureAwait(false);
-    }
-
-    public async Task<IEnumerable<Role>> GetRolesBy(IEnumerable<Guid> ids, CancellationToken cancellationToken = default)
-    {
-        return await _authDbContext.Roles.AsNoTracking().Where(r => ids.Contains(r.Id)).ToListAsync(cancellationToken).ConfigureAwait(false);
-    }
-
-    public async Task InsertUserRoles(IEnumerable<UserRole> userRoles, CancellationToken cancellationToken = default)
-    {
-        await _authDbContext.UserRole.AddRangeAsync(userRoles, cancellationToken).ConfigureAwait(false);
     }
 }

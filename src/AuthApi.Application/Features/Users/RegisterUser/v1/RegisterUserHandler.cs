@@ -31,7 +31,7 @@ public sealed class RegisterUserHandler(
 
         var userAdded = await _unitOfWork.Users.Insert(user.Value, cancellationToken);
 
-        var roles = await _unitOfWork.Users.GetRolesBy(command.Roles.Select(s => s.Code), cancellationToken);
+        var roles = await _unitOfWork.Roles.GetBy(command.Roles.Select(s => s.Code), cancellationToken);
 
         var userRoles = new List<UserRole>();
         foreach (var role in roles)
@@ -39,7 +39,7 @@ public sealed class RegisterUserHandler(
             userRoles.Add(UserRole.Create(user.Value.Id, role.Id).Value);
         }
 
-        await _unitOfWork.Users.InsertUserRoles(userRoles, cancellationToken);
+        await _unitOfWork.UserRoles.Insert(userRoles, cancellationToken);
 
         await _unitOfWork.CommitAsync(cancellationToken);
         return Result.Success(new RegisterUserResponse(user.Value.Id));

@@ -29,7 +29,7 @@ public sealed class AuthenticateUserHandler(
         }
 
         var roleIds = user.Value.UserRoles.Select(s => s.IdRole).ToList();
-        var userRoles = await _unitOfWork.Users.GetRolesBy(roleIds, cancellationToken);
+        var userRoles = await _unitOfWork.Roles.GetBy(roleIds, cancellationToken);
 
         var token = _tokenService.GenerateToken(user.Value.Email, userRoles.Select(s => s.Code));
 
