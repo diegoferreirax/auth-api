@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace AuthApi.Application.Infrastructure.Security.JWT;
+namespace AuthApi.Application.Security.JWT;
 
 public class TokenService(IConfiguration config)
 {

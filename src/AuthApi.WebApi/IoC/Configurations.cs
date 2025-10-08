@@ -1,11 +1,11 @@
-﻿using AuthApi.Application.Features.Users;
-using AuthApi.Application.Features.Users.AuthenticateUser.v1;
+﻿using AuthApi.Application.Features.Users.AuthenticateUser.v1;
 using AuthApi.Application.Features.Users.DeleteUser.v1;
 using AuthApi.Application.Features.Users.Queries.ListUsers;
 using AuthApi.Application.Features.Users.RegisterUser.v1;
-using AuthApi.Application.Infrastructure.Data;
-using AuthApi.Application.Infrastructure.Security.Bcrypt;
-using AuthApi.Application.Infrastructure.UnitOfWork;
+using AuthApi.Application.Persistence.Data;
+using AuthApi.Application.Persistence.Repositories;
+using AuthApi.Application.Persistence.UnitOfWork;
+using AuthApi.Application.Security.Bcrypt;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Metrics;
@@ -17,12 +17,16 @@ public static class Configurations
 {
     public static IServiceCollection AddApplicationConfigurations(this IServiceCollection services)
     {
+        services.AddScoped<UserRoleRepository>();
+        services.AddScoped<RoleRepository>();
         services.AddScoped<UserRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         services.AddScoped<RegisterUserHandler>();
         services.AddScoped<AuthenticateUserHandler>();
         services.AddScoped<DeleteUserHandler>();
         services.AddScoped<ListUsersHandler>();
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         return services;
     }
 

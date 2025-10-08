@@ -1,9 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Driver;
-using AuthApi.Application.Infrastructure.Data;
+using AuthApi.Application.Persistence.Data;
+using AuthApi.Application.Features.Users;
 
-namespace AuthApi.Application.Features.Users;
+namespace AuthApi.Application.Persistence.Repositories;
 
 public sealed class UserRepository(AuthDbContext authDbContext)
 {
@@ -12,7 +12,7 @@ public sealed class UserRepository(AuthDbContext authDbContext)
     public async Task<Maybe<User>> GetBy(string email, CancellationToken cancellationToken = default)
     {
         return await _authDbContext.Users
-            .Include("Roles")
+            .Include("UserRoles")
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Email.Equals(email), cancellationToken)
             .ConfigureAwait(false);
@@ -21,7 +21,7 @@ public sealed class UserRepository(AuthDbContext authDbContext)
     public async Task<Maybe<User>> GetBy(Guid id, CancellationToken cancellationToken = default)
     {
         return await _authDbContext.Users
-            .Include("Roles")
+            .Include("UserRoles")
             .FirstOrDefaultAsync(x => x.Id.Equals(id), cancellationToken)
             .ConfigureAwait(false);
     }
@@ -38,17 +38,19 @@ public sealed class UserRepository(AuthDbContext authDbContext)
     {
         var count = await _authDbContext.Users.CountAsync(cancellationToken);
         var users = await _authDbContext.Users
+            .Include("UserRoles")
+            .OrderBy(u => u.Name)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .OrderBy(u => u.Name)
             .ToListAsync(cancellationToken)
             .ConfigureAwait(false);
         return (users, count);
     }
 
-    public async Task Insert(User user, CancellationToken cancellationToken = default)
+    public async Task<User> Insert(User user, CancellationToken cancellationToken = default)
     {
         await _authDbContext.Users.AddAsync(user, cancellationToken).ConfigureAwait(false);
+        return user;
     }
 
     public void Delete(User user)

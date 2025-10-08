@@ -1,0 +1,18 @@
+SELECT * FROM auth_db.USER;
+SELECT * FROM auth_db.USER_ROLE;
+SELECT * FROM auth_db.ROLE;
+
+SELECT COUNT(ID) FROM auth_db.USER;
+SELECT COUNT(ID) FROM auth_db.USER_ROLE;
+
+/*
+DROP TABLE auth_db.__EFMigrationsHistory;
+DROP TABLE auth_db.USER_ROLE;
+DROP TABLE auth_db.ROLE;
+DROP TABLE auth_db.USER;
+*/
+
+/*
+DELETE FROM auth_db.USER_ROLE;
+DELETE FROM auth_db.USER;
+*/
