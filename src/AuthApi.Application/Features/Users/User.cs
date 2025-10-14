@@ -31,6 +31,22 @@ public sealed class User : BaseEntity
         Hash = hash;
     }
 
+    public void UpdateBasicInfo(string name, string email)
+    {
+        if (string.IsNullOrEmpty(name))
+        {
+            throw new ArgumentException(AuthApi_Resource.NAME_REQUIRED);
+        }
+
+        if (string.IsNullOrEmpty(email))
+        {
+            throw new ArgumentException(AuthApi_Resource.EMAIL_REQUIRED);
+        }
+
+        Name = name;
+        Email = email;
+    }
+
     public static Result<User> Create(string name, string email)
     {
         if (string.IsNullOrEmpty(name))

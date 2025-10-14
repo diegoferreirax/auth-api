@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 using Microsoft.OpenApi.Models;
+using AuthApi.Application.Features.Users.UpdateUser.v1;
 
 namespace AuthApi.WebApi.IoC;
 
@@ -27,6 +28,7 @@ public static class Configurations
         services.AddScoped<AuthenticateUserHandler>();
         services.AddScoped<DeleteUserHandler>();
         services.AddScoped<ListUsersHandler>();
+        services.AddScoped<UpdateUserHandler>();
 
         return services;
     }

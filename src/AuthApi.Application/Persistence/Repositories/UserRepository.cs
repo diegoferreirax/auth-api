@@ -53,6 +53,12 @@ public sealed class UserRepository(AuthDbContext authDbContext)
         return user;
     }
 
+    public User Update(User user, CancellationToken cancellationToken = default)
+    {
+        _authDbContext.Users.Update(user);
+        return user;
+    }
+
     public void Delete(User user)
     {
         _authDbContext.Users.Remove(user);
