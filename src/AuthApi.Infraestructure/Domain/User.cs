@@ -2,8 +2,8 @@
 
 public sealed class User : BaseEntity
 {
-    public string Name { get; set; }
-    public string Email { get; set; }
-    public string Hash { get; set; }
-    public IEnumerable<Role> Roles { get; set; }
+    public string Name { get; set; } = null!;
+    public string Email { get; set; } = null!;
+    public string Hash { get; set; } = null!;
+    public ICollection<UserRole> UserRoles { get; set; } = null!;
 }

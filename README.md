@@ -12,20 +12,31 @@ Projeto de autenticação e registro de usuários para fins de portfólio e atua
 
 ## 🚀 Features
 
-- Registros de usuário
+- Registros de usuário (create)
+- Listagem de usuários com paginação (read)
+- Exclusão de usuário (delete)
 - Autenticação de usuário
 - Criptografia de senha com BCrypt.Net
+- Controle de acesso por função (Role-Based Access Control - RBAC) para alguns endpoints
 - Utilização de Resource.resx para centralizar textos e mensagens em geral
 - Uso do EF Core para facilitar e escalar a criação da estrutura da base de dados e evitar SQL Injection
 - Monitoramento de logs com OpenTelemetry e Honeycomb
 
+## 🔮 Features Futuras
+
+- Publicação com Azure DevOps e Azure App Services
+- Utilização do banco MySql na Oracle
+- Envio de código de confirmação de email
+
 ## 🧩 Patterns
 
-- Estrutura de `Vertical Slice` com Command, Handler e Endpoint separados para cada feature do dominio
+- Arquitetura de `Vertical Slice` com Command, Handler e Endpoint separados para cada feature do dominio
 - Versionamento das pastas e end-points de features para possíveis atualizações de escopo maior sem mudar a versão existente
 - Projeto `AuthApi.Infraestructure` exclusivo para migrações do EF Core para separar a infraestrutura da base da regra de negócio
 - Utilização da struct `Maybe` para tratamento de nullos
 - Uso de `record` para objetos de request e response
+- Criação de `UnitOfWork` no EF Core para centralizar as operações de mudanças
+- Utilização de `primary constructor` nas classes que dependem de injeção de dependência
 
 ## ⚙️ Configuração
 

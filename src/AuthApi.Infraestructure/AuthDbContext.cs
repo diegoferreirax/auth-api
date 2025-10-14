@@ -1,6 +1,5 @@
 ﻿using AuthApi.Infraestructure.Conventions;
 using AuthApi.Infraestructure.Domain;
-using AuthApi.Infraestructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -8,20 +7,21 @@ using Microsoft.Extensions.Logging;
 
 namespace AuthApi.Infraestructure;
 
-public class AuthDbContext : DbContext
+public class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbContext(options)
 {
-    public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options)
-    {
-    }
-
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
+    public DbSet<UserRole> UserRole { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthDbContext).Assembly);
 
-        modelBuilder.MapOnDeleteRestrictRelationships();
+        modelBuilder.Entity<Role>().HasData(
+            new Role { Id = Guid.NewGuid(), Name = "ADMIN", Code = "A" },
+            new Role { Id = Guid.NewGuid(), Name = "USER", Code = "U" },
+            new Role { Id = Guid.NewGuid(), Name = "MANAGER", Code = "M" }
+        );
 
         base.OnModelCreating(modelBuilder);
     }

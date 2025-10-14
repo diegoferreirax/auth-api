@@ -16,7 +16,7 @@ public class RegisterUserEndpoint : ControllerBase
         var roles = new List<RegisterRoleCommand>();
         foreach (var item in registerUser.Roles)
         {
-            roles.Add(RegisterRoleCommand.Create(item.Name).Value);
+            roles.Add(RegisterRoleCommand.Create(item.Code).Value);
         }
 
         var command = RegisterUserCommand.Create(registerUser.Name, registerUser.Email, registerUser.Password, roles);
@@ -35,6 +35,6 @@ public class RegisterUserEndpoint : ControllerBase
     }
 }
 
-public record RegisterRoleRequest(string Name);
+public record RegisterRoleRequest(string Code);
 public record RegisterUserRequest(string Name, string Email, string Password, IEnumerable<RegisterRoleRequest> Roles);
 public record RegisterUserResponse(Guid Id);

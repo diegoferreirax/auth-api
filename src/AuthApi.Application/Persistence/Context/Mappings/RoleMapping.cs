@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AuthApi.Application.Infrastructure.Data.Mappings;
+namespace AuthApi.Application.Persistence.Context.Mappings;
 
 public class RoleMapping : IEntityTypeConfiguration<Role>
 {
@@ -11,6 +11,7 @@ public class RoleMapping : IEntityTypeConfiguration<Role>
         builder.ToTable("ROLE");
         builder.Property(u => u.Id).IsRequired();
         builder.Property(u => u.Name).IsRequired();
+        builder.Property(u => u.Code).IsRequired();
         builder.Property(u => u.UpdatedDate).IsRequired();
     }
 }

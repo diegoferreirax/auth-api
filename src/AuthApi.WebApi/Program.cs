@@ -1,20 +1,25 @@
-using AuthApi.Application.Infrastructure.Security.JWT;
+using AuthApi.Application.Security.JWT;
 using AuthApi.WebApi.IoC;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var jwtPrivateKey = builder.Configuration["JwtPrivateKey"];
+if (string.IsNullOrEmpty(jwtPrivateKey))
+{
+    throw new InvalidOperationException("JwtPrivateKey configuration is missing or null.");
+}
+
 builder.Services.AddApplicationConfigurations();
 builder.Services.AddControllerConfigurations();
-builder.Services.AddJwtConfigurations(builder.Configuration["JwtPrivateKey"]);
+builder.Services.AddJwtConfigurations(jwtPrivateKey);
 builder.Services.AddOpenTelemetryConfigurations();
 builder.Services.AddBCryptConfigurations();
 builder.Services.AddDbContext(builder.Configuration);
+builder.Services.AddSwaggerConfigurations();
 
 builder.Logging.AddConsole();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
@@ -24,8 +29,16 @@ app.MapHealthChecks("/health");
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
-app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwagger(c =>
+{
+    c.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0;
+});
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Auth API v1.0");
+    c.RoutePrefix = "swagger";
+    c.DocumentTitle = "Auth API Documentation";
+});
 //}
 
 app.UseDefaultFiles();

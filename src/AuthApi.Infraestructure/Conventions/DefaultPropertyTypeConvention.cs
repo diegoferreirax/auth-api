@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AuthApi.Infraestructure.Conventions;
@@ -11,9 +10,9 @@ public class DefaultPropertyTypeConvention : IModelFinalizingConvention
             IConventionModelBuilder modelBuilder,
             IConventionContext<IConventionModelBuilder> context)
     {
-        foreach (IMutableEntityType entityType in modelBuilder.Metadata.GetEntityTypes())
+        foreach (var entityType in modelBuilder.Metadata.GetEntityTypes())
         {
-            foreach (IMutableProperty property in entityType.GetProperties())
+            foreach (var property in entityType.GetProperties())
             {
                 if (property.GetColumnType() == null && property.ClrType == typeof(string))
                 {

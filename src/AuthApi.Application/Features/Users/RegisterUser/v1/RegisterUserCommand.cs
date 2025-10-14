@@ -46,20 +46,20 @@ public class RegisterUserCommand
 
 public class RegisterRoleCommand
 {
-    public string Name { get; private set; }
+    public string Code { get; private set; }
 
-    private RegisterRoleCommand(string name)
+    private RegisterRoleCommand(string code)
     {
-        Name = name;
+        Code = code;
     }
 
-    public static Result<RegisterRoleCommand> Create(string name)
+    public static Result<RegisterRoleCommand> Create(string code)
     {
-        if (string.IsNullOrEmpty(name))
+        if (string.IsNullOrEmpty(code))
         {
             return Result.Failure<RegisterRoleCommand>(AuthApi_Resource.ROLE_NAME_REQUIRED);
         }
 
-        return Result.Success(new RegisterRoleCommand(name));
+        return Result.Success(new RegisterRoleCommand(code));
     }
 }

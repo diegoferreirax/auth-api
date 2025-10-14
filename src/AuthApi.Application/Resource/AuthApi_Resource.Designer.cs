@@ -134,5 +134,17 @@ namespace AuthApi.Application.Resource {
                 return ResourceManager.GetString("ROLE_NAME_REQUIRED", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to User not found..
+        /// </summary>
+        public static string USER_NOT_EXISTS 
+        {
+
+            get
+            {
+                return ResourceManager.GetString("USER_NOT_EXISTS", resourceCulture);
+            }
+        }
     }
 }

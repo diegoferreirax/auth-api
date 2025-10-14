@@ -1,29 +1,23 @@
-﻿using AuthApi.Application.Infrastructure.Security.Bcrypt;
-using AuthApi.Application.Infrastructure.Security.JWT;
+﻿using AuthApi.Application.Persistence.UnitOfWork;
 using AuthApi.Application.Resource;
+using AuthApi.Application.Security.Bcrypt;
+using AuthApi.Application.Security.JWT;
 using CSharpFunctionalExtensions;
 
 namespace AuthApi.Application.Features.Users.AuthenticateUser.v1;
 
-public sealed class AuthenticateUserHandler
+public sealed class AuthenticateUserHandler(
+    TokenService tokenService,
+    IPasswordHasher passwordHasher,
+    IUnitOfWork unitOfWork)
 {
-    public readonly UserRepository _userRepository;
-    public readonly TokenService _tokenService;
-    public readonly IPasswordHasher _passwordHasher;
-
-    public AuthenticateUserHandler(
-        UserRepository userRepository,
-        TokenService tokenService,
-        IPasswordHasher passwordHasher)
-    {
-        _userRepository = userRepository;
-        _tokenService = tokenService;
-        _passwordHasher = passwordHasher;
-    }
+    public readonly TokenService _tokenService = tokenService;
+    public readonly IPasswordHasher _passwordHasher = passwordHasher;
+    public readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     public async Task<Result<AuthenticateUserResponse>> Execute(AuthenticateUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.Get(command.Email);
+        var user = await _unitOfWork.Users.GetBy(command.Email, cancellationToken);
         if (user.HasNoValue)
         {
             return Result.Failure<AuthenticateUserResponse>(AuthApi_Resource.INVALID_DATA);
@@ -34,7 +28,10 @@ public sealed class AuthenticateUserHandler
             return Result.Failure<AuthenticateUserResponse>(AuthApi_Resource.INVALID_DATA);
         }
 
-        var token = _tokenService.GenerateToken(user.Value.Email, user.Value.Roles.FirstOrDefault().Name);
+        var roleIds = user.Value.UserRoles.Select(s => s.IdRole).ToList();
+        var userRoles = await _unitOfWork.Roles.GetBy(roleIds, cancellationToken);
+
+        var token = _tokenService.GenerateToken(user.Value.Email, userRoles.Select(s => s.Code));
 
         return Result.Success(new AuthenticateUserResponse(user.Value.Email, token));
     }

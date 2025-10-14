@@ -1,12 +1,17 @@
-﻿using AuthApi.Application.Features.Users;
-using AuthApi.Application.Features.Users.AuthenticateUser.v1;
+﻿using AuthApi.Application.Features.Users.AuthenticateUser.v1;
+using AuthApi.Application.Features.Users.DeleteUser.v1;
+using AuthApi.Application.Features.Users.Queries.ListUsers;
 using AuthApi.Application.Features.Users.RegisterUser.v1;
-using AuthApi.Application.Infrastructure.Data;
-using AuthApi.Application.Infrastructure.Security.Bcrypt;
+using AuthApi.Application.Persistence.Context;
+using AuthApi.Application.Persistence.Repositories;
+using AuthApi.Application.Persistence.UnitOfWork;
+using AuthApi.Application.Security.Bcrypt;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
+using Microsoft.OpenApi.Models;
+using AuthApi.Application.Features.Users.UpdateUser.v1;
 
 namespace AuthApi.WebApi.IoC;
 
@@ -14,9 +19,17 @@ public static class Configurations
 {
     public static IServiceCollection AddApplicationConfigurations(this IServiceCollection services)
     {
+        services.AddScoped<UserRoleRepository>();
+        services.AddScoped<RoleRepository>();
         services.AddScoped<UserRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         services.AddScoped<RegisterUserHandler>();
         services.AddScoped<AuthenticateUserHandler>();
+        services.AddScoped<DeleteUserHandler>();
+        services.AddScoped<ListUsersHandler>();
+        services.AddScoped<UpdateUserHandler>();
+
         return services;
     }
 
@@ -72,6 +85,50 @@ public static class Configurations
                 .EnableDetailedErrors()
                 .UseUpperSnakeCaseNamingConvention()
         );
+
+        return services;
+    }
+
+    public static IServiceCollection AddSwaggerConfigurations(this IServiceCollection services)
+    {
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Auth API",
+                Version = "v1.0",
+                Description = "API de autenticação e gerenciamento de usuários",
+                Contact = new OpenApiContact
+                {
+                    Name = "Auth API Team"
+                }
+            });
+            
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer"
+            });
+
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
+        });
 
         return services;
     }
