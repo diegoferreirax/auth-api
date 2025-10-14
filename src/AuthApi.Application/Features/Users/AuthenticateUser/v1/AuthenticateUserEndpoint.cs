@@ -14,18 +14,8 @@ public class AuthenticateUserEndpoint : ControllerBase
         CancellationToken cancellationToken)
     {
         var command = AuthenticateUserCommand.Create(authenticateUser.Email, authenticateUser.Password);
-        if (command.IsFailure)
-        {
-            return BadRequest(command.Error);
-        }
-
-        var result = await _handler.Execute(command.Value, cancellationToken);
-        if (!result.IsSuccess)
-        {
-            return BadRequest(result.Error);
-        }
-
-        return Ok(result.Value);
+        var result = await _handler.Execute(command, cancellationToken);
+        return Ok(result);
     }
 }
 

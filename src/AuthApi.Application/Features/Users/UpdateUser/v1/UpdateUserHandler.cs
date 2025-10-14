@@ -1,7 +1,7 @@
 ﻿using AuthApi.Application.Persistence.UnitOfWork;
 using AuthApi.Application.Resource;
 using AuthApi.Application.Security.Bcrypt;
-using CSharpFunctionalExtensions;
+using AuthApi.Application.Exceptions;
 
 namespace AuthApi.Application.Features.Users.UpdateUser.v1;
 
@@ -12,54 +12,42 @@ public sealed class UpdateUserHandler(
     public readonly IPasswordHasher _passwordHasher = passwordHasher;
     public readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    public async Task<Result<UpdateUserResponse>> Execute(UpdateUserCommand command, CancellationToken cancellationToken)
+    public async Task<UpdateUserResponse> Execute(UpdateUserCommand command, CancellationToken cancellationToken)
     {
-        var validationResult = await ValidateUserExists(command.Id, cancellationToken);
-        if (validationResult.IsFailure)
-        {
-            return Result.Failure<UpdateUserResponse>(validationResult.Error);
-        }
+        await ValidateUserExists(command.Id, cancellationToken);
+        await ValidateEmailUniqueness(command.Email, command.Id, cancellationToken);
 
-        var emailValidationResult = await ValidateEmailUniqueness(command.Email, validationResult.Value, cancellationToken);
-        if (emailValidationResult.IsFailure)
-        {
-            return Result.Failure<UpdateUserResponse>(emailValidationResult.Error);
-        }
-
-        var user = emailValidationResult.Value;
+        var user = await _unitOfWork.Users.GetBy(command.Id, cancellationToken);
         
-        UpdateUserBasicInfo(user, command);
-        await UpdateUserPassword(user, command);
-        await SaveUserChanges(user, cancellationToken);
+        UpdateUserBasicInfo(user.Value, command);
+        await UpdateUserPassword(user.Value, command);
+        await SaveUserChanges(user.Value, cancellationToken);
         await UpdateUserRoles(command, cancellationToken);
 
         await _unitOfWork.CommitAsync(cancellationToken);
-        return Result.Success(new UpdateUserResponse(user.Id));
+        return new UpdateUserResponse(user.Value.Id);
     }
 
-    private async Task<Result<User>> ValidateUserExists(Guid userId, CancellationToken cancellationToken)
+    private async Task ValidateUserExists(Guid userId, CancellationToken cancellationToken)
     {
         var existingUser = await _unitOfWork.Users.GetBy(userId, cancellationToken);
         if (existingUser.HasNoValue)
         {
-            return Result.Failure<User>(AuthApi_Resource.USER_NOT_EXISTS);
+            throw new NotFoundException(AuthApi_Resource.USER_NOT_EXISTS);
         }
-
-        return Result.Success(existingUser.Value);
     }
 
-    private async Task<Result<User>> ValidateEmailUniqueness(string newEmail, User existingUser, CancellationToken cancellationToken)
+    private async Task ValidateEmailUniqueness(string newEmail, Guid userId, CancellationToken cancellationToken)
     {
-        if (existingUser.Email != newEmail)
+        var existingUser = await _unitOfWork.Users.GetBy(userId, cancellationToken);
+        if (existingUser.Value.Email != newEmail)
         {
             var emailExists = await _unitOfWork.Users.Exists(newEmail, cancellationToken);
             if (emailExists)
             {
-                return Result.Failure<User>(AuthApi_Resource.USER_EXISTS);
+                throw new ConflictException(AuthApi_Resource.USER_EXISTS);
             }
         }
-
-        return Result.Success(existingUser);
     }
 
     private void UpdateUserBasicInfo(User user, UpdateUserCommand command)
@@ -108,7 +96,7 @@ public sealed class UpdateUserHandler(
         var userRoles = new List<UserRole>();
         foreach (var role in roles)
         {
-            userRoles.Add(UserRole.Create(userId, role.Id).Value);
+            userRoles.Add(UserRole.Create(userId, role.Id));
         }
 
         return userRoles;

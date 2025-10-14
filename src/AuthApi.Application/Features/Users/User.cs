@@ -1,6 +1,6 @@
 ﻿using AuthApi.Application.Persistence.Context;
 using AuthApi.Application.Resource;
-using CSharpFunctionalExtensions;
+using AuthApi.Application.Exceptions;
 
 namespace AuthApi.Application.Features.Users;
 
@@ -25,7 +25,7 @@ public sealed class User : BaseEntity
     {
         if (string.IsNullOrEmpty(hash))
         {
-            throw new ArgumentException(AuthApi_Resource.USER_SAVE_ERROR);
+            throw new BusinessException(AuthApi_Resource.USER_SAVE_ERROR);
         }
 
         Hash = hash;
@@ -35,30 +35,30 @@ public sealed class User : BaseEntity
     {
         if (string.IsNullOrEmpty(name))
         {
-            throw new ArgumentException(AuthApi_Resource.NAME_REQUIRED);
+            throw new BusinessException(AuthApi_Resource.NAME_REQUIRED);
         }
 
         if (string.IsNullOrEmpty(email))
         {
-            throw new ArgumentException(AuthApi_Resource.EMAIL_REQUIRED);
+            throw new BusinessException(AuthApi_Resource.EMAIL_REQUIRED);
         }
 
         Name = name;
         Email = email;
     }
 
-    public static Result<User> Create(string name, string email)
+    public static User Create(string name, string email)
     {
         if (string.IsNullOrEmpty(name))
         {
-            return Result.Failure<User>(AuthApi_Resource.NAME_REQUIRED);
+            throw new BusinessException(AuthApi_Resource.NAME_REQUIRED);
         }
 
         if (string.IsNullOrEmpty(email))
         {
-            return Result.Failure<User>(AuthApi_Resource.EMAIL_REQUIRED);
+            throw new BusinessException(AuthApi_Resource.EMAIL_REQUIRED);
         }
 
-        return Result.Success(new User(Guid.NewGuid(), name, email));
+        return new User(Guid.NewGuid(), name, email);
     }
 }

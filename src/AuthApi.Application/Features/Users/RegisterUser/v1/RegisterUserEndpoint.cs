@@ -16,22 +16,12 @@ public class RegisterUserEndpoint : ControllerBase
         var roles = new List<RegisterRoleCommand>();
         foreach (var item in registerUser.Roles)
         {
-            roles.Add(RegisterRoleCommand.Create(item.Code).Value);
+            roles.Add(RegisterRoleCommand.Create(item.Code));
         }
 
         var command = RegisterUserCommand.Create(registerUser.Name, registerUser.Email, registerUser.Password, roles);
-        if (command.IsFailure)
-        {
-            return BadRequest(command.Error);
-        }
-
-        var result = await _handler.Execute(command.Value, cancellationToken);
-        if (!result.IsSuccess)
-        {
-            return BadRequest(result.Error);
-        }
-
-        return Ok(result.Value);
+        var result = await _handler.Execute(command, cancellationToken);
+        return Ok(result);
     }
 }
 

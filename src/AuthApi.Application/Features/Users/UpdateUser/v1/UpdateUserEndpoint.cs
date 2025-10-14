@@ -19,22 +19,12 @@ public class UpdateUserEndpoint : ControllerBase
         var roles = new List<UpdateRoleCommand>();
         foreach (var item in updateUser.Roles)
         {
-            roles.Add(UpdateRoleCommand.Create(item.Code).Value);
+            roles.Add(UpdateRoleCommand.Create(item.Code));
         }
 
         var command = UpdateUserCommand.Create(id, updateUser.Name, updateUser.Email, updateUser.Password, roles);
-        if (command.IsFailure)
-        {
-            return BadRequest(command.Error);
-        }
-
-        var result = await _handler.Execute(command.Value, cancellationToken);
-        if (!result.IsSuccess)
-        {
-            return BadRequest(result.Error);
-        }
-
-        return Ok(result.Value);
+        var result = await _handler.Execute(command, cancellationToken);
+        return Ok(result);
     }
 }
 

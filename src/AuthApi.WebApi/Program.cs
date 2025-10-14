@@ -1,5 +1,7 @@
 using AuthApi.Application.Security.JWT;
 using AuthApi.WebApi.IoC;
+using AuthApi.WebApi.Extensions;
+using AuthApi.WebApi.Filters;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,15 +20,20 @@ builder.Services.AddBCryptConfigurations();
 builder.Services.AddDbContext(builder.Configuration);
 builder.Services.AddSwaggerConfigurations();
 
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ValidationActionFilter>();
+});
+
 builder.Logging.AddConsole();
 
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
+app.UseErrorHandling();
 app.MapHealthChecks("/health");
 
-// Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
 app.UseSwagger(c =>

@@ -1,5 +1,5 @@
 ﻿using AuthApi.Application.Resource;
-using CSharpFunctionalExtensions;
+using AuthApi.Application.Exceptions;
 
 namespace AuthApi.Application.Features.Users.UpdateUser.v1;
 
@@ -20,29 +20,29 @@ public class UpdateUserCommand
         Roles = roles;
     }
 
-    public static Result<UpdateUserCommand> Create(Guid id, string name, string email, string? password, IEnumerable<UpdateRoleCommand> roles)
+    public static UpdateUserCommand Create(Guid id, string name, string email, string? password, IEnumerable<UpdateRoleCommand> roles)
     {
         if (id == Guid.Empty)
         {
-            return Result.Failure<UpdateUserCommand>(AuthApi_Resource.USER_NOT_EXISTS);
+            throw new BusinessException(AuthApi_Resource.USER_NOT_EXISTS);
         }
 
         if (string.IsNullOrEmpty(name))
         {
-            return Result.Failure<UpdateUserCommand>(AuthApi_Resource.NAME_REQUIRED);
+            throw new BusinessException(AuthApi_Resource.NAME_REQUIRED);
         }
 
         if (string.IsNullOrEmpty(email))
         {
-            return Result.Failure<UpdateUserCommand>(AuthApi_Resource.EMAIL_REQUIRED);
+            throw new BusinessException(AuthApi_Resource.EMAIL_REQUIRED);
         }
 
         if (roles == null || !roles.Any())
         {
-            return Result.Failure<UpdateUserCommand>(AuthApi_Resource.ROLE_REQUIRED);
+            throw new BusinessException(AuthApi_Resource.ROLE_REQUIRED);
         }
 
-        return Result.Success(new UpdateUserCommand(id, name, email, password, roles));
+        return new UpdateUserCommand(id, name, email, password, roles);
     }
 }
 
@@ -55,13 +55,13 @@ public class UpdateRoleCommand
         Code = code;
     }
 
-    public static Result<UpdateRoleCommand> Create(string code)
+    public static UpdateRoleCommand Create(string code)
     {
         if (string.IsNullOrEmpty(code))
         {
-            return Result.Failure<UpdateRoleCommand>(AuthApi_Resource.ROLE_NAME_REQUIRED);
+            throw new BusinessException(AuthApi_Resource.ROLE_NAME_REQUIRED);
         }
 
-        return Result.Success(new UpdateRoleCommand(code));
+        return new UpdateRoleCommand(code);
     }
 }

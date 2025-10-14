@@ -16,17 +16,7 @@ public class DeleteUserEndpoint : ControllerBase
         CancellationToken cancellationToken)
     {
         var command = DeleteUserCommand.Create(id);
-        if (command.IsFailure)
-        {
-            return BadRequest(command.Error);
-        }
-
-        var result = await _handler.Execute(command.Value, cancellationToken);
-        if (!result.IsSuccess)
-        {
-            return BadRequest(result.Error);
-        }
-
+        await _handler.Execute(command, cancellationToken);
         return Ok();
     }
 }

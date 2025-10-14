@@ -146,5 +146,49 @@ namespace AuthApi.Application.Resource {
                 return ResourceManager.GetString("USER_NOT_EXISTS", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Code is required..
+        /// </summary>
+        public static string CODE_REQUIRED 
+        {
+            get
+            {
+                return ResourceManager.GetString("CODE_REQUIRED", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to User ID cannot be an empty GUID...
+        /// </summary>
+        public static string USER_ID_CANNOT_BE_EMPTY_GUID 
+        {
+            get
+            {
+                return ResourceManager.GetString("USER_ID_CANNOT_BE_EMPTY_GUID", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Role ID cannot be an empty GUID...
+        /// </summary>
+        public static string ROLE_ID_CANNOT_BE_EMPTY_GUID 
+        {
+            get
+            {
+                return ResourceManager.GetString("ROLE_ID_CANNOT_BE_EMPTY_GUID", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to JwtPrivateKey configuration is missing or null...
+        /// </summary>
+        public static string JWT_PRIVATE_KEY_MISSING 
+        {
+            get
+            {
+                return ResourceManager.GetString("JWT_PRIVATE_KEY_MISSING", resourceCulture);
+            }
+        }
     }
 }

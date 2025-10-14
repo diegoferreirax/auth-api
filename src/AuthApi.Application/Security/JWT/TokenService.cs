@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AuthApi.Application.Resource;
 
 namespace AuthApi.Application.Security.JWT;
 
@@ -15,7 +16,7 @@ public class TokenService(IConfiguration config)
         var jwtPrivateKey = _config["JwtPrivateKey"];
         if (string.IsNullOrEmpty(jwtPrivateKey))
         {
-            throw new InvalidOperationException("JwtPrivateKey configuration is missing or null.");
+            throw new InvalidOperationException(AuthApi_Resource.JWT_PRIVATE_KEY_MISSING);
         }
 
         var key = Encoding.ASCII.GetBytes(jwtPrivateKey);

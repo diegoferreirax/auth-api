@@ -17,11 +17,6 @@ public class ListUsersEndpoint : ControllerBase
         CancellationToken cancellationToken)
     {
         var result = await _handler.Execute(paginationParameters, cancellationToken);
-        if (!result.IsSuccess)
-        {
-            return BadRequest(result.Error);
-        }
-
-        return Ok(result.Value);
+        return Ok(result);
     }
 }

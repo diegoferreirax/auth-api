@@ -1,5 +1,5 @@
 ﻿using AuthApi.Application.Resource;
-using CSharpFunctionalExtensions;
+using AuthApi.Application.Exceptions;
 
 namespace AuthApi.Application.Features.Users.RegisterUser.v1;
 
@@ -18,29 +18,29 @@ public class RegisterUserCommand
         Roles = roles;
     }
 
-    public static Result<RegisterUserCommand> Create(string name, string email, string password, IEnumerable<RegisterRoleCommand> roles)
+    public static RegisterUserCommand Create(string name, string email, string password, IEnumerable<RegisterRoleCommand> roles)
     {
         if (string.IsNullOrEmpty(name))
         {
-            return Result.Failure<RegisterUserCommand>(AuthApi_Resource.NAME_REQUIRED);
+            throw new BusinessException(AuthApi_Resource.NAME_REQUIRED);
         }
 
         if (string.IsNullOrEmpty(email))
         {
-            return Result.Failure<RegisterUserCommand>(AuthApi_Resource.EMAIL_REQUIRED);
+            throw new BusinessException(AuthApi_Resource.EMAIL_REQUIRED);
         }
 
         if (string.IsNullOrEmpty(password))
         {
-            return Result.Failure<RegisterUserCommand>(AuthApi_Resource.PASSWORD_REQUIRED);
+            throw new BusinessException(AuthApi_Resource.PASSWORD_REQUIRED);
         }
 
         if (!roles.Any())
         {
-            return Result.Failure<RegisterUserCommand>(AuthApi_Resource.ROLE_REQUIRED);
+            throw new BusinessException(AuthApi_Resource.ROLE_REQUIRED);
         }
 
-        return Result.Success(new RegisterUserCommand(name, email, password, roles));
+        return new RegisterUserCommand(name, email, password, roles);
     }
 }
 
@@ -53,13 +53,13 @@ public class RegisterRoleCommand
         Code = code;
     }
 
-    public static Result<RegisterRoleCommand> Create(string code)
+    public static RegisterRoleCommand Create(string code)
     {
         if (string.IsNullOrEmpty(code))
         {
-            return Result.Failure<RegisterRoleCommand>(AuthApi_Resource.ROLE_NAME_REQUIRED);
+            throw new BusinessException(AuthApi_Resource.ROLE_NAME_REQUIRED);
         }
 
-        return Result.Success(new RegisterRoleCommand(code));
+        return new RegisterRoleCommand(code);
     }
 }
