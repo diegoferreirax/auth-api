@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthApi.Infraestructure.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20250713214941_InitialCreate")]
+    [Migration("20251014005605_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -54,24 +54,24 @@ namespace AuthApi.Infraestructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6b4441ca-a23a-4ec4-b3bd-a1ca1507d9de",
+                            Id = "70fc65db-de17-4cab-a175-159ab2196f59",
                             Code = "A",
                             Name = "ADMIN",
-                            UpdatedDate = new DateTime(2025, 7, 13, 18, 49, 40, 298, DateTimeKind.Local).AddTicks(2366)
+                            UpdatedDate = new DateTime(2025, 10, 13, 21, 56, 2, 811, DateTimeKind.Local).AddTicks(5356)
                         },
                         new
                         {
-                            Id = "2e355313-89d3-4274-a25b-e1ffe372dfbb",
+                            Id = "070e6e2c-2341-4db0-bf29-0e10308ec5a6",
                             Code = "U",
                             Name = "USER",
-                            UpdatedDate = new DateTime(2025, 7, 13, 18, 49, 40, 298, DateTimeKind.Local).AddTicks(2409)
+                            UpdatedDate = new DateTime(2025, 10, 13, 21, 56, 2, 811, DateTimeKind.Local).AddTicks(5398)
                         },
                         new
                         {
-                            Id = "4535ace9-c485-4c16-b086-3f7b3f48a08b",
+                            Id = "9300941a-a3eb-46c6-8a30-81c321c14ade",
                             Code = "M",
                             Name = "MANAGER",
-                            UpdatedDate = new DateTime(2025, 7, 13, 18, 49, 40, 298, DateTimeKind.Local).AddTicks(2411)
+                            UpdatedDate = new DateTime(2025, 10, 13, 21, 56, 2, 811, DateTimeKind.Local).AddTicks(5400)
                         });
                 });
 

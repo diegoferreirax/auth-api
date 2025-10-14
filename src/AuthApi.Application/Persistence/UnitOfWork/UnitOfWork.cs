@@ -1,4 +1,4 @@
-﻿using AuthApi.Application.Persistence.Data;
+﻿using AuthApi.Application.Persistence.Context;
 using AuthApi.Application.Persistence.Repositories;
 
 namespace AuthApi.Application.Persistence.UnitOfWork;

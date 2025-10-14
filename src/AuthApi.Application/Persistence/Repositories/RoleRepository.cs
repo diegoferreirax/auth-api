@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
-using AuthApi.Application.Persistence.Data;
+using AuthApi.Application.Persistence.Context;
 using AuthApi.Application.Features.Users;
 
 namespace AuthApi.Application.Persistence.Repositories;
