@@ -9,8 +9,8 @@ public class UserMapping : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.ToTable("USER");
-
         builder.HasKey(u => u.Id);
+
         builder.HasIndex(u => u.Email).IsUnique();
 
         builder.Property(u => u.Id).HasColumnType("VARCHAR(36)").IsRequired();

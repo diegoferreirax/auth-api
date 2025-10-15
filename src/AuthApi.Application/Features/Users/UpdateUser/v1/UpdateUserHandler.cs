@@ -68,7 +68,7 @@ public sealed class UpdateUserHandler(
 
     private async Task SaveUserChanges(User user, CancellationToken cancellationToken)
     {
-        _unitOfWork.Users.Update(user, cancellationToken);
+        _unitOfWork.Users.Update(user);
         await Task.CompletedTask;
     }
 

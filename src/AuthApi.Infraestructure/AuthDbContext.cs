@@ -1,5 +1,6 @@
 ﻿using AuthApi.Infraestructure.Conventions;
 using AuthApi.Infraestructure.Domain;
+using AuthApi.Infraestructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -16,12 +17,7 @@ public class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbContext(
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthDbContext).Assembly);
-
-        modelBuilder.Entity<Role>().HasData(
-            new Role { Id = Guid.NewGuid(), Name = "ADMIN", Code = "A" },
-            new Role { Id = Guid.NewGuid(), Name = "USER", Code = "U" },
-            new Role { Id = Guid.NewGuid(), Name = "MANAGER", Code = "M" }
-        );
+        modelBuilder.SeedData();
 
         base.OnModelCreating(modelBuilder);
     }

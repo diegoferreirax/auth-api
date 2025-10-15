@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthApi.Infraestructure.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20251014005605_InitialCreate")]
+    [Migration("20251015212533_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -54,24 +54,24 @@ namespace AuthApi.Infraestructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "70fc65db-de17-4cab-a175-159ab2196f59",
+                            Id = "11111111-1111-1111-1111-111111111111",
                             Code = "A",
                             Name = "ADMIN",
-                            UpdatedDate = new DateTime(2025, 10, 13, 21, 56, 2, 811, DateTimeKind.Local).AddTicks(5356)
+                            UpdatedDate = new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(4945)
                         },
                         new
                         {
-                            Id = "070e6e2c-2341-4db0-bf29-0e10308ec5a6",
+                            Id = "22222222-2222-2222-2222-222222222222",
                             Code = "U",
                             Name = "USER",
-                            UpdatedDate = new DateTime(2025, 10, 13, 21, 56, 2, 811, DateTimeKind.Local).AddTicks(5398)
+                            UpdatedDate = new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(4947)
                         },
                         new
                         {
-                            Id = "9300941a-a3eb-46c6-8a30-81c321c14ade",
+                            Id = "33333333-3333-3333-3333-333333333333",
                             Code = "M",
                             Name = "MANAGER",
-                            UpdatedDate = new DateTime(2025, 10, 13, 21, 56, 2, 811, DateTimeKind.Local).AddTicks(5400)
+                            UpdatedDate = new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(4948)
                         });
                 });
 
@@ -109,6 +109,32 @@ namespace AuthApi.Infraestructure.Migrations
                         .HasDatabaseName("IX_USER_EMAIL");
 
                     b.ToTable("USER", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "44444444-4444-4444-4444-444444444444",
+                            Email = "admin@authapi.com",
+                            Hash = "BCrypt.Net.BCrypt.HashPassword(admin123)",
+                            Name = "Administrador",
+                            UpdatedDate = new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(5067)
+                        },
+                        new
+                        {
+                            Id = "55555555-5555-5555-5555-555555555555",
+                            Email = "user@authapi.com",
+                            Hash = "BCrypt.Net.BCrypt.HashPassword(admin123)",
+                            Name = "Usuário Padrão",
+                            UpdatedDate = new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(5069)
+                        },
+                        new
+                        {
+                            Id = "66666666-6666-6666-6666-666666666666",
+                            Email = "manager@authapi.com",
+                            Hash = "BCrypt.Net.BCrypt.HashPassword(admin123)",
+                            Name = "Gerente",
+                            UpdatedDate = new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(5071)
+                        });
                 });
 
             modelBuilder.Entity("AuthApi.Infraestructure.Domain.UserRole", b =>
@@ -131,6 +157,9 @@ namespace AuthApi.Infraestructure.Migrations
                     b.HasKey("Id")
                         .HasName("PK_USER_ROLE");
 
+                    b.HasAlternateKey("IdUser", "IdRole")
+                        .HasName("AK_USER_ROLE_ID_USER_ID_ROLE");
+
                     b.HasIndex("IdRole")
                         .HasDatabaseName("IX_USER_ROLE_ID_ROLE");
 
@@ -138,10 +167,43 @@ namespace AuthApi.Infraestructure.Migrations
                         .HasDatabaseName("IX_USER_ROLE_ID_USER");
 
                     b.ToTable("USER_ROLE", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("77777777-7777-7777-7777-777777777777"),
+                            IdRole = "11111111-1111-1111-1111-111111111111",
+                            IdUser = "44444444-4444-4444-4444-444444444444"
+                        },
+                        new
+                        {
+                            Id = new Guid("88888888-8888-8888-8888-888888888888"),
+                            IdRole = "22222222-2222-2222-2222-222222222222",
+                            IdUser = "55555555-5555-5555-5555-555555555555"
+                        },
+                        new
+                        {
+                            Id = new Guid("99999999-9999-9999-9999-999999999999"),
+                            IdRole = "33333333-3333-3333-3333-333333333333",
+                            IdUser = "66666666-6666-6666-6666-666666666666"
+                        },
+                        new
+                        {
+                            Id = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
+                            IdRole = "22222222-2222-2222-2222-222222222222",
+                            IdUser = "66666666-6666-6666-6666-666666666666"
+                        });
                 });
 
             modelBuilder.Entity("AuthApi.Infraestructure.Domain.UserRole", b =>
                 {
+                    b.HasOne("AuthApi.Infraestructure.Domain.Role", null)
+                        .WithMany()
+                        .HasForeignKey("IdRole")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_USER_ROLE_ROLE_ID_ROLE");
+
                     b.HasOne("AuthApi.Infraestructure.Domain.User", null)
                         .WithMany("UserRoles")
                         .HasForeignKey("IdUser")

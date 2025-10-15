@@ -11,10 +11,18 @@ public class UserRoleMapping : IEntityTypeConfiguration<UserRole>
         builder.ToTable("USER_ROLE");
         builder.HasKey(u => u.Id);
 
+        builder.HasAlternateKey(ur => new { ur.IdUser, ur.IdRole });
+
         builder.Property(u => u.IdUser).HasColumnType("VARCHAR(36)").IsRequired();
         builder.Property(u => u.IdRole).HasColumnType("VARCHAR(36)").IsRequired();
 
         builder.HasIndex(ur => ur.IdUser);
         builder.HasIndex(ur => ur.IdRole);
+
+        builder.HasOne<Role>()
+            .WithMany()
+            .HasForeignKey(ur => ur.IdRole)
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired();
     }
 }

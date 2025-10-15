@@ -9,9 +9,11 @@ public class RoleMapping : IEntityTypeConfiguration<Role>
     public void Configure(EntityTypeBuilder<Role> builder)
     {
         builder.ToTable("ROLE");
-        builder.Property(u => u.Id).IsRequired();
-        builder.Property(u => u.Name).IsRequired();
-        builder.Property(u => u.Code).IsRequired();
-        builder.Property(u => u.UpdatedDate).IsRequired();
+        builder.HasKey(u => u.Id);
+
+        builder.Property(u => u.Id).HasColumnType("VARCHAR(36)").IsRequired();
+        builder.Property(u => u.Name).HasColumnType("VARCHAR(150)").IsRequired();
+        builder.Property(u => u.Code).HasColumnType("CHAR(1)").IsRequired();
+        builder.Property(u => u.UpdatedDate).HasColumnType("DATETIME").IsRequired();
     }
 }
