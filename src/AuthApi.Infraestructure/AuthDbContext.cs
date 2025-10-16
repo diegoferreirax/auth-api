@@ -8,8 +8,10 @@ using Microsoft.Extensions.Logging;
 
 namespace AuthApi.Infraestructure;
 
-public class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbContext(options)
+public class AuthDbContext(DbContextOptions<AuthDbContext> options, bool includeSeedData = true) : DbContext(options)
 {
+    private readonly bool _includeSeedData = includeSeedData;
+    
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<UserRole> UserRole { get; set; }
@@ -17,7 +19,7 @@ public class AuthDbContext(DbContextOptions<AuthDbContext> options) : DbContext(
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthDbContext).Assembly);
-        modelBuilder.SeedData();
+        modelBuilder.SeedData(_includeSeedData);
 
         base.OnModelCreating(modelBuilder);
     }
@@ -55,6 +57,7 @@ public class DbContextFactory : IDesignTimeDbContextFactory<AuthDbContext>
                 .EnableDetailedErrors()
                 .UseUpperSnakeCaseNamingConvention();
 
-        return new AuthDbContext(builder.Options);
+        var includeSeedData = args.Contains("Dev");
+        return new AuthDbContext(builder.Options, includeSeedData);
     }
 }

@@ -24,7 +24,7 @@ namespace AuthApi.Infraestructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NAME = table.Column<string>(type: "VARCHAR(150)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CODE = table.Column<string>(type: "CHAR(1)", nullable: false)
+                    CODE = table.Column<string>(type: "VARCHAR(10)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UPDATED_DATE = table.Column<DateTime>(type: "DATETIME", nullable: false)
                 },
@@ -88,9 +88,9 @@ namespace AuthApi.Infraestructure.Migrations
                 columns: new[] { "ID", "CODE", "NAME", "UPDATED_DATE" },
                 values: new object[,]
                 {
-                    { "11111111-1111-1111-1111-111111111111", "A", "ADMIN", new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(4945) },
-                    { "22222222-2222-2222-2222-222222222222", "U", "USER", new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(4947) },
-                    { "33333333-3333-3333-3333-333333333333", "M", "MANAGER", new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(4948) }
+                    { "11111111-1111-1111-1111-111111111111", "ADMIN", "ADMIN", new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6133) },
+                    { "22222222-2222-2222-2222-222222222222", "USER", "USER", new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6135) },
+                    { "33333333-3333-3333-3333-333333333333", "MASTER", "MASTER", new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6131) }
                 });
 
             migrationBuilder.InsertData(
@@ -98,9 +98,9 @@ namespace AuthApi.Infraestructure.Migrations
                 columns: new[] { "ID", "EMAIL", "HASH", "NAME", "UPDATED_DATE" },
                 values: new object[,]
                 {
-                    { "44444444-4444-4444-4444-444444444444", "admin@authapi.com", "BCrypt.Net.BCrypt.HashPassword(admin123)", "Administrador", new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(5067) },
-                    { "55555555-5555-5555-5555-555555555555", "user@authapi.com", "BCrypt.Net.BCrypt.HashPassword(admin123)", "Usuário Padrão", new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(5069) },
-                    { "66666666-6666-6666-6666-666666666666", "manager@authapi.com", "BCrypt.Net.BCrypt.HashPassword(admin123)", "Gerente", new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(5071) }
+                    { "44444444-4444-4444-4444-444444444444", "admin@authapi.com", "BCrypt.Net.BCrypt.HashPassword(admin123)", "Administrador", new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6259) },
+                    { "55555555-5555-5555-5555-555555555555", "user@authapi.com", "BCrypt.Net.BCrypt.HashPassword(admin123)", "Usuário Padrão", new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6261) },
+                    { "66666666-6666-6666-6666-666666666666", "master@authapi.com", "BCrypt.Net.BCrypt.HashPassword(admin123)", "Gerente", new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6263) }
                 });
 
             migrationBuilder.InsertData(

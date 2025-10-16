@@ -190,5 +190,16 @@ namespace AuthApi.Application.Resource {
                 return ResourceManager.GetString("JWT_PRIVATE_KEY_MISSING", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to One or more specified roles are invalid or not found.
+        /// </summary>
+        public static string INVALID_ROLES 
+        {
+            get
+            {
+                return ResourceManager.GetString("INVALID_ROLES", resourceCulture);
+            }
+        }
     }
 }

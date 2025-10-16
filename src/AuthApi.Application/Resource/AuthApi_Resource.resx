@@ -156,4 +156,7 @@
   <data name="JWT_PRIVATE_KEY_MISSING" xml:space="preserve">
     <value>JwtPrivateKey configuration is missing or null.</value>
   </data>
+  <data name="INVALID_ROLES" xml:space="preserve">
+    <value>One or more specified roles are invalid or not found.</value>
+  </data>
 </root>

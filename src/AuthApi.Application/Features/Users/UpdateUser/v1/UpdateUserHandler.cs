@@ -86,8 +86,15 @@ public sealed class UpdateUserHandler(
     private async Task AddNewUserRoles(UpdateUserCommand command, CancellationToken cancellationToken)
     {
         var roles = await _unitOfWork.Roles.GetBy(command.Roles.Select(s => s.Code), cancellationToken);
-        var userRoles = CreateUserRoles(command.Id, roles);
+        if (!roles.Any() || roles.Count() < command.Roles.Count())
+        {
+            throw new ValidationException(AuthApi_Resource.INVALID_ROLES, new Dictionary<string, string[]>
+            {
+                { "Roles", new[] { AuthApi_Resource.INVALID_ROLES } }
+            });
+        }
 
+        var userRoles = CreateUserRoles(command.Id, roles);
         await _unitOfWork.UserRoles.Insert(userRoles, cancellationToken);
     }
 

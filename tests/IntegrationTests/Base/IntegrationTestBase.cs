@@ -31,7 +31,7 @@ public abstract class IntegrationTestBase : IDisposable
     {
         await CreateRoleAsync("Administrator", "ADMIN");
         await CreateRoleAsync("User", "USER");
-        await CreateRoleAsync("Manager", "MANAGER");
+        await CreateRoleAsync("Manager", "MASTER");
     }
 
     protected async Task<User> CreateUserAsync(string name, string email, string password = "password123")

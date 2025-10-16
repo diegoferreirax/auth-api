@@ -28,6 +28,13 @@ public sealed class RegisterUserHandler(
         var userAdded = await _unitOfWork.Users.Insert(user, cancellationToken);
 
         var roles = await _unitOfWork.Roles.GetBy(command.Roles.Select(s => s.Code), cancellationToken);
+        if (!roles.Any() || roles.Count() < command.Roles.Count())
+        {
+            throw new ValidationException(AuthApi_Resource.INVALID_ROLES, new Dictionary<string, string[]>
+            {
+                { "Roles", new[] { AuthApi_Resource.INVALID_ROLES } }
+            });
+        }
 
         var userRoles = new List<UserRole>();
         foreach (var role in roles)

@@ -31,7 +31,7 @@ namespace AuthApi.Infraestructure.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("CHAR(1)")
+                        .HasColumnType("VARCHAR(10)")
                         .HasColumnName("CODE");
 
                     b.Property<string>("Name")
@@ -51,24 +51,24 @@ namespace AuthApi.Infraestructure.Migrations
                     b.HasData(
                         new
                         {
+                            Id = "33333333-3333-3333-3333-333333333333",
+                            Code = "MASTER",
+                            Name = "MASTER",
+                            UpdatedDate = new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6131)
+                        },
+                        new
+                        {
                             Id = "11111111-1111-1111-1111-111111111111",
-                            Code = "A",
+                            Code = "ADMIN",
                             Name = "ADMIN",
-                            UpdatedDate = new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(4945)
+                            UpdatedDate = new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6133)
                         },
                         new
                         {
                             Id = "22222222-2222-2222-2222-222222222222",
-                            Code = "U",
+                            Code = "USER",
                             Name = "USER",
-                            UpdatedDate = new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(4947)
-                        },
-                        new
-                        {
-                            Id = "33333333-3333-3333-3333-333333333333",
-                            Code = "M",
-                            Name = "MANAGER",
-                            UpdatedDate = new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(4948)
+                            UpdatedDate = new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6135)
                         });
                 });
 
@@ -114,7 +114,7 @@ namespace AuthApi.Infraestructure.Migrations
                             Email = "admin@authapi.com",
                             Hash = "BCrypt.Net.BCrypt.HashPassword(admin123)",
                             Name = "Administrador",
-                            UpdatedDate = new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(5067)
+                            UpdatedDate = new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6259)
                         },
                         new
                         {
@@ -122,15 +122,15 @@ namespace AuthApi.Infraestructure.Migrations
                             Email = "user@authapi.com",
                             Hash = "BCrypt.Net.BCrypt.HashPassword(admin123)",
                             Name = "Usuário Padrão",
-                            UpdatedDate = new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(5069)
+                            UpdatedDate = new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6261)
                         },
                         new
                         {
                             Id = "66666666-6666-6666-6666-666666666666",
-                            Email = "manager@authapi.com",
+                            Email = "master@authapi.com",
                             Hash = "BCrypt.Net.BCrypt.HashPassword(admin123)",
                             Name = "Gerente",
-                            UpdatedDate = new DateTime(2025, 10, 15, 21, 25, 33, 582, DateTimeKind.Utc).AddTicks(5071)
+                            UpdatedDate = new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6263)
                         });
                 });
 
