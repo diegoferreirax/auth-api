@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AuthApi.Application.Features.Users.RegisterUser.v1;
 
@@ -7,6 +8,7 @@ namespace AuthApi.Application.Features.Users.RegisterUser.v1;
 [ApiVersion("1.0")]
 public class RegisterUserEndpoint : ControllerBase
 {
+    [Authorize(Roles = "UM")]
     [HttpPost]
     public async Task<IActionResult> RegisterUser(
         [FromBody] RegisterUserRequest registerUser, 

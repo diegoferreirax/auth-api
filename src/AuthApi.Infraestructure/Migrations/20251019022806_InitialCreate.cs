@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace AuthApi.Infraestructure.Migrations
 {
     /// <inheritdoc />
@@ -86,33 +84,17 @@ namespace AuthApi.Infraestructure.Migrations
             migrationBuilder.InsertData(
                 table: "ROLE",
                 columns: new[] { "ID", "CODE", "NAME", "UPDATED_DATE" },
-                values: new object[,]
-                {
-                    { "11111111-1111-1111-1111-111111111111", "ADMIN", "ADMIN", new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6133) },
-                    { "22222222-2222-2222-2222-222222222222", "USER", "USER", new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6135) },
-                    { "33333333-3333-3333-3333-333333333333", "MASTER", "MASTER", new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6131) }
-                });
+                values: new object[] { "da650913-9937-4732-a1e6-86da6ca42d8d", "UM", "User Manager", new DateTime(2025, 10, 19, 2, 28, 6, 233, DateTimeKind.Utc).AddTicks(3848) });
 
             migrationBuilder.InsertData(
                 table: "USER",
                 columns: new[] { "ID", "EMAIL", "HASH", "NAME", "UPDATED_DATE" },
-                values: new object[,]
-                {
-                    { "44444444-4444-4444-4444-444444444444", "admin@authapi.com", "BCrypt.Net.BCrypt.HashPassword(admin123)", "Administrador", new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6259) },
-                    { "55555555-5555-5555-5555-555555555555", "user@authapi.com", "BCrypt.Net.BCrypt.HashPassword(admin123)", "Usuário Padrão", new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6261) },
-                    { "66666666-6666-6666-6666-666666666666", "master@authapi.com", "BCrypt.Net.BCrypt.HashPassword(admin123)", "Gerente", new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6263) }
-                });
+                values: new object[] { "e8ebb9f7-8c8e-49e8-952d-aaf56e88a055", "usermanager@gmail.com", "$2a$11$uNGxjs/ErX9ro.1SqQKVOeoANXftn18GFpshWP7XjP.fItQKWY7bm", "User Manager", new DateTime(2025, 10, 19, 2, 28, 6, 233, DateTimeKind.Utc).AddTicks(3971) });
 
             migrationBuilder.InsertData(
                 table: "USER_ROLE",
                 columns: new[] { "ID", "ID_ROLE", "ID_USER" },
-                values: new object[,]
-                {
-                    { new Guid("77777777-7777-7777-7777-777777777777"), "11111111-1111-1111-1111-111111111111", "44444444-4444-4444-4444-444444444444" },
-                    { new Guid("88888888-8888-8888-8888-888888888888"), "22222222-2222-2222-2222-222222222222", "55555555-5555-5555-5555-555555555555" },
-                    { new Guid("99999999-9999-9999-9999-999999999999"), "33333333-3333-3333-3333-333333333333", "66666666-6666-6666-6666-666666666666" },
-                    { new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), "22222222-2222-2222-2222-222222222222", "66666666-6666-6666-6666-666666666666" }
-                });
+                values: new object[] { new Guid("dc22d6be-ae9d-473c-9eda-0567e5952291"), "da650913-9937-4732-a1e6-86da6ca42d8d", "e8ebb9f7-8c8e-49e8-952d-aaf56e88a055" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_USER_EMAIL",

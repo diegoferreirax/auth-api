@@ -51,24 +51,10 @@ namespace AuthApi.Infraestructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "33333333-3333-3333-3333-333333333333",
-                            Code = "MASTER",
-                            Name = "MASTER",
-                            UpdatedDate = new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6131)
-                        },
-                        new
-                        {
-                            Id = "11111111-1111-1111-1111-111111111111",
-                            Code = "ADMIN",
-                            Name = "ADMIN",
-                            UpdatedDate = new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6133)
-                        },
-                        new
-                        {
-                            Id = "22222222-2222-2222-2222-222222222222",
-                            Code = "USER",
-                            Name = "USER",
-                            UpdatedDate = new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6135)
+                            Id = "da650913-9937-4732-a1e6-86da6ca42d8d",
+                            Code = "UM",
+                            Name = "User Manager",
+                            UpdatedDate = new DateTime(2025, 10, 19, 2, 28, 6, 233, DateTimeKind.Utc).AddTicks(3848)
                         });
                 });
 
@@ -110,27 +96,11 @@ namespace AuthApi.Infraestructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "44444444-4444-4444-4444-444444444444",
-                            Email = "admin@authapi.com",
-                            Hash = "BCrypt.Net.BCrypt.HashPassword(admin123)",
-                            Name = "Administrador",
-                            UpdatedDate = new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6259)
-                        },
-                        new
-                        {
-                            Id = "55555555-5555-5555-5555-555555555555",
-                            Email = "user@authapi.com",
-                            Hash = "BCrypt.Net.BCrypt.HashPassword(admin123)",
-                            Name = "Usuário Padrão",
-                            UpdatedDate = new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6261)
-                        },
-                        new
-                        {
-                            Id = "66666666-6666-6666-6666-666666666666",
-                            Email = "master@authapi.com",
-                            Hash = "BCrypt.Net.BCrypt.HashPassword(admin123)",
-                            Name = "Gerente",
-                            UpdatedDate = new DateTime(2025, 10, 16, 2, 15, 7, 195, DateTimeKind.Utc).AddTicks(6263)
+                            Id = "e8ebb9f7-8c8e-49e8-952d-aaf56e88a055",
+                            Email = "usermanager@gmail.com",
+                            Hash = "$2a$11$uNGxjs/ErX9ro.1SqQKVOeoANXftn18GFpshWP7XjP.fItQKWY7bm",
+                            Name = "User Manager",
+                            UpdatedDate = new DateTime(2025, 10, 19, 2, 28, 6, 233, DateTimeKind.Utc).AddTicks(3971)
                         });
                 });
 
@@ -168,27 +138,9 @@ namespace AuthApi.Infraestructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("77777777-7777-7777-7777-777777777777"),
-                            IdRole = "11111111-1111-1111-1111-111111111111",
-                            IdUser = "44444444-4444-4444-4444-444444444444"
-                        },
-                        new
-                        {
-                            Id = new Guid("88888888-8888-8888-8888-888888888888"),
-                            IdRole = "22222222-2222-2222-2222-222222222222",
-                            IdUser = "55555555-5555-5555-5555-555555555555"
-                        },
-                        new
-                        {
-                            Id = new Guid("99999999-9999-9999-9999-999999999999"),
-                            IdRole = "33333333-3333-3333-3333-333333333333",
-                            IdUser = "66666666-6666-6666-6666-666666666666"
-                        },
-                        new
-                        {
-                            Id = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            IdRole = "22222222-2222-2222-2222-222222222222",
-                            IdUser = "66666666-6666-6666-6666-666666666666"
+                            Id = new Guid("dc22d6be-ae9d-473c-9eda-0567e5952291"),
+                            IdRole = "da650913-9937-4732-a1e6-86da6ca42d8d",
+                            IdUser = "e8ebb9f7-8c8e-49e8-952d-aaf56e88a055"
                         });
                 });
 

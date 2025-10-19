@@ -22,6 +22,19 @@ DELETE FROM auth_db.USER;
 /*
 use auth_db;
 
+INSERT INTO `ROLE` (`ID`, `CODE`, `NAME`, `UPDATED_DATE`) 
+    VALUES ('98a851e8-e4b4-48f2-8a87-9d38577505b9', 'UM', 'User Manager', TIMESTAMP '2025-10-15 03:07:43');
+
+INSERT INTO `USER` (`ID`, `EMAIL`, `HASH`, `NAME`, `UPDATED_DATE`)
+    VALUES ('72a9d6c2-948c-4d8d-a3a7-0f7f6a71ceae', 'usermanager@gmail.com', '$2a$11$uNGxjs/ErX9ro.1SqQKVOeoANXftn18GFpshWP7XjP.fItQKWY7bm', 'User Manager', GETDATE());   
+    
+INSERT INTO `USER_ROLE` (`ID`, `ID_ROLE`, `ID_USER`)
+    VALUES ('c89f003a-024c-426f-a6c4-b7d5ac230982', '98a851e8-e4b4-48f2-8a87-9d38577505b9', '72a9d6c2-948c-4d8d-a3a7-0f7f6a71ceae'); 
+
+SELECT * FROM auth_db.USER;
+
+---------------------------------------------------
+
 INSERT INTO `ROLE` (`ID`, `CODE`, `NAME`, `UPDATED_DATE`)
     VALUES ('11111111-1111-1111-1111-111111111111', 'A', 'ADMIN', TIMESTAMP '2025-10-15 03:07:43'),
     ('22222222-2222-2222-2222-222222222222', 'U', 'USER', TIMESTAMP '2025-10-15 03:07:43'),

@@ -8,7 +8,7 @@ namespace AuthApi.Application.Features.Users.UpdateUser.v1;
 [ApiVersion("1.0")]
 public class UpdateUserEndpoint : ControllerBase
 {
-    [Authorize(Roles = "MASTER")]
+    [Authorize(Roles = "UM")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateUser(
         Guid id,
