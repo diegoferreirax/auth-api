@@ -1,6 +1,5 @@
 ﻿using AuthApi.Application.Models;
 using AuthApi.Application.Persistence.UnitOfWork;
-using CSharpFunctionalExtensions;
 
 namespace AuthApi.Application.Features.Users.Queries.ListUsers;
 
@@ -8,7 +7,7 @@ public sealed class ListUsersHandler(IUnitOfWork unitOfWork)
 {
     public readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    public async Task<Result<PaginatedList<ListUsersResponse>>> Execute(PaginationParametersRequest paginationParameters, CancellationToken cancellationToken = default)
+    public async Task<PaginatedList<ListUsersResponse>> Execute(PaginationParametersRequest paginationParameters, CancellationToken cancellationToken = default)
     {
         var (users, count) = await _unitOfWork.Users.GetUsers(paginationParameters.PageNumber, paginationParameters.PageSize, cancellationToken);
 
@@ -17,7 +16,7 @@ public sealed class ListUsersHandler(IUnitOfWork unitOfWork)
             user.Name,
             user.Email));
 
-        return Result.Success(new PaginatedList<ListUsersResponse>(userResponses, count, paginationParameters.PageNumber, paginationParameters.PageSize));
+        return new PaginatedList<ListUsersResponse>(userResponses, count, paginationParameters.PageNumber, paginationParameters.PageSize);
     }
 }
 

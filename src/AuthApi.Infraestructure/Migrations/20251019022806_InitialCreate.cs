@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace AuthApi.Infraestructure.Migrations
 {
     /// <inheritdoc />
@@ -24,7 +22,7 @@ namespace AuthApi.Infraestructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NAME = table.Column<string>(type: "VARCHAR(150)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    CODE = table.Column<string>(type: "CHAR(1)", nullable: false)
+                    CODE = table.Column<string>(type: "VARCHAR(10)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UPDATED_DATE = table.Column<DateTime>(type: "DATETIME", nullable: false)
                 },
@@ -67,6 +65,13 @@ namespace AuthApi.Infraestructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_USER_ROLE", x => x.ID);
+                    table.UniqueConstraint("AK_USER_ROLE_ID_USER_ID_ROLE", x => new { x.ID_USER, x.ID_ROLE });
+                    table.ForeignKey(
+                        name: "FK_USER_ROLE_ROLE_ID_ROLE",
+                        column: x => x.ID_ROLE,
+                        principalTable: "ROLE",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_USER_ROLE_USER_ID_USER",
                         column: x => x.ID_USER,
@@ -79,12 +84,17 @@ namespace AuthApi.Infraestructure.Migrations
             migrationBuilder.InsertData(
                 table: "ROLE",
                 columns: new[] { "ID", "CODE", "NAME", "UPDATED_DATE" },
-                values: new object[,]
-                {
-                    { "070e6e2c-2341-4db0-bf29-0e10308ec5a6", "U", "USER", new DateTime(2025, 10, 13, 21, 56, 2, 811, DateTimeKind.Local).AddTicks(5398) },
-                    { "70fc65db-de17-4cab-a175-159ab2196f59", "A", "ADMIN", new DateTime(2025, 10, 13, 21, 56, 2, 811, DateTimeKind.Local).AddTicks(5356) },
-                    { "9300941a-a3eb-46c6-8a30-81c321c14ade", "M", "MANAGER", new DateTime(2025, 10, 13, 21, 56, 2, 811, DateTimeKind.Local).AddTicks(5400) }
-                });
+                values: new object[] { "da650913-9937-4732-a1e6-86da6ca42d8d", "UM", "User Manager", new DateTime(2025, 10, 19, 2, 28, 6, 233, DateTimeKind.Utc).AddTicks(3848) });
+
+            migrationBuilder.InsertData(
+                table: "USER",
+                columns: new[] { "ID", "EMAIL", "HASH", "NAME", "UPDATED_DATE" },
+                values: new object[] { "e8ebb9f7-8c8e-49e8-952d-aaf56e88a055", "usermanager@gmail.com", "$2a$11$uNGxjs/ErX9ro.1SqQKVOeoANXftn18GFpshWP7XjP.fItQKWY7bm", "User Manager", new DateTime(2025, 10, 19, 2, 28, 6, 233, DateTimeKind.Utc).AddTicks(3971) });
+
+            migrationBuilder.InsertData(
+                table: "USER_ROLE",
+                columns: new[] { "ID", "ID_ROLE", "ID_USER" },
+                values: new object[] { new Guid("dc22d6be-ae9d-473c-9eda-0567e5952291"), "da650913-9937-4732-a1e6-86da6ca42d8d", "e8ebb9f7-8c8e-49e8-952d-aaf56e88a055" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_USER_EMAIL",
@@ -107,10 +117,10 @@ namespace AuthApi.Infraestructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ROLE");
+                name: "USER_ROLE");
 
             migrationBuilder.DropTable(
-                name: "USER_ROLE");
+                name: "ROLE");
 
             migrationBuilder.DropTable(
                 name: "USER");

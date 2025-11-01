@@ -9,7 +9,7 @@ namespace AuthApi.Application.Features.Users.Queries.ListUsers;
 [ApiVersion("1.0")]
 public class ListUsersEndpoint : ControllerBase
 {
-    [Authorize(Roles = "A")]
+    [Authorize(Roles = "UM")]
     [HttpGet]
     public async Task<IActionResult> ListUsers(
         [FromQuery] PaginationParametersRequest paginationParameters, 
@@ -17,11 +17,6 @@ public class ListUsersEndpoint : ControllerBase
         CancellationToken cancellationToken)
     {
         var result = await _handler.Execute(paginationParameters, cancellationToken);
-        if (!result.IsSuccess)
-        {
-            return BadRequest(result.Error);
-        }
-
-        return Ok(result.Value);
+        return Ok(result);
     }
 }

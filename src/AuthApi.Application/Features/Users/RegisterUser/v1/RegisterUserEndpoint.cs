@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AuthApi.Application.Features.Users.RegisterUser.v1;
 
@@ -7,6 +8,7 @@ namespace AuthApi.Application.Features.Users.RegisterUser.v1;
 [ApiVersion("1.0")]
 public class RegisterUserEndpoint : ControllerBase
 {
+    [Authorize(Roles = "UM")]
     [HttpPost]
     public async Task<IActionResult> RegisterUser(
         [FromBody] RegisterUserRequest registerUser, 
@@ -16,22 +18,12 @@ public class RegisterUserEndpoint : ControllerBase
         var roles = new List<RegisterRoleCommand>();
         foreach (var item in registerUser.Roles)
         {
-            roles.Add(RegisterRoleCommand.Create(item.Code).Value);
+            roles.Add(RegisterRoleCommand.Create(item.Code));
         }
 
         var command = RegisterUserCommand.Create(registerUser.Name, registerUser.Email, registerUser.Password, roles);
-        if (command.IsFailure)
-        {
-            return BadRequest(command.Error);
-        }
-
-        var result = await _handler.Execute(command.Value, cancellationToken);
-        if (!result.IsSuccess)
-        {
-            return BadRequest(result.Error);
-        }
-
-        return Ok(result.Value);
+        var result = await _handler.Execute(command, cancellationToken);
+        return Ok(result);
     }
 }
 

@@ -10,6 +10,8 @@ public class UserRoleMapping : IEntityTypeConfiguration<UserRole>
     {
         builder.ToTable("USER_ROLE");
 
+        builder.HasAlternateKey(ur => new { ur.IdUser, ur.IdRole });
+
         builder.Property(u => u.IdUser).IsRequired();
         builder.Property(u => u.IdRole).IsRequired();
     }

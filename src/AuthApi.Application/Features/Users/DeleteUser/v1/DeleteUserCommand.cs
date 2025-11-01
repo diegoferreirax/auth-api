@@ -1,6 +1,4 @@
-﻿using CSharpFunctionalExtensions;
-
-namespace AuthApi.Application.Features.Users.DeleteUser.v1;
+﻿namespace AuthApi.Application.Features.Users.DeleteUser.v1;
 
 public class DeleteUserCommand
 {
@@ -11,8 +9,8 @@ public class DeleteUserCommand
         Id = id;
     }
 
-    public static Result<DeleteUserCommand> Create(Guid id)
+    public static DeleteUserCommand Create(Guid id)
     {
-        return Result.Success(new DeleteUserCommand(id));
+        return new DeleteUserCommand(id);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using AuthApi.Application.Persistence.Context;
 using AuthApi.Application.Resource;
-using CSharpFunctionalExtensions;
+using AuthApi.Application.Exceptions;
 
 namespace AuthApi.Application.Features.Users;
 
@@ -18,18 +18,18 @@ public sealed class Role : BaseEntity
         Code = code;
     }
 
-    public static Result<Role> Create(string name, string code)
+    public static Role Create(string name, string code)
     {
         if (string.IsNullOrEmpty(name))
         {
-            return Result.Failure<Role>(AuthApi_Resource.ROLE_NAME_REQUIRED);
+            throw new BusinessException(AuthApi_Resource.ROLE_NAME_REQUIRED);
         }
         
         if (string.IsNullOrEmpty(code))
         {
-            return Result.Failure<Role>("Code is required");
+            throw new BusinessException(AuthApi_Resource.CODE_REQUIRED);
         }
 
-        return Result.Success(new Role(name, code));
+        return new Role(name, code);
     }
 }

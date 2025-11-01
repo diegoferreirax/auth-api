@@ -8,7 +8,7 @@ namespace AuthApi.Application.Features.Users.DeleteUser.v1;
 [ApiVersion("1.0")]
 public class DeleteUserEndpoint : ControllerBase
 {
-    [Authorize(Roles = "A")]
+    [Authorize(Roles = "UM")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(
         Guid id, 
@@ -16,17 +16,7 @@ public class DeleteUserEndpoint : ControllerBase
         CancellationToken cancellationToken)
     {
         var command = DeleteUserCommand.Create(id);
-        if (command.IsFailure)
-        {
-            return BadRequest(command.Error);
-        }
-
-        var result = await _handler.Execute(command.Value, cancellationToken);
-        if (!result.IsSuccess)
-        {
-            return BadRequest(result.Error);
-        }
-
+        await _handler.Execute(command, cancellationToken);
         return Ok();
     }
 }

@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using AuthApi.Application.Exceptions;
+using AuthApi.Application.Resource;
 
 namespace AuthApi.Application.Features.Users;
 
@@ -18,18 +19,18 @@ public sealed class UserRole
         IdRole = idRole;
     }
 
-    public static Result<UserRole> Create(Guid idUser, Guid idRole)
+    public static UserRole Create(Guid idUser, Guid idRole)
     {
         if (idUser == Guid.Empty)
         {
-            Result.Failure<UserRole>("User ID cannot be an empty GUID.");
+            throw new BusinessException(AuthApi_Resource.USER_ID_CANNOT_BE_EMPTY_GUID);
         }
 
         if (idRole == Guid.Empty)
         {
-            Result.Failure<UserRole>("Role ID cannot be an empty GUID.");
+            throw new BusinessException(AuthApi_Resource.ROLE_ID_CANNOT_BE_EMPTY_GUID);
         }
 
-        return Result.Success(new UserRole(idUser, idRole));
+        return new UserRole(idUser, idRole);
     }
 }

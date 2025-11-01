@@ -1,5 +1,5 @@
 ﻿using AuthApi.Application.Resource;
-using CSharpFunctionalExtensions;
+using AuthApi.Application.Exceptions;
 
 namespace AuthApi.Application.Features.Users.AuthenticateUser.v1;
 
@@ -14,18 +14,18 @@ public class AuthenticateUserCommand
         Password = password;
     }
 
-    public static Result<AuthenticateUserCommand> Create(string email, string password)
+    public static AuthenticateUserCommand Create(string email, string password)
     {
         if (string.IsNullOrEmpty(email))
         {
-            return Result.Failure<AuthenticateUserCommand>(AuthApi_Resource.NAME_REQUIRED);
+            throw new BusinessException(AuthApi_Resource.EMAIL_REQUIRED);
         }
 
         if (string.IsNullOrEmpty(password))
         {
-            return Result.Failure<AuthenticateUserCommand>(AuthApi_Resource.PASSWORD_REQUIRED);
+            throw new BusinessException(AuthApi_Resource.PASSWORD_REQUIRED);
         }
 
-        return Result.Success(new AuthenticateUserCommand(email, password));
+        return new AuthenticateUserCommand(email, password);
     }
 }

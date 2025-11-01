@@ -144,4 +144,19 @@
   <data name="USER_NOT_EXISTS" xml:space="preserve">
     <value>User not found</value>
   </data>
+  <data name="CODE_REQUIRED" xml:space="preserve">
+    <value>Code is required</value>
+  </data>
+  <data name="USER_ID_CANNOT_BE_EMPTY_GUID" xml:space="preserve">
+    <value>User ID cannot be an empty GUID.</value>
+  </data>
+  <data name="ROLE_ID_CANNOT_BE_EMPTY_GUID" xml:space="preserve">
+    <value>Role ID cannot be an empty GUID.</value>
+  </data>
+  <data name="JWT_PRIVATE_KEY_MISSING" xml:space="preserve">
+    <value>JwtPrivateKey configuration is missing or null.</value>
+  </data>
+  <data name="INVALID_ROLES" xml:space="preserve">
+    <value>One or more specified roles are invalid or not found.</value>
+  </data>
 </root>
