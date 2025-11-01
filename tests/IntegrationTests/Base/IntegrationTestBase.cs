@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using AuthApi.Application.Persistence.Context;
-using AuthApi.Application.Features.Users;
+using AuthApi.Domain.Entities;
 
 namespace Tests.IntegrationTests.Base;
 

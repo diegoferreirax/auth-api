@@ -1,5 +1,5 @@
 ﻿using AuthApi.Application.Persistence.Context;
-using AuthApi.Application.Features.Users;
+using AuthApi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthApi.Application.Persistence.Repositories;

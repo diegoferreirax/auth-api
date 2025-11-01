@@ -1,6 +1,6 @@
-using AuthApi.Application.Models;
 using System.Net;
 using System.Text.Json;
+using AuthApi.Application.Common.Responses;
 
 namespace AuthApi.WebApi.Middleware;
 

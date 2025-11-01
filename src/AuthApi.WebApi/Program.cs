@@ -1,8 +1,8 @@
-using AuthApi.Application.Security.JWT;
 using AuthApi.WebApi.IoC;
 using AuthApi.WebApi.Extensions;
 using AuthApi.WebApi.Filters;
 using Microsoft.Extensions.FileProviders;
+using AuthApi.Application.Common.Security.JWT;
 
 var builder = WebApplication.CreateBuilder(args);
 

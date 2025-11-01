@@ -30,7 +30,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="Resource\AuthApi_Resource.Designer.cs">
+	  <ProjectReference Include="..\AuthApi.Domain\AuthApi.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Common\Resource\AuthApi_Resource.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>AuthApi_Resource.resx</DependentUpon>
@@ -38,7 +42,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Update="Resource\AuthApi_Resource.resx">
+		<EmbeddedResource Update="Common\Resource\AuthApi_Resource.resx">
 			<Generator>PublicXFileCodeGenerator</Generator>
 			<LastGenOutput>AuthApi_Resource.Designer.cs</LastGenOutput>
 		</EmbeddedResource>

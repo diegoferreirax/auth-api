@@ -1,17 +1,17 @@
-﻿using AuthApi.Application.Features.Users.AuthenticateUser.v1;
-using AuthApi.Application.Features.Users.DeleteUser.v1;
-using AuthApi.Application.Features.Users.Queries.ListUsers;
-using AuthApi.Application.Features.Users.RegisterUser.v1;
+﻿using AuthApi.Application.Features.Users.Queries.ListUsers;
 using AuthApi.Application.Persistence.Context;
 using AuthApi.Application.Persistence.Repositories;
 using AuthApi.Application.Persistence.UnitOfWork;
-using AuthApi.Application.Security.Bcrypt;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 using Microsoft.OpenApi.Models;
-using AuthApi.Application.Features.Users.UpdateUser.v1;
+using AuthApi.Application.Common.Security.Bcrypt;
+using AuthApi.Application.Features.Users.Commands.AuthenticateUser.v1;
+using AuthApi.Application.Features.Users.Commands.RegisterUser.v1;
+using AuthApi.Application.Features.Users.Commands.UpdateUser.v1;
+using AuthApi.Application.Features.Users.Commands.DeleteUser.v1;
 
 namespace AuthApi.WebApi.IoC;
 
@@ -42,6 +42,7 @@ public static class Configurations
             config.AssumeDefaultVersionWhenUnspecified = true;
             config.ReportApiVersions = true;
         });
+        
         return services;
     }
 
@@ -128,6 +129,8 @@ public static class Configurations
                     Array.Empty<string>()
                 }
             });
+
+            c.TagActionsBy(api => new[] { "Users" });
         });
 
         return services;

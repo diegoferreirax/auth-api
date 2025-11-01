@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using AuthApi.Application.Persistence.Repositories;
-using AuthApi.Application.Features.Users;
 using Tests.IntegrationTests.Base;
 using Xunit;
+using AuthApi.Domain.Entities;
 
 namespace Tests.IntegrationTests.Repositories;
 
