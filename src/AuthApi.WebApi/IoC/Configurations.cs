@@ -72,7 +72,7 @@ public static class Configurations
 
     public static IServiceCollection AddDbContext(this IServiceCollection services, ConfigurationManager configuration)
     {
-        var connectionString = configuration.GetValue<string>("AuthDbConnectionString");
+        var connectionString = configuration.GetValue<string>("AuthDbConnectionString") ?? Environment.GetEnvironmentVariable("AuthDbConnectionString");
 
         services.AddDbContext<AuthDbContext>(options =>
             options.UseMySql(connectionString,

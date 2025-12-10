@@ -6,6 +6,11 @@ docker rm $(docker ps -a -q)
 docker rmi -f $(docker images -aq)     
 docker system prune -a     
 docker volume prune -a     
+
+docker compose -f docker-compose.yml up -d --force-recreate auth_api     
+docker stop auth_api     
+docker rm auth_api     
+docker rmi -f dotnet/aspnet:8.0     
 ```
 
 ```

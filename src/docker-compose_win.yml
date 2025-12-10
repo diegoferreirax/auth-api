@@ -10,7 +10,7 @@ services:
       - ASPNETCORE_HTTP_PORTS=8080
       - DOTNET_USER_SECRETS=/root/.microsoft/usersecrets
     volumes:
-      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
     ports:
       - "5300:8080"
     depends_on:

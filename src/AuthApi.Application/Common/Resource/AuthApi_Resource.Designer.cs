@@ -22,24 +22,24 @@ namespace AuthApi.Application.Common.Resource {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class AuthApi_Resource {
+    internal class AuthApi_Resource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public AuthApi_Resource() {
+        internal AuthApi_Resource() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AuthApi.Application.Resource.AuthApi_Resource", typeof(AuthApi_Resource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AuthApi.Application.Common.Resource.AuthApi_Resource", typeof(AuthApi_Resource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace AuthApi.Application.Common.Resource {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,18 +61,54 @@ namespace AuthApi.Application.Common.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Code is required.
+        /// </summary>
+        internal static string CODE_REQUIRED {
+            get {
+                return ResourceManager.GetString("CODE_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email is required..
         /// </summary>
-        public static string EMAIL_REQUIRED {
+        internal static string EMAIL_REQUIRED {
             get {
                 return ResourceManager.GetString("EMAIL_REQUIRED", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Username or password invalid..
+        /// </summary>
+        internal static string INVALID_DATA {
+            get {
+                return ResourceManager.GetString("INVALID_DATA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to One or more specified roles are invalid or not found..
+        /// </summary>
+        internal static string INVALID_ROLES {
+            get {
+                return ResourceManager.GetString("INVALID_ROLES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to JwtPrivateKey configuration is missing or null..
+        /// </summary>
+        internal static string JWT_PRIVATE_KEY_MISSING {
+            get {
+                return ResourceManager.GetString("JWT_PRIVATE_KEY_MISSING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name is required..
         /// </summary>
-        public static string NAME_REQUIRED {
+        internal static string NAME_REQUIRED {
             get {
                 return ResourceManager.GetString("NAME_REQUIRED", resourceCulture);
             }
@@ -81,124 +117,72 @@ namespace AuthApi.Application.Common.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Password is required..
         /// </summary>
-        public static string PASSWORD_REQUIRED {
+        internal static string PASSWORD_REQUIRED {
             get {
                 return ResourceManager.GetString("PASSWORD_REQUIRED", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Role ID cannot be an empty GUID..
+        /// </summary>
+        internal static string ROLE_ID_CANNOT_BE_EMPTY_GUID {
+            get {
+                return ResourceManager.GetString("ROLE_ID_CANNOT_BE_EMPTY_GUID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role name is required.
+        /// </summary>
+        internal static string ROLE_NAME_REQUIRED {
+            get {
+                return ResourceManager.GetString("ROLE_NAME_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Role is required..
         /// </summary>
-        public static string ROLE_REQUIRED {
+        internal static string ROLE_REQUIRED {
             get {
                 return ResourceManager.GetString("ROLE_REQUIRED", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Username or password invalid..
+        ///   Looks up a localized string similar to Invalid username. Please try again with another one..
         /// </summary>
-        public static string INVALID_DATA {
-            get {
-                return ResourceManager.GetString("INVALID_DATA", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid username. Please try again with another one...
-        /// </summary>
-        public static string USER_EXISTS {
+        internal static string USER_EXISTS {
             get {
                 return ResourceManager.GetString("USER_EXISTS", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Error to save user.
+        ///   Looks up a localized string similar to User ID cannot be an empty GUID..
         /// </summary>
-        public static string USER_SAVE_ERROR
-        {
+        internal static string USER_ID_CANNOT_BE_EMPTY_GUID {
             get {
-                return ResourceManager.GetString("USER_SAVE_ERROR", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Role name is required..
-        /// </summary>
-        public static string ROLE_NAME_REQUIRED
-        {
-            get
-            {
-                return ResourceManager.GetString("ROLE_NAME_REQUIRED", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to User not found..
-        /// </summary>
-        public static string USER_NOT_EXISTS 
-        {
-
-            get
-            {
-                return ResourceManager.GetString("USER_NOT_EXISTS", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Code is required..
-        /// </summary>
-        public static string CODE_REQUIRED 
-        {
-            get
-            {
-                return ResourceManager.GetString("CODE_REQUIRED", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to User ID cannot be an empty GUID...
-        /// </summary>
-        public static string USER_ID_CANNOT_BE_EMPTY_GUID 
-        {
-            get
-            {
                 return ResourceManager.GetString("USER_ID_CANNOT_BE_EMPTY_GUID", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Role ID cannot be an empty GUID...
+        ///   Looks up a localized string similar to User not found.
         /// </summary>
-        public static string ROLE_ID_CANNOT_BE_EMPTY_GUID 
-        {
-            get
-            {
-                return ResourceManager.GetString("ROLE_ID_CANNOT_BE_EMPTY_GUID", resourceCulture);
+        internal static string USER_NOT_EXISTS {
+            get {
+                return ResourceManager.GetString("USER_NOT_EXISTS", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to JwtPrivateKey configuration is missing or null...
+        ///   Looks up a localized string similar to Error to save user..
         /// </summary>
-        public static string JWT_PRIVATE_KEY_MISSING 
-        {
-            get
-            {
-                return ResourceManager.GetString("JWT_PRIVATE_KEY_MISSING", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to One or more specified roles are invalid or not found.
-        /// </summary>
-        public static string INVALID_ROLES 
-        {
-            get
-            {
-                return ResourceManager.GetString("INVALID_ROLES", resourceCulture);
+        internal static string USER_SAVE_ERROR {
+            get {
+                return ResourceManager.GetString("USER_SAVE_ERROR", resourceCulture);
             }
         }
     }
