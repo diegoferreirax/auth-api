@@ -226,15 +226,7 @@ O projeto inclui um plano de testes configurado no JMeter para testes de carga e
 
 Para instruções detalhadas sobre como configurar e executar os testes com JMeter, consulte o [README do JMeter](.doc/jmeter/README.md).
 
-
 ---
-
-## 📚 Recursos adicionais
-
-Para mais informações sobre o projeto, consulte:
-
-- [README.md](README.md) - Documentação completa do projeto
-- [.doc/ComandosUteis.md](.doc/ComandosUteis.md) - Comandos úteis para desenvolvimento
 
 ## 🚀 Features
 
