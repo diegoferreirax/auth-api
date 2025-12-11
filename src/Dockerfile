@@ -8,6 +8,8 @@ COPY ["AuthApi.WebApi/AuthApi.WebApi.csproj", "AuthApi.WebApi/"]
 RUN dotnet restore "./AuthApi.WebApi/AuthApi.WebApi.csproj"
 
 COPY . .
+RUN rm -rf ./AuthApi.WebApi/appsettings*
+
 WORKDIR "/src/AuthApi.WebApi"
 RUN dotnet build "./AuthApi.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 

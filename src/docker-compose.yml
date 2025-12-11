@@ -17,12 +17,12 @@ services:
       - auth_mysql
 
   auth_mysql:
-    image: mysql:8.0 
-    container_name: auth_mysql 
+    image: mysql:8.0
+    container_name: auth_mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root 
-      MYSQL_DATABASE: auth_db 
-      MYSQL_USER: auth_user 
-      MYSQL_PASSWORD: root123 
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: auth_db
+      MYSQL_USER: auth_user
+      MYSQL_PASSWORD: root123
     ports:
       - "3306:3306"

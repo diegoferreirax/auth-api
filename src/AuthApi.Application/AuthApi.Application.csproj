@@ -23,14 +23,18 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.13.1" />
-		<PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.13.1" />
-		<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.12.0" />
-		<PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.12.0" />
+		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.14.0" />
+		<PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.14.0" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.14.0" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.14.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="Resource\AuthApi_Resource.Designer.cs">
+	  <ProjectReference Include="..\AuthApi.Domain\AuthApi.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Common\Resource\AuthApi_Resource.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>AuthApi_Resource.resx</DependentUpon>
@@ -38,8 +42,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Update="Resource\AuthApi_Resource.resx">
-			<Generator>PublicXFileCodeGenerator</Generator>
+		<EmbeddedResource Update="Common\Resource\AuthApi_Resource.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>AuthApi_Resource.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>

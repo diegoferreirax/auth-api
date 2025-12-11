@@ -1,0 +1,28 @@
+services:
+  auth_api:
+    container_name: auth_api
+    image: dotnet/aspnet:8.0
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - DOTNET_USER_SECRETS=/root/.microsoft/usersecrets
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+    ports:
+      - "5300:8080"
+    depends_on:
+      - auth_mysql
+
+  auth_mysql:
+    image: mysql:8.0
+    container_name: auth_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: auth_db
+      MYSQL_USER: auth_user
+      MYSQL_PASSWORD: root123
+    ports:
+      - "3306:3306"

@@ -1,4 +1,4 @@
-﻿using AuthApi.Application.Models;
+﻿using AuthApi.Application.Common.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

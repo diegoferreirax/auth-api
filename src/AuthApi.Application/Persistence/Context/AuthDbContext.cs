@@ -1,4 +1,4 @@
-﻿using AuthApi.Application.Features.Users;
+﻿using AuthApi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthApi.Application.Persistence.Context;
