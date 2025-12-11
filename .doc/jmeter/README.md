@@ -49,6 +49,9 @@ O plano de testes executa automaticamente o seguinte fluxo para cada thread:
   - Extrai o ID do usuário criado
 - **Atualizar Usuário**: PUT `/api/v1/users/{id}`
   - Usa o token e o ID extraído
+- **Listar Usuários**: GET `/api/v1/users?PageNumber=1&PageSize=10`
+  - Usa o token no header Authorization
+  - Adiciona carga adicional à aplicação com queries de listagem
 - **Deletar Usuário**: DELETE `/api/v1/users/{id}` (opcional, pode estar desabilitado)
   - Usa o token e o ID extraído
 
@@ -89,19 +92,19 @@ Após a execução via linha de comando, abra o arquivo `reports/index.html` no 
 - **Usuários simultâneos**: 200 threads
 - **Ramp-up**: 50 segundos (~4 threads/segundo)
 - **Iterações**: 2 loops por thread
-- **Total de requisições**: ~1.600 requests (considerando o fluxo completo)
+- **Total de requisições**: ~2.000 requests (considerando o fluxo completo com 5 requests por iteração)
 
 ## 📊 Entendendo os resultados
 
 ### Durante o ramp-up (primeiros 50 segundos)
 - Taxa de início: ~4 threads/segundo
-- Cada thread executa 4 requests (Autenticar → Criar → Atualizar → Deletar)
-- Durante o ramp-up: ~**16 requests por segundo** (4 threads × 4 requests)
+- Cada thread executa 5 requests (Autenticar → Criar → Atualizar → Listar → Deletar)
+- Durante o ramp-up: ~**20 requests por segundo** (4 threads × 5 requests)
 
 ### Após o ramp-up
 - 200 threads ativas, cada uma executando 2 loops
-- Total de requests por thread: 2 loops × 4 requests = **8 requests por thread**
-- Total de requests: 200 threads × 8 requests = **1.600 requests**
+- Total de requests por thread: 2 loops × 5 requests = **10 requests por thread**
+- Total de requests: 200 threads × 10 requests = **2.000 requests**
 - A frequência real dependerá do tempo de resposta da API
 
 ## 🔧 Personalização
