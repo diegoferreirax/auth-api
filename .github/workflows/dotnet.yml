@@ -38,6 +38,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
@@ -52,8 +54,12 @@ jobs:
       id: version
       run: |
         VERSION=$(git rev-list --count HEAD)
+        IMAGE_NAME="${{ secrets.DOCKER_IMAGE_NAME }}"
+        FULL_TAG="${IMAGE_NAME}:${VERSION}"
         echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "tag=$FULL_TAG" >> $GITHUB_OUTPUT
         echo "Building version: $VERSION"
+        echo "Full tag: $FULL_TAG"
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
@@ -61,6 +67,6 @@ jobs:
         context: ./src
         file: ./src/Dockerfile
         push: true
-        tags: ${{ env.DOCKER_IMAGE_NAME }}:${{ steps.version.outputs.version }}
+        tags: ${{ steps.version.outputs.tag }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
