@@ -1,8 +1,37 @@
-# Getting Started - Auth API
+# Auth API
 
-Este guia irá ajudá-lo a configurar e executar o projeto Auth API localmente ou com Docker.
+Auth API é uma API REST de autenticação e gerenciamento de usuários desenvolvida em .NET 8, construída com arquitetura Vertical Slice e hospedada na Azure. Este guia irá ajudá-lo a configurar e executar o projeto localmente ou com Docker.
 
-## 📋 Pré-requisitos
+## ☁️ Arquitetura na Cloud
+
+A API Auth está hospedada na Azure App Service e segue um fluxo automatizado de CI/CD que garante atualizações contínuas sempre que houver mudanças no código.
+
+### 📊 Fluxo de Deploy
+
+O processo de deploy é totalmente automatizado e funciona da seguinte forma:
+
+1. **GitHub Actions** - Quando código novo é enviado para a branch main no repositório, o workflow `.github/workflows/dotnet.yml` é acionado automaticamente
+2. **Docker Hub** - O GitHub Actions faz o build da aplicação, cria uma imagem Docker e publica no Docker Hub com uma tag de versão incremental
+3. **Azure DevOps** - O Azure DevOps está configurado para monitorar (trigger) o Docker Hub e, quando detecta uma nova imagem, automaticamente atualiza o serviço com a nova versão
+3. **Azure App Service** - O Azure App Service é atualizado com a uma nova imagem automaticamente e atualiza a API com a nova versão
+
+Esse fluxo garante que sempre que houver um push no repositório, a API na cloud seja atualizada automaticamente, sem necessidade de intervenção manual.
+
+### 🌐 API na Azure
+
+A API está disponível publicamente e pode ser acessada através do seguinte link:
+
+**🔗 [https://auth-api-github.azurewebsites.net](https://auth-api-github-e2fchmhubhdsd4f9.brazilsouth-01.azurewebsites.net)**
+
+> 💡 **Nota:** A API pode estar temporariamente indisponível caso o banco de dados ou o App Services esteja desligado. Para rodar a API localmente com banco de dados configurado, veja a seção [Execução Local](#-formas-de-execução) abaixo.
+
+### 📐 Diagrama da Arquitetura
+
+![Arquitetura de Deploy](.doc/images/arquitecture.jpg)
+
+---
+
+## 📋 Pré-requisitos para rodar a API localmente
 
 Antes de começar, certifique-se de ter as seguintes ferramentas instaladas:
 
@@ -89,7 +118,6 @@ Para instruções detalhadas sobre como configurar e executar os testes com JMet
 
 ## 🔮 Features Futuras
 
-- Publicação com Azure DevOps e Azure App Services
 - Utilização do banco MySql na Oracle
 - Envio de código de confirmação de email
 
