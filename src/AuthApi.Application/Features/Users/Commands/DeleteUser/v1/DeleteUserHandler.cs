@@ -1,6 +1,6 @@
 ﻿using AuthApi.Application.Persistence.UnitOfWork;
 using AuthApi.Application.Common.Resource;
-using AuthApi.Application.Exceptions;
+using AuthApi.Domain.Exceptions;
 
 namespace AuthApi.Application.Features.Users.Commands.DeleteUser.v1;
 

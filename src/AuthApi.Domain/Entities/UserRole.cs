@@ -1,4 +1,4 @@
-﻿using AuthApi.Application.Exceptions;
+﻿using AuthApi.Domain.Exceptions;
 using AuthApi.Domain.Resource;
 
 namespace AuthApi.Domain.Entities;

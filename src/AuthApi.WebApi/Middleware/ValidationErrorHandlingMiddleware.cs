@@ -4,16 +4,10 @@ using AuthApi.Application.Common.Responses;
 
 namespace AuthApi.WebApi.Middleware;
 
-public class ValidationErrorHandlingMiddleware
+public class ValidationErrorHandlingMiddleware(RequestDelegate next, ILogger<ValidationErrorHandlingMiddleware> logger)
 {
-    private readonly RequestDelegate _next;
-    private readonly ILogger<ValidationErrorHandlingMiddleware> _logger;
-
-    public ValidationErrorHandlingMiddleware(RequestDelegate next, ILogger<ValidationErrorHandlingMiddleware> logger)
-    {
-        _next = next;
-        _logger = logger;
-    }
+    private readonly RequestDelegate _next = next;
+    private readonly ILogger<ValidationErrorHandlingMiddleware> _logger = logger;
 
     public async Task InvokeAsync(HttpContext context)
     {
@@ -22,11 +16,19 @@ public class ValidationErrorHandlingMiddleware
         if (context.Response.StatusCode == (int)HttpStatusCode.BadRequest && 
             context.Items.ContainsKey("ValidationErrors"))
         {
-            await HandleValidationErrorsAsync(context);
+            await HandleValidationErrorsAsync(context, GetOptions());
         }
     }
 
-    private static async Task HandleValidationErrorsAsync(HttpContext context)
+    private static JsonSerializerOptions GetOptions()
+    {
+        return new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+    }
+
+    private static async Task HandleValidationErrorsAsync(HttpContext context, JsonSerializerOptions options)
     {
         context.Response.ContentType = "application/json";
         
@@ -40,10 +42,7 @@ public class ValidationErrorHandlingMiddleware
                 Errors = validationErrors
             };
 
-            var jsonResponse = JsonSerializer.Serialize(errorResponse, new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+            var jsonResponse = JsonSerializer.Serialize(errorResponse, options);
 
             await context.Response.WriteAsync(jsonResponse);
         }

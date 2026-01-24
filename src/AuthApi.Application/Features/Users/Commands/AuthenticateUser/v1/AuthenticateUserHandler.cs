@@ -1,6 +1,6 @@
 ﻿using AuthApi.Application.Persistence.UnitOfWork;
 using AuthApi.Application.Common.Resource;
-using AuthApi.Application.Exceptions;
+using AuthApi.Domain.Exceptions;
 using AuthApi.Application.Common.Security.Bcrypt;
 using AuthApi.Application.Common.Security.JWT;
 

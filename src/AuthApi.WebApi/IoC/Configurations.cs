@@ -130,7 +130,7 @@ public static class Configurations
                 }
             });
 
-            c.TagActionsBy(api => new[] { "Users" });
+            c.TagActionsBy(api => ["Users"]);
         });
 
         return services;

@@ -1,4 +1,4 @@
-﻿using AuthApi.Application.Exceptions;
+﻿using AuthApi.Domain.Exceptions;
 using AuthApi.Application.Common.Resource;
 
 namespace AuthApi.Application.Features.Users.Commands.UpdateUser.v1;

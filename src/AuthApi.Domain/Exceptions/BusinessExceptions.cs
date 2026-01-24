@@ -1,4 +1,4 @@
-namespace AuthApi.Application.Exceptions;
+namespace AuthApi.Domain.Exceptions;
 
 public class BusinessException : Exception
 {
@@ -16,34 +16,19 @@ public class BusinessException : Exception
     }
 }
 
-public class ValidationException : BusinessException
+public class ValidationException(string message, Dictionary<string, string[]> errors) : BusinessException(message, 400)
 {
-    public Dictionary<string, string[]> Errors { get; }
-    
-    public ValidationException(string message, Dictionary<string, string[]> errors) 
-        : base(message, 400)
-    {
-        Errors = errors;
-    }
+    public Dictionary<string, string[]> Errors { get; } = errors;
 }
 
-public class NotFoundException : BusinessException
+public class NotFoundException(string message) : BusinessException(message, 404)
 {
-    public NotFoundException(string message) : base(message, 404)
-    {
-    }
 }
 
-public class UnauthorizedException : BusinessException
+public class UnauthorizedException(string message) : BusinessException(message, 401)
 {
-    public UnauthorizedException(string message) : base(message, 401)
-    {
-    }
 }
 
-public class ConflictException : BusinessException
+public class ConflictException(string message) : BusinessException(message, 409)
 {
-    public ConflictException(string message) : base(message, 409)
-    {
-    }
 }

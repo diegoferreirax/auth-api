@@ -36,10 +36,7 @@ public abstract class IntegrationTestBase : IDisposable
 
     protected async Task<User> CreateUserAsync(string name, string email, string password = "password123")
     {
-        var userResult = User.Create(name, email);
-        if (userResult is null)
-            throw new InvalidOperationException($"Failed to create user");
-
+        var userResult = User.Create(name, email) ?? throw new InvalidOperationException($"Failed to create user");
         var user = userResult;
         user.SetHash(password);
 
@@ -51,5 +48,6 @@ public abstract class IntegrationTestBase : IDisposable
     public void Dispose()
     {
         Context.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

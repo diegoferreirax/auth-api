@@ -24,7 +24,7 @@ public class UserRoleRepositoryIntegrationTests : IntegrationTestBase
         var userRole = UserRole.Create(user.Id, role.Id);
 
         // Act
-        await _userRoleRepository.Insert(new[] { userRole });
+        await _userRoleRepository.Insert([userRole]);
         await Context.SaveChangesAsync();
 
         // Assert
@@ -94,7 +94,7 @@ public class UserRoleRepositoryIntegrationTests : IntegrationTestBase
         var cancellationTokenSource = new CancellationTokenSource();
 
         // Act
-        await _userRoleRepository.Insert(new[] { userRole }, cancellationTokenSource.Token);
+        await _userRoleRepository.Insert([userRole], cancellationTokenSource.Token);
         await Context.SaveChangesAsync();
 
         // Assert

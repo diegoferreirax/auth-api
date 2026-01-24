@@ -12,7 +12,7 @@ public class UserRepositoryIntegrationTests : IntegrationTestBase
     {
         // Arrange
         var email = "test@example.com";
-        var user = await CreateUserAsync("Test", email, "pass");
+        await CreateUserAsync("Test", email, "pass");
         var repo = new UserRepository(Context);
 
         // Act
@@ -71,7 +71,7 @@ public class UserRepositoryIntegrationTests : IntegrationTestBase
     {
         // Arrange
         var email = "test@example.com";
-        var user = await CreateUserAsync("Test User", email);
+        await CreateUserAsync("Test User", email);
         var repo = new UserRepository(Context);
 
         // Act

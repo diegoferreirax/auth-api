@@ -1,6 +1,6 @@
 ﻿using AuthApi.Application.Persistence.UnitOfWork;
 using AuthApi.Application.Common.Resource;
-using AuthApi.Application.Exceptions;
+using AuthApi.Domain.Exceptions;
 using AuthApi.Application.Common.Security.Bcrypt;
 using AuthApi.Domain.Entities;
 
@@ -19,10 +19,10 @@ public sealed class UpdateUserHandler(
         await ValidateEmailUniqueness(command.Email, command.Id, cancellationToken);
 
         var user = await _unitOfWork.Users.GetBy(command.Id, cancellationToken);
-        
+
         UpdateUserBasicInfo(user.Value, command);
         await UpdateUserPassword(user.Value, command);
-        await SaveUserChanges(user.Value, cancellationToken);
+        await SaveUserChanges(user.Value);
         await UpdateUserRoles(command, cancellationToken);
 
         await _unitOfWork.CommitAsync(cancellationToken);
@@ -51,7 +51,7 @@ public sealed class UpdateUserHandler(
         }
     }
 
-    private void UpdateUserBasicInfo(User user, UpdateUserCommand command)
+    private static void UpdateUserBasicInfo(User user, UpdateUserCommand command)
     {
         user.UpdateBasicInfo(command.Name, command.Email);
     }
@@ -67,7 +67,7 @@ public sealed class UpdateUserHandler(
         await Task.CompletedTask;
     }
 
-    private async Task SaveUserChanges(User user, CancellationToken cancellationToken)
+    private async Task SaveUserChanges(User user)
     {
         _unitOfWork.Users.Update(user);
         await Task.CompletedTask;
@@ -99,7 +99,7 @@ public sealed class UpdateUserHandler(
         await _unitOfWork.UserRoles.Insert(userRoles, cancellationToken);
     }
 
-    private List<UserRole> CreateUserRoles(Guid userId, IEnumerable<Role> roles)
+    private static List<UserRole> CreateUserRoles(Guid userId, IEnumerable<Role> roles)
     {
         var userRoles = new List<UserRole>();
         foreach (var role in roles)

@@ -1,20 +1,14 @@
-using AuthApi.Application.Exceptions;
 using System.Net;
 using System.Text.Json;
 using AuthApi.Application.Common.Responses;
+using AuthApi.Domain.Exceptions;
 
 namespace AuthApi.WebApi.Middleware;
 
-public class ErrorHandlingMiddleware
+public class ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
 {
-    private readonly RequestDelegate _next;
-    private readonly ILogger<ErrorHandlingMiddleware> _logger;
-
-    public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
-    {
-        _next = next;
-        _logger = logger;
-    }
+    private readonly RequestDelegate _next = next;
+    private readonly ILogger<ErrorHandlingMiddleware> _logger = logger;
 
     public async Task InvokeAsync(HttpContext context)
     {
@@ -25,11 +19,19 @@ public class ErrorHandlingMiddleware
         catch (Exception ex)
         {
             _logger.LogError(ex, "An unhandled exception occurred");
-            await HandleExceptionAsync(context, ex);
+            await HandleExceptionAsync(context, ex, GetOptions());
         }
     }
 
-    private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private static JsonSerializerOptions GetOptions()
+    {
+        return new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+    }
+
+    private static async Task HandleExceptionAsync(HttpContext context, Exception exception, JsonSerializerOptions options)
     {
         context.Response.ContentType = "application/json";
         
@@ -78,10 +80,7 @@ public class ErrorHandlingMiddleware
         errorResponse.TraceId = context.TraceIdentifier;
         context.Response.StatusCode = (int)errorResponse.StatusCode;
 
-        var jsonResponse = JsonSerializer.Serialize(errorResponse, new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        });
+        var jsonResponse = JsonSerializer.Serialize(errorResponse, options);
 
         await context.Response.WriteAsync(jsonResponse);
     }
