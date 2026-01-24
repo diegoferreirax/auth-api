@@ -99,7 +99,7 @@ public static class Configurations
             {
                 Title = "Auth API",
                 Version = "v1.0",
-                Description = "API de autenticação e gerenciamento de usuários",
+                Description = "Authentication and user management API",
                 Contact = new OpenApiContact
                 {
                     Name = "Auth API Team"
