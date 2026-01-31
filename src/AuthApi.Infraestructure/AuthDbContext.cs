@@ -11,7 +11,7 @@ namespace AuthApi.Infraestructure;
 public class AuthDbContext(DbContextOptions<AuthDbContext> options, bool includeSeedData = true) : DbContext(options)
 {
     private readonly bool _includeSeedData = includeSeedData;
-    
+
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<UserRole> UserRole { get; set; }
@@ -53,7 +53,6 @@ public class DbContextFactory : IDesignTimeDbContextFactory<AuthDbContext>
                     maxRetryDelay: TimeSpan.FromSeconds(30),
                     errorNumbersToAdd: null
                 ))
-                .LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableDetailedErrors()
                 .UseUpperSnakeCaseNamingConvention();
 

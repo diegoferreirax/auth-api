@@ -15,33 +15,26 @@ public sealed class UpdateUserHandler(
 
     public async Task<UpdateUserResponse> Execute(UpdateUserCommand command, CancellationToken cancellationToken)
     {
-        await ValidateUserExists(command.Id, cancellationToken);
-        await ValidateEmailUniqueness(command.Email, command.Id, cancellationToken);
-
         var user = await _unitOfWork.Users.GetBy(command.Id, cancellationToken);
+        if (user.HasNoValue)
+        {
+            throw new NotFoundException(AuthApi_Resource.USER_NOT_EXISTS);
+        }
+
+        await ValidateEmailUniqueness(command.Email, user.Value, cancellationToken);
 
         UpdateUserBasicInfo(user.Value, command);
-        await UpdateUserPassword(user.Value, command);
-        await SaveUserChanges(user.Value);
+        UpdateUserPassword(user.Value, command);
+        SaveUserChanges(user.Value);
         await UpdateUserRoles(command, cancellationToken);
 
         await _unitOfWork.CommitAsync(cancellationToken);
         return new UpdateUserResponse(user.Value.Id);
     }
 
-    private async Task ValidateUserExists(Guid userId, CancellationToken cancellationToken)
+    private async Task ValidateEmailUniqueness(string newEmail, User user, CancellationToken cancellationToken)
     {
-        var existingUser = await _unitOfWork.Users.GetBy(userId, cancellationToken);
-        if (existingUser.HasNoValue)
-        {
-            throw new NotFoundException(AuthApi_Resource.USER_NOT_EXISTS);
-        }
-    }
-
-    private async Task ValidateEmailUniqueness(string newEmail, Guid userId, CancellationToken cancellationToken)
-    {
-        var existingUser = await _unitOfWork.Users.GetBy(userId, cancellationToken);
-        if (existingUser.Value.Email != newEmail)
+        if (user.Email != newEmail)
         {
             var emailExists = await _unitOfWork.Users.Exists(newEmail, cancellationToken);
             if (emailExists)
@@ -56,21 +49,18 @@ public sealed class UpdateUserHandler(
         user.UpdateBasicInfo(command.Name, command.Email);
     }
 
-    private async Task UpdateUserPassword(User user, UpdateUserCommand command)
+    private void UpdateUserPassword(User user, UpdateUserCommand command)
     {
         if (!string.IsNullOrEmpty(command.Password))
         {
             var newHash = _passwordHasher.Hash(command.Password);
             user.SetHash(newHash);
         }
-
-        await Task.CompletedTask;
     }
 
-    private async Task SaveUserChanges(User user)
+    private void SaveUserChanges(User user)
     {
         _unitOfWork.Users.Update(user);
-        await Task.CompletedTask;
     }
 
     private async Task UpdateUserRoles(UpdateUserCommand command, CancellationToken cancellationToken)
@@ -96,7 +86,7 @@ public sealed class UpdateUserHandler(
         }
 
         var userRoles = CreateUserRoles(command.Id, roles);
-        await _unitOfWork.UserRoles.Insert(userRoles, cancellationToken);
+        _unitOfWork.UserRoles.Insert(userRoles);
     }
 
     private static List<UserRole> CreateUserRoles(Guid userId, IEnumerable<Role> roles)

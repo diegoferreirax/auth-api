@@ -25,8 +25,7 @@ public sealed class RegisterUserHandler(
 
         var hash = _passwordHasher.Hash(command.Password);
         user.SetHash(hash);
-
-        var userAdded = await _unitOfWork.Users.Insert(user, cancellationToken);
+        _unitOfWork.Users.Insert(user);
 
         var roles = await _unitOfWork.Roles.GetBy(command.Roles.Select(s => s.Code), cancellationToken);
         if (!roles.Any() || roles.Count() < command.Roles.Count())
@@ -43,7 +42,7 @@ public sealed class RegisterUserHandler(
             userRoles.Add(UserRole.Create(user.Id, role.Id));
         }
 
-        await _unitOfWork.UserRoles.Insert(userRoles, cancellationToken);
+        _unitOfWork.UserRoles.Insert(userRoles);
 
         await _unitOfWork.CommitAsync(cancellationToken);
         return new RegisterUserResponse(user.Id);

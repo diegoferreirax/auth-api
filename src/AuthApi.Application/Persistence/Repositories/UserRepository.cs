@@ -1,7 +1,7 @@
-﻿using CSharpFunctionalExtensions;
-using Microsoft.EntityFrameworkCore;
-using AuthApi.Application.Persistence.Context;
+﻿using AuthApi.Application.Persistence.Context;
 using AuthApi.Domain.Entities;
+using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthApi.Application.Persistence.Repositories;
 
@@ -12,7 +12,7 @@ public sealed class UserRepository(AuthDbContext authDbContext)
     public async Task<Maybe<User>> GetBy(string email, CancellationToken cancellationToken = default)
     {
         return await _authDbContext.Users
-            .Include("UserRoles")
+            .Include(u => u.UserRoles)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Email.Equals(email), cancellationToken)
             .ConfigureAwait(false);
@@ -21,7 +21,8 @@ public sealed class UserRepository(AuthDbContext authDbContext)
     public async Task<Maybe<User>> GetBy(Guid id, CancellationToken cancellationToken = default)
     {
         return await _authDbContext.Users
-            .Include("UserRoles")
+            .Include(u => u.UserRoles)
+            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id.Equals(id), cancellationToken)
             .ConfigureAwait(false);
     }
@@ -36,9 +37,14 @@ public sealed class UserRepository(AuthDbContext authDbContext)
 
     public async Task<(IEnumerable<User>, int)> GetUsers(int pageNumber, int pageSize, CancellationToken cancellationToken = default)
     {
-        var count = await _authDbContext.Users.CountAsync(cancellationToken);
+        var count = await _authDbContext.Users
+            .AsNoTracking()
+            .CountAsync(cancellationToken)
+            .ConfigureAwait(false);
+
         var users = await _authDbContext.Users
-            .Include("UserRoles")
+            .Include(u => u.UserRoles)
+            .AsNoTracking()
             .OrderBy(u => u.Name)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
@@ -47,16 +53,14 @@ public sealed class UserRepository(AuthDbContext authDbContext)
         return (users, count);
     }
 
-    public async Task<User> Insert(User user, CancellationToken cancellationToken = default)
+    public void Insert(User user)
     {
-        await _authDbContext.Users.AddAsync(user, cancellationToken).ConfigureAwait(false);
-        return user;
+        _authDbContext.Users.Add(user);
     }
 
-    public User Update(User user)
+    public void Update(User user)
     {
         _authDbContext.Users.Update(user);
-        return user;
     }
 
     public void Delete(User user)

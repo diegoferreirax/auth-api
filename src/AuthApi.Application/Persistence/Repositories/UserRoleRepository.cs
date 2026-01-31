@@ -8,9 +8,9 @@ public sealed class UserRoleRepository(AuthDbContext authDbContext)
 {
     private readonly AuthDbContext _authDbContext = authDbContext;
 
-    public async Task Insert(IEnumerable<UserRole> userRoles, CancellationToken cancellationToken = default)
+    public void Insert(IEnumerable<UserRole> userRoles)
     {
-        await _authDbContext.UserRole.AddRangeAsync(userRoles, cancellationToken).ConfigureAwait(false);
+        _authDbContext.UserRole.AddRange(userRoles);
     }
 
     public async Task DeleteByUserId(Guid userId, CancellationToken cancellationToken = default)
