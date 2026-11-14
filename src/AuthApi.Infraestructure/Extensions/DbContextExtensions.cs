@@ -1,4 +1,5 @@
-﻿using AuthApi.Infraestructure.Domain;
+using AuthApi.Infraestructure.Domain;
+using AuthApi.Infraestructure.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthApi.Infraestructure.Extensions;
@@ -18,7 +19,7 @@ public static class DbContextExtensions
             var userManagerRoleId = Guid.NewGuid();
 
             modelBuilder.Entity<Role>().HasData(
-                new Role { Id = userManagerRoleId, Name = "User Manager", Code = "UM", UpdatedDate = DateTime.UtcNow }
+                new Role { Id = userManagerRoleId, Name = "User Manager", Code = RoleCodes.UserManager, UpdatedDate = DateTime.UtcNow }
             );
 
             var userManagerUserId = Guid.NewGuid();

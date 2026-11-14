@@ -1,8 +1,11 @@
-﻿using AuthApi.Application.Persistence.UnitOfWork;
+using AuthApi.Application.Persistence.UnitOfWork;
 using AuthApi.Application.Common.Resource;
 using AuthApi.Domain.Exceptions;
 using AuthApi.Application.Common.Security.Bcrypt;
 using AuthApi.Domain.Entities;
+using AuthApi.Domain.ValueObjects;
+
+using AuthApi.Application.Features.Users.Commands.UpdateUser.v1.Dto;
 
 namespace AuthApi.Application.Features.Users.Commands.UpdateUser.v1;
 
@@ -13,7 +16,7 @@ public sealed class UpdateUserHandler(
     public readonly IPasswordHasher _passwordHasher = passwordHasher;
     public readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    public async Task<UpdateUserResponse> Execute(UpdateUserCommand command, CancellationToken cancellationToken)
+    public async Task<UpdateUserResponseDto> Execute(UpdateUserCommand command, CancellationToken cancellationToken)
     {
         var user = await _unitOfWork.Users.GetBy(command.Id, cancellationToken);
         if (user.HasNoValue)
@@ -29,14 +32,14 @@ public sealed class UpdateUserHandler(
         await UpdateUserRoles(command, cancellationToken);
 
         await _unitOfWork.CommitAsync(cancellationToken);
-        return new UpdateUserResponse(user.Value.Id);
+        return new UpdateUserResponseDto(user.Value.Id);
     }
 
-    private async Task ValidateEmailUniqueness(string newEmail, User user, CancellationToken cancellationToken)
+    private async Task ValidateEmailUniqueness(Email newEmail, User user, CancellationToken cancellationToken)
     {
-        if (user.Email != newEmail)
+        if (user.Email != newEmail.Value)
         {
-            var emailExists = await _unitOfWork.Users.Exists(newEmail, cancellationToken);
+            var emailExists = await _unitOfWork.Users.Exists(newEmail.Value, cancellationToken);
             if (emailExists)
             {
                 throw new ConflictException(AuthApi_Resource.USER_EXISTS);
@@ -46,14 +49,14 @@ public sealed class UpdateUserHandler(
 
     private static void UpdateUserBasicInfo(User user, UpdateUserCommand command)
     {
-        user.UpdateBasicInfo(command.Name, command.Email);
+        user.UpdateBasicInfo(command.Name.Value, command.Email.Value);
     }
 
     private void UpdateUserPassword(User user, UpdateUserCommand command)
     {
-        if (!string.IsNullOrEmpty(command.Password))
+        if (command.Password is not null)
         {
-            var newHash = _passwordHasher.Hash(command.Password);
+            var newHash = _passwordHasher.Hash(command.Password.Value);
             user.SetHash(newHash);
         }
     }
@@ -76,7 +79,7 @@ public sealed class UpdateUserHandler(
 
     private async Task AddNewUserRoles(UpdateUserCommand command, CancellationToken cancellationToken)
     {
-        var roles = await _unitOfWork.Roles.GetBy(command.Roles.Select(s => s.Code), cancellationToken);
+        var roles = await _unitOfWork.Roles.GetBy(command.Roles.Select(s => s.Code.Value), cancellationToken);
         if (!roles.Any() || roles.Count() < command.Roles.Count())
         {
             throw new ValidationException(AuthApi_Resource.INVALID_ROLES, new Dictionary<string, string[]>
@@ -100,5 +103,3 @@ public sealed class UpdateUserHandler(
         return userRoles;
     }
 }
-
-public record UpdateUserResponse(Guid Id);

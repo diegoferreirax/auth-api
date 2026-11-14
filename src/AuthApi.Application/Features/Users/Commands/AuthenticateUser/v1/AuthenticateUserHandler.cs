@@ -1,8 +1,10 @@
-﻿using AuthApi.Application.Persistence.UnitOfWork;
+using AuthApi.Application.Persistence.UnitOfWork;
 using AuthApi.Application.Common.Resource;
 using AuthApi.Domain.Exceptions;
 using AuthApi.Application.Common.Security.Bcrypt;
 using AuthApi.Application.Common.Security.JWT;
+
+using AuthApi.Application.Features.Users.Commands.AuthenticateUser.v1.Dto;
 
 namespace AuthApi.Application.Features.Users.Commands.AuthenticateUser.v1;
 
@@ -15,15 +17,15 @@ public sealed class AuthenticateUserHandler(
     public readonly IPasswordHasher _passwordHasher = passwordHasher;
     public readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    public async Task<AuthenticateUserResponse> Execute(AuthenticateUserCommand command, CancellationToken cancellationToken)
+    public async Task<AuthenticateUserResponseDto> Execute(AuthenticateUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await _unitOfWork.Users.GetBy(command.Email, cancellationToken);
+        var user = await _unitOfWork.Users.GetBy(command.Email.Value, cancellationToken);
         if (user.HasNoValue)
         {
             throw new UnauthorizedException(AuthApi_Resource.INVALID_DATA);
         }
 
-        if (!_passwordHasher.Verify(command.Password, user.Value.Hash))
+        if (!_passwordHasher.Verify(command.Password.Value, user.Value.Hash))
         {
             throw new UnauthorizedException(AuthApi_Resource.INVALID_DATA);
         }
@@ -33,6 +35,6 @@ public sealed class AuthenticateUserHandler(
 
         var token = _tokenService.GenerateToken(user.Value.Email, userRoles.Select(s => s.Code));
 
-        return new AuthenticateUserResponse(user.Value.Email, token);
+        return new AuthenticateUserResponseDto(user.Value.Email, token);
     }
 }

@@ -1,16 +1,17 @@
 ﻿using AuthApi.Application.Common.Resource;
 using AuthApi.Domain.Exceptions;
+using AuthApi.Domain.ValueObjects;
 
 namespace AuthApi.Application.Features.Users.Commands.RegisterUser.v1;
 
 public class RegisterUserCommand
 {
-    public string Name { get; private set; }
-    public string Email { get; private set; }
-    public string Password { get; private set; }
+    public PersonName Name { get; private set; }
+    public Email Email { get; private set; }
+    public Password Password { get; private set; }
     public IEnumerable<RegisterRoleCommand> Roles { get; private set; }
 
-    private RegisterUserCommand(string name, string email, string password, IEnumerable<RegisterRoleCommand> roles)
+    private RegisterUserCommand(PersonName name, Email email, Password password, IEnumerable<RegisterRoleCommand> roles)
     {
         Name = name;
         Email = email;
@@ -18,24 +19,9 @@ public class RegisterUserCommand
         Roles = roles;
     }
 
-    public static RegisterUserCommand Create(string name, string email, string password, IEnumerable<RegisterRoleCommand> roles)
+    public static RegisterUserCommand Create(PersonName name, Email email, Password password, IEnumerable<RegisterRoleCommand> roles)
     {
-        if (string.IsNullOrEmpty(name))
-        {
-            throw new BusinessException(AuthApi_Resource.NAME_REQUIRED);
-        }
-
-        if (string.IsNullOrEmpty(email))
-        {
-            throw new BusinessException(AuthApi_Resource.EMAIL_REQUIRED);
-        }
-
-        if (string.IsNullOrEmpty(password))
-        {
-            throw new BusinessException(AuthApi_Resource.PASSWORD_REQUIRED);
-        }
-
-        if (!roles.Any())
+        if (roles == null || !roles.Any())
         {
             throw new BusinessException(AuthApi_Resource.ROLE_REQUIRED);
         }
@@ -46,20 +32,12 @@ public class RegisterUserCommand
 
 public class RegisterRoleCommand
 {
-    public string Code { get; private set; }
+    public RoleCode Code { get; private set; }
 
-    private RegisterRoleCommand(string code)
+    private RegisterRoleCommand(RoleCode code)
     {
         Code = code;
     }
 
-    public static RegisterRoleCommand Create(string code)
-    {
-        if (string.IsNullOrEmpty(code))
-        {
-            throw new BusinessException(AuthApi_Resource.ROLE_NAME_REQUIRED);
-        }
-
-        return new RegisterRoleCommand(code);
-    }
+    public static RegisterRoleCommand Create(RoleCode code) => new(code);
 }

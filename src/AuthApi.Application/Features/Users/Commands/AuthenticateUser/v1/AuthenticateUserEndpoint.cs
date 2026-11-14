@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+using AuthApi.Application.Features.Users.Commands.AuthenticateUser.v1.Dto;
+using AuthApi.Domain.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthApi.Application.Features.Users.Commands.AuthenticateUser.v1;
@@ -10,15 +11,14 @@ public class AuthenticateUserEndpoint : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> AuthenticateUser(
-        [FromBody] AuthenticateUserRequest authenticateUser,
+        [FromBody] AuthenticateUserRequestDto authenticateUser,
         [FromServices] AuthenticateUserHandler _handler,
         CancellationToken cancellationToken)
     {
-        var command = AuthenticateUserCommand.Create(authenticateUser.Email, authenticateUser.Password);
+        var command = AuthenticateUserCommand.Create(
+            Email.Create(authenticateUser.Email),
+            Password.Create(authenticateUser.Password));
         var result = await _handler.Execute(command, cancellationToken);
         return Ok(result);
     }
 }
-
-public record AuthenticateUserRequest(string Email, string Password);
-public record AuthenticateUserResponse(string Email, string Token);

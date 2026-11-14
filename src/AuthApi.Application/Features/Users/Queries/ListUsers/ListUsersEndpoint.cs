@@ -1,4 +1,5 @@
-﻿using AuthApi.Application.Common.Requests;
+using AuthApi.Application.Common.Requests;
+using AuthApi.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +10,7 @@ namespace AuthApi.Application.Features.Users.Queries.ListUsers;
 [ApiVersion("1.0")]
 public class ListUsersEndpoint : ControllerBase
 {
-    [Authorize(Roles = "UM")]
+    [Authorize(Roles = RoleCodes.UserManager)]
     [HttpGet]
     public async Task<IActionResult> ListUsers(
         [FromQuery] PaginationParametersRequest paginationParameters, 

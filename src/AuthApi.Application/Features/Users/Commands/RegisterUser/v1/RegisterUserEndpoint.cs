@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using AuthApi.Application.Features.Users.Commands.RegisterUser.v1.Dto;
+using AuthApi.Domain.Enums;
+using AuthApi.Domain.ValueObjects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthApi.Application.Features.Users.Commands.RegisterUser.v1;
@@ -8,25 +11,24 @@ namespace AuthApi.Application.Features.Users.Commands.RegisterUser.v1;
 [ApiVersion("1.0")]
 public class RegisterUserEndpoint : ControllerBase
 {
-    [Authorize(Roles = "UM")]
+    [Authorize(Roles = RoleCodes.UserManager)]
     [HttpPost]
     public async Task<IActionResult> RegisterUser(
-        [FromBody] RegisterUserRequest registerUser, 
+        [FromBody] RegisterUserRequestDto registerUser, 
         [FromServices] RegisterUserHandler _handler, 
         CancellationToken cancellationToken)
     {
-        var roles = new List<RegisterRoleCommand>();
-        foreach (var item in registerUser.Roles)
-        {
-            roles.Add(RegisterRoleCommand.Create(item.Code));
-        }
+        var roles = registerUser.Roles
+            .Select(r => RegisterRoleCommand.Create(RoleCode.Create(r.Code)))
+            .ToList();
 
-        var command = RegisterUserCommand.Create(registerUser.Name, registerUser.Email, registerUser.Password, roles);
+        var command = RegisterUserCommand.Create(
+            PersonName.Create(registerUser.Name),
+            Email.Create(registerUser.Email),
+            Password.Create(registerUser.Password),
+            roles);
+
         var result = await _handler.Execute(command, cancellationToken);
         return Ok(result);
     }
 }
-
-public record RegisterRoleRequest(string Code);
-public record RegisterUserRequest(string Name, string Email, string Password, IEnumerable<RegisterRoleRequest> Roles);
-public record RegisterUserResponse(Guid Id);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using AuthApi.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthApi.Application.Features.Users.Commands.DeleteUser.v1;
@@ -8,7 +9,7 @@ namespace AuthApi.Application.Features.Users.Commands.DeleteUser.v1;
 [ApiVersion("1.0")]
 public class DeleteUserEndpoint : ControllerBase
 {
-    [Authorize(Roles = "UM")]
+    [Authorize(Roles = RoleCodes.UserManager)]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(
         Guid id, 

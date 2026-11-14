@@ -1,16 +1,12 @@
 ```
 docker compose -f docker-compose.yml up -d --force-recreate     
 
-docker stop $(docker ps -a -q)     
-docker rm $(docker ps -a -q)     
-docker rmi -f $(docker images -aq)     
-docker system prune -a     
-docker volume prune -a     
+// adicionar comando no arquivo ~/.bashrc com alias 'docker-reset'
+docker stop $(docker ps -a -q) 2>/dev/null; docker rm $(docker ps -a -q) 2>/dev/null; docker rmi -f $(docker images -aq) 2>/dev/null; docker system prune -a -f; docker volume prune -a -f
 
+docker stop auth_api 2>/dev/null; docker rm auth_api 2>/dev/null; docker rmi -f dotnet/aspnet:8.0 2>/dev/null    
 docker compose -f docker-compose.yml up -d --force-recreate auth_api     
-docker stop auth_api     
-docker rm auth_api     
-docker rmi -f dotnet/aspnet:8.0     
+
 ```
 
 ```

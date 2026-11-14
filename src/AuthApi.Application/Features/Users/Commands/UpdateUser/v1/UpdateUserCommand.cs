@@ -1,17 +1,18 @@
-﻿using AuthApi.Domain.Exceptions;
+using AuthApi.Domain.Exceptions;
 using AuthApi.Application.Common.Resource;
+using AuthApi.Domain.ValueObjects;
 
 namespace AuthApi.Application.Features.Users.Commands.UpdateUser.v1;
 
 public class UpdateUserCommand
 {
     public Guid Id { get; private set; }
-    public string Name { get; private set; }
-    public string Email { get; private set; }
-    public string? Password { get; private set; }
+    public PersonName Name { get; private set; }
+    public Email Email { get; private set; }
+    public Password? Password { get; private set; }
     public IEnumerable<UpdateRoleCommand> Roles { get; private set; }
 
-    private UpdateUserCommand(Guid id, string name, string email, string? password, IEnumerable<UpdateRoleCommand> roles)
+    private UpdateUserCommand(Guid id, PersonName name, Email email, Password? password, IEnumerable<UpdateRoleCommand> roles)
     {
         Id = id;
         Name = name;
@@ -20,21 +21,11 @@ public class UpdateUserCommand
         Roles = roles;
     }
 
-    public static UpdateUserCommand Create(Guid id, string name, string email, string? password, IEnumerable<UpdateRoleCommand> roles)
+    public static UpdateUserCommand Create(Guid id, PersonName name, Email email, Password? password, IEnumerable<UpdateRoleCommand> roles)
     {
         if (id == Guid.Empty)
         {
             throw new BusinessException(AuthApi_Resource.USER_NOT_EXISTS);
-        }
-
-        if (string.IsNullOrEmpty(name))
-        {
-            throw new BusinessException(AuthApi_Resource.NAME_REQUIRED);
-        }
-
-        if (string.IsNullOrEmpty(email))
-        {
-            throw new BusinessException(AuthApi_Resource.EMAIL_REQUIRED);
         }
 
         if (roles == null || !roles.Any())
@@ -48,20 +39,12 @@ public class UpdateUserCommand
 
 public class UpdateRoleCommand
 {
-    public string Code { get; private set; }
+    public RoleCode Code { get; private set; }
 
-    private UpdateRoleCommand(string code)
+    private UpdateRoleCommand(RoleCode code)
     {
         Code = code;
     }
 
-    public static UpdateRoleCommand Create(string code)
-    {
-        if (string.IsNullOrEmpty(code))
-        {
-            throw new BusinessException(AuthApi_Resource.ROLE_NAME_REQUIRED);
-        }
-
-        return new UpdateRoleCommand(code);
-    }
+    public static UpdateRoleCommand Create(RoleCode code) => new(code);
 }
